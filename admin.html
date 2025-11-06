@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Blanc Dubai - Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: #2c3e50;
+        }
+
+        .stats-row {
+            display: flex;
+            background: #f8f9fa;
+            padding: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            min-width: 200px;
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .controls {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9em;
+        }
+
+        .filter-input {
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .leads-table-container {
+            padding: 30px;
+            overflow-x: auto;
+        }
+
+        .leads-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .leads-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .leads-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: top;
+        }
+
+        .leads-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .leads-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .lead-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .lead-email {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .lead-email:hover {
+            text-decoration: underline;
+        }
+
+        .lead-phone {
+            color: #28a745;
+            font-weight: 500;
+        }
+
+        .interest-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .country-flag {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+
+        .lead-message {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lead-message:hover {
+            white-space: normal;
+            overflow: visible;
+        }
+
+        .datetime {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .no-leads {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #dc3545;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        @media (max-width: 768px) {
+            .controls-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .download-buttons {
+                justify-content: center;
+            }
+
+            .leads-table {
+                font-size: 0.9em;
+            }
+
+            .leads-table th,
+            .leads-table td {
+                padding: 10px 8px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .stat-card {
+                min-width: 150px;
+            }
+
+            .stat-number {
+                font-size: 2em;
+            }
+
+            .logout-btn {
+                position: static;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .stats-row {
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .stat-card {
+                min-width: 120px;
+                padding: 15px;
+            }
+
+            .stat-number {
+                font-size: 1.8em;
+            }
+
+            .stat-label {
+                font-size: 0.8em;
+            }
+
+            .controls {
+                padding: 20px 15px;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-input {
+                padding: 10px 12px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                width: 100%;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .leads-table-container {
+                padding: 15px;
+                overflow-x: auto;
+            }
+
+            .leads-table {
+                font-size: 0.85em;
+                min-width: 600px;
+            }
+
+            .leads-table th,
+            .leads-table td {
+                padding: 8px 6px;
+            }
+
+            .lead-message {
+                max-width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+
+            .header p {
+                font-size: 0.9em;
+            }
+
+            .stats-row {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .stat-card {
+                min-width: 100px;
+                padding: 12px 10px;
+            }
+
+            .stat-number {
+                font-size: 1.5em;
+            }
+
+            .stat-label {
+                font-size: 0.75em;
+            }
+
+            .controls {
+                padding: 15px 10px;
+            }
+
+            .controls-row {
+                gap: 12px;
+                margin-bottom: 15px;
+            }
+
+            .filter-group label {
+                font-size: 0.85em;
+            }
+
+            .btn {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+
+            .leads-table {
+                font-size: 0.8em;
+                min-width: 550px;
+            }
+
+            .leads-table th,
+            .leads-table td {
+                padding: 6px 4px;
+            }
+
+            .interest-tag {
+                font-size: 0.7em;
+                padding: 3px 8px;
+            }
+
+            .country-flag {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.3em;
+            }
+
+            .stat-card {
+                min-width: 80px;
+                padding: 10px 8px;
+            }
+
+            .stat-number {
+                font-size: 1.3em;
+            }
+
+            .stat-label {
+                font-size: 0.7em;
+            }
+
+            .leads-table {
+                min-width: 500px;
+            }
+        }
+
+        /* Landscape orientation optimizations */
+        @media (max-height: 600px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+
+            .stats-row {
+                padding: 10px;
+            }
+
+            .stat-card {
+                padding: 10px;
+            }
+
+            .controls {
+                padding: 15px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px; /* Apple's recommended touch target size */
+            }
+
+            .filter-input {
+                min-height: 44px;
+            }
+
+            .logout-btn {
+                min-height: 44px;
+            }
+
+            .leads-table tr {
+                cursor: default;
+            }
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .refresh-btn {
+            margin-left: auto;
+        }
+
+        /* Smooth scrolling for mobile */
+        html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Prevent text selection on buttons for better mobile UX */
+        button, .btn {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Better table scrolling on mobile */
+        .leads-table-container {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Sticky header on mobile scroll */
+        @media (max-width: 768px) {
+            .leads-table thead {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            <h1>🏢 Le Blanc Dubai</h1>
+            <p>Admin Dashboard - Lead Management System</p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-number" id="totalLeads">-</div>
+                <div class="stat-label">Total Leads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="todayLeads">-</div>
+                <div class="stat-label">Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="weekLeads">-</div>
+                <div class="stat-label">This Week</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="monthLeads">-</div>
+                <div class="stat-label">This Month</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="controls-row">
+                <div class="filter-group search-box">
+                    <label for="searchInput">Search</label>
+                    <input type="text" id="searchInput" class="filter-input" 
+                           placeholder="Search by name, email, phone, or message...">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateFrom">From Date</label>
+                    <input type="date" id="dateFrom" class="filter-input">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateTo">To Date</label>
+                    <input type="date" id="dateTo" class="filter-input">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="interestFilter">Interest</label>
+                    <select id="interestFilter" class="filter-input">
+                        <option value="">All Interests</option>
+                        <option value="Investment Opportunity">Investment Opportunity</option>
+                        <option value="Property Purchase">Property Purchase</option>
+                        <option value="Property Rental">Property Rental</option>
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="countryFilter">Country</label>
+                    <select id="countryFilter" class="filter-input">
+                        <option value="">All Countries</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <button class="btn btn-secondary" onclick="clearFilters()">Clear Filters</button>
+                <button class="btn btn-primary refresh-btn" onclick="loadLeads()">🔄 Refresh</button>
+                
+                <div class="download-buttons">
+                    <button class="btn btn-success" onclick="downloadCSV()">📄 Download CSV</button>
+                    <button class="btn btn-info" onclick="downloadExcel()">📊 Download Excel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="leads-table-container">
+            <div id="loadingMessage" class="loading">Loading leads...</div>
+            <div id="errorMessage" class="error" style="display: none;"></div>
+            
+            <table class="leads-table" id="leadsTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Country</th>
+                        <th>Interest</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsTableBody">
+                </tbody>
+            </table>
+            
+            <div id="noLeadsMessage" class="no-leads" style="display: none;">
+                <p>No leads found matching your criteria.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allLeads = [];
+        let filteredLeads = [];
+        let authToken = null;
+
+        // Country code to flag emoji mapping
+        const countryFlags = {
+            'AE': '🇦🇪', 'US': '🇺🇸', 'GB': '🇬🇧', 'CA': '🇨🇦', 'AU': '🇦🇺',
+            'DE': '🇩🇪', 'FR': '🇫🇷', 'IN': '🇮🇳', 'SA': '🇸🇦', 'KW': '🇰🇼',
+            'QA': '🇶🇦', 'BH': '🇧🇭', 'OM': '🇴🇲', 'EG': '🇪🇬', 'JO': '🇯🇴',
+            'LB': '🇱🇧', 'PK': '🇵🇰', 'BD': '🇧🇩', 'LK': '🇱🇰', 'PH': '🇵🇭',
+            'MY': '🇲🇾', 'SG': '🇸🇬', 'TH': '🇹🇭', 'ID': '🇮🇩', 'VN': '🇻🇳',
+            'CN': '🇨🇳', 'JP': '🇯🇵', 'KR': '🇰🇷', 'RU': '🇷🇺', 'TR': '🇹🇷',
+            'IT': '🇮🇹', 'ES': '🇪🇸', 'NL': '🇳🇱', 'BE': '🇧🇪', 'CH': '🇨🇭',
+            'AT': '🇦🇹', 'SE': '🇸🇪', 'NO': '🇳🇴', 'DK': '🇩🇰', 'FI': '🇫🇮',
+            'IE': '🇮🇪', 'PT': '🇵🇹', 'GR': '🇬🇷', 'PL': '🇵🇱', 'CZ': '🇨🇿',
+            'HU': '🇭🇺', 'RO': '🇷🇴', 'BG': '🇧🇬', 'HR': '🇭🇷', 'RS': '🇷🇸',
+            'BA': '🇧🇦', 'MK': '🇲🇰', 'AL': '🇦🇱', 'MT': '🇲🇹', 'CY': '🇨🇾',
+            'IS': '🇮🇸', 'LU': '🇱🇺', 'LI': '🇱🇮', 'AD': '🇦🇩', 'MC': '🇲🇨',
+            'SM': '🇸🇲', 'VA': '🇻🇦', 'BR': '🇧🇷', 'AR': '🇦🇷', 'MX': '🇲🇽',
+            'CO': '🇨🇴', 'PE': '🇵🇪', 'CL': '🇨🇱', 'UY': '🇺🇾', 'PY': '🇵🇾',
+            'BO': '🇧🇴', 'EC': '🇪🇨', 'VE': '🇻🇪', 'GY': '🇬🇾', 'SR': '🇸🇷',
+            'ZA': '🇿🇦', 'NG': '🇳🇬', 'KE': '🇰🇪', 'ET': '🇪🇹', 'GH': '🇬🇭',
+            'MA': '🇲🇦', 'TN': '🇹🇳', 'DZ': '🇩🇿', 'LY': '🇱🇾', 'SD': '🇸🇩',
+            'IR': '🇮🇷', 'IQ': '🇮🇶', 'SY': '🇸🇾', 'YE': '🇾🇪', 'AF': '🇦🇫',
+            'UZ': '🇺🇿', 'KZ': '🇰🇿', 'KG': '🇰🇬', 'TJ': '🇹🇯', 'TM': '🇹🇲',
+            'MN': '🇲🇳', 'LA': '🇱🇦', 'KH': '🇰🇭', 'MM': '🇲🇲', 'NP': '🇳🇵',
+            'BT': '🇧🇹', 'MV': '🇲🇻', 'LK': '🇱🇰', 'FJ': '🇫🇯', 'PG': '🇵🇬',
+            'SB': '🇸🇧', 'VU': '🇻🇺', 'NC': '🇳🇨', 'PF': '🇵🇫', 'WS': '🇼🇸',
+            'TO': '🇹🇴', 'TV': '🇹🇻', 'NR': '🇳🇷', 'KI': '🇰🇮', 'MH': '🇲🇭',
+            'FM': '🇫🇲', 'PW': '🇵🇼', 'Unknown': '🌍'
+        };
+
+        // Load leads on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            checkAuth();
+        });
+
+        async function checkAuth() {
+            authToken = localStorage.getItem('adminToken');
+            
+            if (!authToken) {
+                redirectToLogin();
+                return;
+            }
+
+            // Verify token with server
+            try {
+                const response = await fetch('/api/admin/verify', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (!response.ok) {
+                    localStorage.removeItem('adminToken');
+                    redirectToLogin();
+                    return;
+                }
+
+                // Token is valid, load the dashboard
+                loadLeads();
+                setupEventListeners();
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                redirectToLogin();
+            }
+        }
+
+        function redirectToLogin() {
+            window.location.href = '/login';
+        }
+
+        async function logout() {
+            try {
+                // Call logout endpoint
+                await fetch('/api/admin/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+
+            // Clear local storage and redirect
+            localStorage.removeItem('adminToken');
+            redirectToLogin();
+        }
+
+        function setupEventListeners() {
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', filterLeads);
+            
+            // Date filters
+            document.getElementById('dateFrom').addEventListener('change', filterLeads);
+            document.getElementById('dateTo').addEventListener('change', filterLeads);
+            
+            // Select filters
+            document.getElementById('interestFilter').addEventListener('change', filterLeads);
+            document.getElementById('countryFilter').addEventListener('change', filterLeads);
+        }
+
+        async function loadLeads() {
+            try {
+                document.getElementById('loadingMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('leadsTable').style.display = 'none';
+                document.getElementById('noLeadsMessage').style.display = 'none';
+
+                const response = await fetch('/api/leads', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.status === 401) {
+                    // Unauthorized - redirect to login
+                    localStorage.removeItem('adminToken');
+                    redirectToLogin();
+                    return;
+                }
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                allLeads = await response.json();
+                
+                document.getElementById('loadingMessage').style.display = 'none';
+                
+                if (allLeads.length === 0) {
+                    document.getElementById('noLeadsMessage').style.display = 'block';
+                } else {
+                    populateCountryFilter();
+                    filteredLeads = [...allLeads];
+                    displayLeads();
+                    updateStats();
+                }
+                
+            } catch (error) {
+                console.error('Error loading leads:', error);
+                document.getElementById('loadingMessage').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Failed to load leads: ' + error.message;
+            }
+        }
+
+        function populateCountryFilter() {
+            const countryFilter = document.getElementById('countryFilter');
+            const countries = [...new Set(allLeads.map(lead => lead.country).filter(Boolean))].sort();
+            
+            // Clear existing options except "All Countries"
+            countryFilter.innerHTML = '<option value="">All Countries</option>';
+            
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countryFilter.appendChild(option);
+            });
+        }
+
+        function displayLeads() {
+            const tbody = document.getElementById('leadsTableBody');
+            tbody.innerHTML = '';
+
+            if (filteredLeads.length === 0) {
+                document.getElementById('leadsTable').style.display = 'none';
+                document.getElementById('noLeadsMessage').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('leadsTable').style.display = 'table';
+            document.getElementById('noLeadsMessage').style.display = 'none';
+
+            filteredLeads.forEach(lead => {
+                const row = document.createElement('tr');
+                
+                const dateTime = new Date(lead.timestamp);
+                const formattedDate = dateTime.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                const formattedTime = dateTime.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const countryFlag = countryFlags[lead.country] || countryFlags['Unknown'];
+                const countryText = lead.country || 'Unknown';
+
+                row.innerHTML = `
+                    <td>
+                        <div class="datetime">
+                            <div>${formattedDate}</div>
+                            <div>${formattedTime}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="lead-name">${lead.firstName} ${lead.lastName}</div>
+                    </td>
+                    <td>
+                        <div><a href="mailto:${lead.email}" class="lead-email">${lead.email}</a></div>
+                        <div class="lead-phone">${lead.phone}</div>
+                    </td>
+                    <td>
+                        <span class="country-flag">${countryFlag}</span>${countryText}
+                    </td>
+                    <td>
+                        <span class="interest-tag">${lead.interest}</span>
+                    </td>
+                    <td>
+                        <div class="lead-message" title="${lead.message}">
+                            ${lead.message}
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        function filterLeads() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const interestFilter = document.getElementById('interestFilter').value;
+            const countryFilter = document.getElementById('countryFilter').value;
+
+            filteredLeads = allLeads.filter(lead => {
+                // Search filter
+                const searchMatch = !searchTerm || 
+                    lead.firstName.toLowerCase().includes(searchTerm) ||
+                    lead.lastName.toLowerCase().includes(searchTerm) ||
+                    lead.email.toLowerCase().includes(searchTerm) ||
+                    lead.phone.includes(searchTerm) ||
+                    lead.message.toLowerCase().includes(searchTerm);
+
+                // Date filters
+                const leadDate = new Date(lead.timestamp).toISOString().split('T')[0];
+                const dateFromMatch = !dateFrom || leadDate >= dateFrom;
+                const dateToMatch = !dateTo || leadDate <= dateTo;
+
+                // Interest filter
+                const interestMatch = !interestFilter || lead.interest === interestFilter;
+
+                // Country filter
+                const countryMatch = !countryFilter || lead.country === countryFilter;
+
+                return searchMatch && dateFromMatch && dateToMatch && interestMatch && countryMatch;
+            });
+
+            displayLeads();
+            updateStats();
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            document.getElementById('interestFilter').value = '';
+            document.getElementById('countryFilter').value = '';
+            
+            filteredLeads = [...allLeads];
+            displayLeads();
+            updateStats();
+        }
+
+        function updateStats() {
+            const now = new Date();
+            const today = now.toISOString().split('T')[0];
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            const monthAgo = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+
+            const todayCount = filteredLeads.filter(lead => 
+                lead.timestamp.split('T')[0] === today
+            ).length;
+
+            const weekCount = filteredLeads.filter(lead => 
+                lead.timestamp.split('T')[0] >= weekAgo
+            ).length;
+
+            const monthCount = filteredLeads.filter(lead => 
+                lead.timestamp.split('T')[0] >= monthAgo
+            ).length;
+
+            document.getElementById('totalLeads').textContent = filteredLeads.length;
+            document.getElementById('todayLeads').textContent = todayCount;
+            document.getElementById('weekLeads').textContent = weekCount;
+            document.getElementById('monthLeads').textContent = monthCount;
+        }
+
+        async function downloadCSV() {
+            try {
+                const response = await fetch('/api/leads/download/csv', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        leads: filteredLeads
+                    })
+                });
+
+                if (response.status === 401) {
+                    alert('Session expired. Please login again.');
+                    redirectToLogin();
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate CSV');
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `leblanc_leads_${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+            } catch (error) {
+                alert('Failed to download CSV: ' + error.message);
+            }
+        }
+
+        async function downloadExcel() {
+            try {
+                const response = await fetch('/api/leads/download/excel', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        leads: filteredLeads
+                    })
+                });
+
+                if (response.status === 401) {
+                    alert('Session expired. Please login again.');
+                    redirectToLogin();
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate Excel file');
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `leblanc_leads_${new Date().toISOString().split('T')[0]}.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+            } catch (error) {
+                alert('Failed to download Excel file: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
