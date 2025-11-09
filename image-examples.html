@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Examples - Le Blanc Dubai</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin: 40px 0;
+            padding: 20px;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .example-code {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+        }
+
+        /* Example 1: Simple Logo */
+        .logo-example {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+        }
+
+        .logo-example img {
+            max-width: 200px;
+            height: auto;
+        }
+
+        /* Example 2: Hero Section */
+        .hero-example {
+            height: 400px;
+            background-image: url('/static/images/hero-background.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            border-radius: 10px;
+            /* Fallback gradient if image not found */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .hero-example h2 {
+            color: white;
+            font-size: 3em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Example 3: Property Grid */
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .property-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .property-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            /* Fallback background */
+            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+        }
+
+        .property-card .content {
+            padding: 20px;
+        }
+
+        .property-card h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .property-card p {
+            color: #666;
+        }
+
+        .price {
+            color: #667eea;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        /* Example 4: Gallery */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s;
+            /* Fallback background */
+            background: #e9ecef;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            min-height: 200px;
+            border-radius: 10px;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Image Examples - Le Blanc Dubai</h1>
+        <p style="color: #666; margin-bottom: 30px;">
+            This page demonstrates how to add and display images on your website.
+        </p>
+
+        <div class="info-box">
+            <strong>📁 To add your images:</strong><br>
+            1. Copy your image files to: <code>static/images/</code><br>
+            2. Use this path in HTML: <code>/static/images/your-image.jpg</code><br>
+            3. Refresh your browser to see the images
+        </div>
+
+        <!-- Example 1: Logo -->
+        <div class="section">
+            <h2>Example 1: Logo Image</h2>
+            <p>Add your logo to the header or footer</p>
+            
+            <div class="example-code">
+                &lt;img src="/static/images/logo.png" alt="Le Blanc Dubai Logo"&gt;
+            </div>
+
+            <div class="logo-example">
+                <!-- Replace with your actual logo -->
+                <img src="/static/images/logo.png" alt="Le Blanc Dubai Logo" 
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="placeholder" style="display: none;">
+                    📷 Your Logo Here<br>
+                    <small style="font-size: 0.7em;">Save as: static/images/logo.png</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Example 2: Hero Background -->
+        <div class="section">
+            <h2>Example 2: Hero Section with Background Image</h2>
+            <p>Large banner image at the top of your page</p>
+            
+            <div class="example-code">
+                background-image: url('/static/images/hero-background.jpg');
+            </div>
+
+            <div class="hero-example">
+                <div>
+                    <h2>Le Blanc Dubai</h2>
+                    <p style="font-size: 1.2em;">Luxury Living in Dubailand</p>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 15px;">
+                <strong>💡 Tip:</strong> Save a high-quality Dubai/building photo as 
+                <code>static/images/hero-background.jpg</code> (recommended size: 1920x1080px)
+            </div>
+        </div>
+
+        <!-- Example 3: Property Cards -->
+        <div class="section">
+            <h2>Example 3: Property Cards with Images</h2>
+            <p>Display properties with photos</p>
+            
+            <div class="example-code">
+                &lt;img src="/static/images/apartment-1.jpg" alt="Apartment"&gt;
+            </div>
+
+            <div class="property-grid">
+                <div class="property-card">
+                    <img src="/static/images/apartment-1.jpg" alt="Studio Apartment"
+                         onerror="this.src='https://via.placeholder.com/400x200/667eea/ffffff?text=Studio+Apartment'">
+                    <div class="content">
+                        <h3>Studio Apartment</h3>
+                        <p>Fully furnished with modern amenities</p>
+                        <div class="price">AED 850,000</div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="/static/images/apartment-2.jpg" alt="1 Bedroom"
+                         onerror="this.src='https://via.placeholder.com/400x200/764ba2/ffffff?text=1+Bedroom'">
+                    <div class="content">
+                        <h3>1 Bedroom Apartment</h3>
+                        <p>Spacious with balcony view</p>
+                        <div class="price">AED 1,200,000</div>
+                    </div>
+                </div>
+
+                <div class="property-card">
+                    <img src="/static/images/apartment-3.jpg" alt="2 Bedroom"
+                         onerror="this.src='https://via.placeholder.com/400x200/667eea/ffffff?text=2+Bedroom'">
+                    <div class="content">
+                        <h3>2 Bedroom Apartment</h3>
+                        <p>Premium location with city view</p>
+                        <div class="price">AED 1,800,000</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 15px;">
+                <strong>💡 Tip:</strong> Save property photos as 
+                <code>static/images/apartment-1.jpg</code>, 
+                <code>apartment-2.jpg</code>, etc. (recommended size: 800x600px)
+            </div>
+        </div>
+
+        <!-- Example 4: Image Gallery -->
+        <div class="section">
+            <h2>Example 4: Image Gallery</h2>
+            <p>Showcase multiple property images</p>
+
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="/static/images/gallery-1.jpg" alt="Gallery 1"
+                         onerror="this.src='https://source.unsplash.com/400x300/?dubai,building,1'">
+                </div>
+                <div class="gallery-item">
+                    <img src="/static/images/gallery-2.jpg" alt="Gallery 2"
+                         onerror="this.src='https://source.unsplash.com/400x300/?dubai,interior,2'">
+                </div>
+                <div class="gallery-item">
+                    <img src="/static/images/gallery-3.jpg" alt="Gallery 3"
+                         onerror="this.src='https://source.unsplash.com/400x300/?dubai,apartment,3'">
+                </div>
+                <div class="gallery-item">
+                    <img src="/static/images/gallery-4.jpg" alt="Gallery 4"
+                         onerror="this.src='https://source.unsplash.com/400x300/?luxury,living,4'">
+                </div>
+                <div class="gallery-item">
+                    <img src="/static/images/gallery-5.jpg" alt="Gallery 5"
+                         onerror="this.src='https://source.unsplash.com/400x300/?modern,kitchen,5'">
+                </div>
+                <div class="gallery-item">
+                    <img src="/static/images/gallery-6.jpg" alt="Gallery 6"
+                         onerror="this.src='https://source.unsplash.com/400x300/?bedroom,luxury,6'">
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions -->
+        <div class="success-box">
+            <h3 style="color: #155724; margin-bottom: 10px;">✅ How to Add Your Images</h3>
+            <ol style="margin-left: 20px; color: #155724;">
+                <li>Open the folder: <code>static/images/</code></li>
+                <li>Copy your image files there (JPG, PNG, GIF, WebP)</li>
+                <li>Name them appropriately (e.g., logo.png, apartment-1.jpg)</li>
+                <li>Refresh this page - images will appear automatically!</li>
+            </ol>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; text-align: center;">
+            <p style="color: #666;">
+                <strong>Need help?</strong> Check the <code>IMAGE-GUIDE.md</code> file for complete documentation.
+            </p>
+            <div style="margin-top: 15px;">
+                <a href="/" style="color: #667eea; text-decoration: none; margin: 0 10px;">← Back to Main Site</a>
+                <a href="/admin" style="color: #667eea; text-decoration: none; margin: 0 10px;">Admin Dashboard →</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

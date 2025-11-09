@@ -1,0 +1,80 @@
+[
+  {
+    "timestamp": "2025-11-06T00:42:55.827904",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "+971501234567",
+    "interest": "Investment Opportunity",
+    "message": "I am interested in Le Blanc apartments",
+    "ip_address": "127.0.0.1",
+    "user_agent": "Test Agent",
+    "country_code": "AE",
+    "country": "United Arab Emirates"
+  },
+  {
+    "timestamp": "2025-11-05T14:30:22.123456",
+    "firstName": "Sarah",
+    "lastName": "Johnson",
+    "email": "sarah.johnson@gmail.com",
+    "phone": "+1234567890",
+    "interest": "Property Purchase",
+    "message": "Looking for a 2-bedroom apartment for investment purposes. Please provide more details about payment plans.",
+    "ip_address": "192.168.1.100",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "country_code": "US",
+    "country": "United States"
+  },
+  {
+    "timestamp": "2025-11-05T09:15:33.789012",
+    "firstName": "Ahmed",
+    "lastName": "Al-Rashid",
+    "email": "ahmed.rashid@outlook.com",
+    "phone": "+966551234567",
+    "interest": "Property Rental",
+    "message": "Interested in renting a furnished apartment in Le Blanc. When will the project be ready?",
+    "ip_address": "82.148.12.45",
+    "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X)",
+    "country_code": "SA",
+    "country": "Saudi Arabia"
+  },
+  {
+    "timestamp": "2025-11-04T16:45:11.654321",
+    "firstName": "Priya",
+    "lastName": "Sharma",
+    "email": "priya.sharma@yahoo.com",
+    "phone": "+919876543210",
+    "interest": "Investment Opportunity",
+    "message": "I'm an NRI looking for property investment in Dubai. Does this qualify for Golden Visa?",
+    "ip_address": "103.21.244.8",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/118.0.0.0",
+    "country_code": "IN",
+    "country": "India"
+  },
+  {
+    "timestamp": "2025-11-04T11:20:45.987654",
+    "firstName": "David",
+    "lastName": "Thompson",
+    "email": "d.thompson@btinternet.com",
+    "phone": "+447712345678",
+    "interest": "General Inquiry",
+    "message": "British expat currently in Dubai. Interested in Le Blanc for primary residence. Can we schedule a site visit?",
+    "ip_address": "86.188.123.45",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Safari/605.1.15",
+    "country_code": "GB",
+    "country": "United Kingdom"
+  },
+  {
+    "timestamp": "2025-11-06T23:17:50.041943",
+    "firstName": "John",
+    "lastName": "Smith",
+    "email": "test@gmail.com",
+    "phone": "4314112421424",
+    "interest": "Studio - \u20ac175K | Normal 60/40",
+    "message": "need info",
+    "ip_address": "192.168.0.103",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36",
+    "country_code": "AE",
+    "country": "United Arab Emirates"
+  }
+]

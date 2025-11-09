@@ -1,0 +1,2830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dubai Smart Invest - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f8f6f3 0%, #e8e6e3 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .header-left h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .header-left h1 span {
+            color: #d4af37;
+        }
+
+        .header-left p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            color: #f8f6f3;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .admin-info {
+            text-align: right;
+            margin-right: 1rem;
+        }
+
+        .admin-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #d4af37;
+        }
+
+        .admin-role {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .logout-btn {
+            padding: 0.7rem 1.5rem;
+            background: rgba(212, 175, 55, 0.15);
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logout-btn:hover {
+            background: #d4af37;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .settings-dropdown {
+            position: relative;
+            margin-right: 1rem;
+            z-index: 100;
+        }
+
+        .settings-btn {
+            padding: 0.7rem 1.5rem;
+            background: white;
+            color: #1a1a1a;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .settings-btn:hover {
+            background: #f8f6f3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .settings-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: white;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .settings-menu.active {
+            display: block;
+        }
+
+        .settings-menu-item {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            font-weight: 500;
+        }
+
+        .settings-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-menu-item:hover {
+            background: #f8f6f3;
+            color: #d4af37;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            overflow: auto;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 3% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 2rem;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: #d4af37;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            overflow-y: auto;
+            max-height: calc(90vh - 180px);
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #e8e6e3;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .close {
+            color: #d4af37;
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: white;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f6f3;
+            border-radius: 10px;
+            border-left: 4px solid #d4af37;
+        }
+
+        .form-section h3 {
+            margin-top: 0;
+            color: #1a1a1a;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e8e6e3;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .manager-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .manager-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid #e8e6e3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .manager-item:hover {
+            border-color: #d4af37;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .manager-info {
+            flex: 1;
+        }
+
+        .manager-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #1a1a1a;
+            margin-bottom: 0.3rem;
+        }
+
+        .manager-email {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .manager-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .checkbox-cell {
+            width: 50px;
+            text-align: center;
+        }
+
+        .lead-checkbox {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: #d4af37;
+        }
+
+        .bulk-actions-bar {
+            background: linear-gradient(135deg, #d4af37 0%, #c09d2f 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+
+        .bulk-actions-bar.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .bulk-actions-info {
+            color: white;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .bulk-actions-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-white {
+            background: white;
+            color: #1a1a1a;
+            border: 2px solid white;
+        }
+
+        .btn-white:hover {
+            background: #f8f6f3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #2e7d32;
+            color: white;
+            border: 2px solid #2e7d32;
+        }
+
+        .btn-success:hover {
+            background: #1b5e20;
+            border-color: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-warning {
+            background: #f57c00;
+            color: white;
+            border: 2px solid #f57c00;
+        }
+
+        .btn-warning:hover {
+            background: #e65100;
+            border-color: #e65100;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 124, 0, 0.3);
+        }
+
+        .btn-danger {
+            background: #c62828;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #a02020;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            background: #f8f6f3;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e8e6e3;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            border-color: #d4af37;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .stat-sublabel {
+            color: #999;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+        }
+
+        .controls {
+            padding: 2rem;
+            background: white;
+            border-bottom: 1px solid #e8e6e3;
+        }
+
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .controls-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .controls-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 0.85rem;
+        }
+
+        .filter-input {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e8e6e3;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: #d4af37;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c09d2f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .btn-info {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #2d2d2d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .leads-table-container {
+            padding: 2rem;
+            overflow-x: auto;
+            background: white;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #1a1a1a;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .leads-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .leads-table th {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        .leads-table td {
+            padding: 1rem 0.75rem;
+            border-bottom: 1px solid #e8e6e3;
+            vertical-align: top;
+            font-size: 0.9rem;
+        }
+
+        .leads-table tr:hover {
+            background: #f8f6f3;
+        }
+
+        .leads-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .lead-name {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .lead-email {
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        .lead-email:hover {
+            text-decoration: underline;
+        }
+
+        .lead-phone {
+            color: #28a745;
+            font-weight: 500;
+        }
+
+        .interest-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-select {
+            padding: 0.4rem 0.8rem;
+            border: 2px solid #e8e6e3;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .status-new {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-contacted {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-qualified {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .status-converted {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-not-interested {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .status-no-answer {
+            background: #f5f5f5;
+            color: #616161;
+        }
+
+        .country-code {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.6rem;
+            background: #f8f6f3;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .country-flag {
+            font-size: 1.2em;
+        }
+
+        .lead-message {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .lead-message:hover {
+            white-space: normal;
+            overflow: visible;
+        }
+
+        .datetime {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .no-leads {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #dc3545;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        @media (max-width: 768px) {
+            .controls-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .download-buttons {
+                justify-content: center;
+            }
+
+            .leads-table {
+                font-size: 0.9em;
+            }
+
+            .leads-table th,
+            .leads-table td {
+                padding: 10px 8px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .stat-card {
+                min-width: 150px;
+            }
+
+            .stat-number {
+                font-size: 2em;
+            }
+
+            .logout-btn {
+                position: static;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .stats-row {
+                padding: 15px;
+                gap: 10px;
+            }
+
+            .stat-card {
+                min-width: 120px;
+                padding: 15px;
+            }
+
+            .stat-number {
+                font-size: 1.8em;
+            }
+
+            .stat-label {
+                font-size: 0.8em;
+            }
+
+            .controls {
+                padding: 20px 15px;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-input {
+                padding: 10px 12px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+                width: 100%;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .leads-table-container {
+                padding: 15px;
+                overflow-x: auto;
+            }
+
+            .leads-table {
+                font-size: 0.85em;
+                min-width: 600px;
+            }
+
+            .leads-table th,
+            .leads-table td {
+                padding: 8px 6px;
+            }
+
+            .lead-message {
+                max-width: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+
+            .header p {
+                font-size: 0.9em;
+            }
+
+            .stats-row {
+                padding: 10px;
+                gap: 8px;
+            }
+
+            .stat-card {
+                min-width: 100px;
+                padding: 12px 10px;
+            }
+
+            .stat-number {
+                font-size: 1.5em;
+            }
+
+            .stat-label {
+                font-size: 0.75em;
+            }
+
+            .controls {
+                padding: 15px 10px;
+            }
+
+            .controls-row {
+                gap: 12px;
+                margin-bottom: 15px;
+            }
+
+            .filter-group label {
+                font-size: 0.85em;
+            }
+
+            .btn {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+
+            .leads-table {
+                font-size: 0.8em;
+                min-width: 550px;
+            }
+
+            .leads-table th,
+            .leads-table td {
+                padding: 6px 4px;
+            }
+
+            .interest-tag {
+                font-size: 0.7em;
+                padding: 3px 8px;
+            }
+
+            .country-flag {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.3em;
+            }
+
+            .stat-card {
+                min-width: 80px;
+                padding: 10px 8px;
+            }
+
+            .stat-number {
+                font-size: 1.3em;
+            }
+
+            .stat-label {
+                font-size: 0.7em;
+            }
+
+            .leads-table {
+                min-width: 500px;
+            }
+        }
+
+        /* Landscape orientation optimizations */
+        @media (max-height: 600px) and (orientation: landscape) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+
+            .stats-row {
+                padding: 10px;
+            }
+
+            .stat-card {
+                padding: 10px;
+            }
+
+            .controls {
+                padding: 15px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn {
+                min-height: 44px; /* Apple's recommended touch target size */
+            }
+
+            .filter-input {
+                min-height: 44px;
+            }
+
+            .logout-btn {
+                min-height: 44px;
+            }
+
+            .leads-table tr {
+                cursor: default;
+            }
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .refresh-btn {
+            margin-left: auto;
+        }
+
+        /* Smooth scrolling for mobile */
+        html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Prevent text selection on buttons for better mobile UX */
+        button, .btn {
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Better table scrolling on mobile */
+        .leads-table-container {
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Sticky header on mobile scroll */
+        @media (max-width: 768px) {
+            .leads-table thead {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>DUBAI SMART <span>INVEST</span></h1>
+                <p>Admin Dashboard - Lead Management System</p>
+            </div>
+            <div class="header-right">
+                <div class="admin-info">
+                    <div class="admin-name" id="currentUserName">Administrator</div>
+                    <div class="admin-role" id="currentUserRole">Super Admin</div>
+                </div>
+                <div class="settings-dropdown" id="settingsDropdown">
+                    <button class="settings-btn" onclick="toggleSettingsMenu()">
+                        ⚙️ Settings
+                    </button>
+                    <div class="settings-menu" id="settingsMenu">
+                        <div class="settings-menu-item" id="manageUsersMenuItem" onclick="window.location.href='/settings'">
+                            👥 Manage Users
+                        </div>
+                        <div class="settings-menu-item" onclick="openProfileSettings()">
+                            🔑 Change Password
+                        </div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-number" id="totalLeads">-</div>
+                <div class="stat-label">Total Leads</div>
+                <div class="stat-sublabel">All time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-number" id="todayLeads">-</div>
+                <div class="stat-label">Today</div>
+                <div class="stat-sublabel">Last 24 hours</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-number" id="weekLeads">-</div>
+                <div class="stat-label">This Week</div>
+                <div class="stat-sublabel">Last 7 days</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📆</div>
+                <div class="stat-number" id="monthLeads">-</div>
+                <div class="stat-label">This Month</div>
+                <div class="stat-sublabel">Last 30 days</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="controls-header">
+                <h2>🔍 Filter & Search</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-success" onclick="downloadCSV()">📥 Export CSV</button>
+                    <button class="btn btn-success" onclick="downloadExcel()">📊 Export Excel</button>
+                    <button class="btn btn-info" onclick="refreshLeads()">🔄 Refresh</button>
+                </div>
+            </div>
+            <div class="controls-row">
+                <div class="filter-group search-box">
+                    <label for="searchInput">🔎 Search</label>
+                    <input type="text" id="searchInput" class="filter-input" 
+                           placeholder="Search by name, email, phone...">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateFrom">📅 From Date</label>
+                    <input type="date" id="dateFrom" class="filter-input">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateTo">📅 To Date</label>
+                    <input type="date" id="dateTo" class="filter-input">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="interestFilter">🏠 Property Interest</label>
+                    <select id="interestFilter" class="filter-input">
+                        <option value="">All Properties</option>
+                        <option value="Studio">Studio - €175K</option>
+                        <option value="1 Bedroom">1 Bedroom - €275K</option>
+                        <option value="2 Bedroom">2 Bedroom - €375K</option>
+                        <option value="3 Bedroom">3 Bedroom - €450K</option>
+                        <option value="Property Rental">Property Rental</option>
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="countryFilter">🌍 Country</label>
+                    <select id="countryFilter" class="filter-input">
+                        <option value="">All Countries</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="statusFilter">📌 Status</label>
+                    <select id="statusFilter" class="filter-input">
+                        <option value="">All Status</option>
+                        <option value="new">New</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="qualified">Qualified</option>
+                        <option value="converted">Converted</option>
+                        <option value="not-interested">Not Interested</option>
+                        <option value="no-answer">No Answer</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="controls-row" style="margin-top: 1rem;">
+                <button class="btn btn-secondary" onclick="clearFilters()">🗑️ Clear Filters</button>
+            </div>
+        </div>
+
+        <div class="leads-table-container">
+            <div class="table-header">
+                <h3>📋 Leads Overview</h3>
+                <div class="table-actions">
+                    <button class="btn btn-primary" onclick="exportFiltered('all')">� Export All</button>
+                    <button class="btn btn-info" onclick="sendBulkEmail()">� Bulk Email</button>
+                </div>
+            </div>
+
+            <!-- Bulk Actions Bar -->
+            <div class="bulk-actions-bar" id="bulkActionsBar">
+                <div class="bulk-actions-info">
+                    <span id="selectedCount">0</span> lead(s) selected
+                </div>
+                <div class="bulk-actions-buttons">
+                    <button class="btn btn-small btn-success" onclick="showAssignModal()">👤 Assign to Manager</button>
+                    <button class="btn btn-small btn-danger" onclick="bulkDeleteLeads()">🗑️ Bulk Delete</button>
+                    <button class="btn btn-small btn-white" onclick="deselectAll()">✖️ Deselect All</button>
+                </div>
+            </div>
+
+            <div id="loadingMessage" class="loading">Loading leads...</div>
+            <div id="errorMessage" class="error" style="display: none;"></div>
+            
+            <table class="leads-table" id="leadsTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell">
+                            <input type="checkbox" class="lead-checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)">
+                        </th>
+                        <th>Date & Time</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Country</th>
+                        <th>Interest</th>
+                        <th>Status</th>
+                        <th>Message</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsTableBody">
+                </tbody>
+            </table>
+            
+            <div id="noLeadsMessage" class="no-leads" style="display: none;">
+                <p>No leads found matching your criteria.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeSettingsModal()">&times;</span>
+                <h2>⚙️ Settings & User Management</h2>
+            </div>
+            <div class="modal-body">
+                <!-- Add Manager Section -->
+                <div class="form-section">
+                    <h3>➕ Add New Manager</h3>
+                    <form id="addManagerForm" onsubmit="addManager(event)">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" id="managerUsername" required placeholder="Enter username (no spaces)">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="managerPassword" required minlength="6" placeholder="Minimum 6 characters">
+                        </div>
+                        <button type="submit" class="btn btn-primary">👤 Create Manager</button>
+                    </form>
+                </div>
+
+                <!-- Manager List Section -->
+                <div class="form-section">
+                    <h3>👥 Current Managers</h3>
+                    <div class="manager-list" id="managerList">
+                        <!-- Managers will be populated here -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeSettingsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Lead Modal -->
+    <div id="editLeadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeEditLeadModal()">&times;</span>
+                <h2>✏️ Edit Lead</h2>
+            </div>
+            <div class="modal-body">
+                <form id="editLeadForm" onsubmit="saveLeadEdit(event)">
+                    <input type="hidden" id="editLeadId">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" id="editFirstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" id="editLastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="editEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="tel" id="editPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Interest</label>
+                        <select id="editInterest" required>
+                            <option value="Studio - €175,000">Studio - €175,000</option>
+                            <option value="1 Bedroom - €275,000">1 Bedroom - €275,000</option>
+                            <option value="2 Bedrooms - €375,000">2 Bedrooms - €375,000</option>
+                            <option value="3 Bedrooms - €450,000">3 Bedrooms - €450,000</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="editMessage" rows="4" style="width: 100%; padding: 0.8rem; border: 2px solid #e8e6e3; border-radius: 8px; font-family: 'Poppins', sans-serif;"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeEditLeadModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveLeadEdit(event)">💾 Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closePasswordModal()">&times;</span>
+                <h2>🔑 Change Password</h2>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm" onsubmit="changePassword(event)">
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="currentPassword" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="newPassword" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="confirmPassword" required minlength="6">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closePasswordModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="changePassword(event)">🔒 Update Password</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assign Manager Modal -->
+    <div id="assignManagerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeAssignModal()">&times;</span>
+                <h2>👤 Assign Leads to Manager</h2>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 1.5rem; color: #666;">
+                    Assign <strong><span id="assignLeadCount">0</span> selected lead(s)</strong> to a manager. 
+                    The manager will be able to view and update these leads on their dashboard.
+                </p>
+                <div class="form-group">
+                    <label>Select Manager</label>
+                    <select id="assignManagerSelect" class="filter-input" required>
+                        <option value="">-- Choose a Manager --</option>
+                        <!-- Managers populated dynamically -->
+                    </select>
+                </div>
+                <div id="assignManagerList" style="max-height: 200px; overflow-y: auto; margin-top: 1rem; padding: 1rem; background: #f8f6f3; border-radius: 8px;">
+                    <p style="color: #666; font-size: 0.9rem; margin-bottom: 0.5rem;">Available Managers:</p>
+                    <div id="managerListForAssign">
+                        <!-- Manager list will be populated here -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAssignModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="assignLeadsToManager()">✅ Assign Leads</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Manager Leads Modal -->
+    <div id="managerLeadsModal" class="modal">
+        <div class="modal-content" style="max-width: 900px;">
+            <div class="modal-header">
+                <span class="close" onclick="closeManagerLeadsModal()">&times;</span>
+                <h2>📋 Assigned Leads - <span id="managerLeadsUsername"></span></h2>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 1rem; color: #666;">
+                    These leads are currently assigned to this manager. You can remove leads from their dashboard.
+                </p>
+                <div id="managerLeadsList" style="max-height: 400px; overflow-y: auto;">
+                    <!-- Leads will be populated here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeManagerLeadsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allLeads = [];
+        let filteredLeads = [];
+        let authToken = null;
+        let leadStatuses = {}; // Store lead statuses in memory
+        let managers = []; // Store managers list
+        let currentUser = { role: 'admin', name: 'Administrator' }; // Current user info
+        let selectedLeads = new Set(); // Track selected leads
+
+        // Phone country code mapping
+        const phoneCountryCodes = {
+            '971': 'AE', // UAE
+            '1': 'US',    // USA/Canada
+            '44': 'GB',   // UK
+            '91': 'IN',   // India
+            '966': 'SA',  // Saudi Arabia
+            '974': 'QA',  // Qatar
+            '973': 'BH',  // Bahrain
+            '968': 'OM',  // Oman
+            '965': 'KW',  // Kuwait
+            '962': 'JO',  // Jordan
+            '961': 'LB',  // Lebanon
+            '20': 'EG',   // Egypt
+            '92': 'PK',   // Pakistan
+            '880': 'BD',  // Bangladesh
+            '94': 'LK',   // Sri Lanka
+            '63': 'PH',   // Philippines
+            '60': 'MY',   // Malaysia
+            '65': 'SG',   // Singapore
+            '66': 'TH',   // Thailand
+            '62': 'ID',   // Indonesia
+            '84': 'VN',   // Vietnam
+            '86': 'CN',   // China
+            '81': 'JP',   // Japan
+            '82': 'KR',   // South Korea
+            '7': 'RU',    // Russia
+            '90': 'TR',   // Turkey
+            '39': 'IT',   // Italy
+            '34': 'ES',   // Spain
+            '33': 'FR',   // France
+            '49': 'DE',   // Germany
+            '31': 'NL',   // Netherlands
+            '32': 'BE',   // Belgium
+            '41': 'CH',   // Switzerland
+            '43': 'AT',   // Austria
+            '46': 'SE',   // Sweden
+            '47': 'NO',   // Norway
+            '45': 'DK',   // Denmark
+            '358': 'FI',  // Finland
+            '353': 'IE',  // Ireland
+            '351': 'PT',  // Portugal
+            '30': 'GR',   // Greece
+            '48': 'PL',   // Poland
+            '27': 'ZA',   // South Africa
+            '55': 'BR',   // Brazil
+            '52': 'MX',   // Mexico
+            '61': 'AU',   // Australia
+            '64': 'NZ'    // New Zealand
+        };
+
+        // Detect country from phone number
+        function detectCountryFromPhone(phone) {
+            if (!phone) return null;
+            
+            // Remove all non-numeric characters
+            const cleaned = phone.replace(/[^0-9]/g, '');
+            
+            // Check for + prefix
+            if (phone.startsWith('+')) {
+                // Try matching against country codes (longest first)
+                const sortedCodes = Object.keys(phoneCountryCodes).sort((a, b) => b.length - a.length);
+                for (const code of sortedCodes) {
+                    if (cleaned.startsWith(code)) {
+                        return phoneCountryCodes[code];
+                    }
+                }
+            }
+            
+            // Check if starts with 00 (international prefix)
+            if (cleaned.startsWith('00')) {
+                const withoutPrefix = cleaned.substring(2);
+                const sortedCodes = Object.keys(phoneCountryCodes).sort((a, b) => b.length - a.length);
+                for (const code of sortedCodes) {
+                    if (withoutPrefix.startsWith(code)) {
+                        return phoneCountryCodes[code];
+                    }
+                }
+            }
+            
+            return null;
+        }
+
+        // Country code to flag emoji mapping
+        const countryFlags = {
+            'AE': '🇦🇪', 'US': '🇺🇸', 'GB': '🇬🇧', 'CA': '🇨🇦', 'AU': '🇦🇺',
+            'DE': '🇩🇪', 'FR': '🇫🇷', 'IN': '🇮🇳', 'SA': '🇸🇦', 'KW': '🇰🇼',
+            'QA': '🇶🇦', 'BH': '🇧🇭', 'OM': '🇴🇲', 'EG': '🇪🇬', 'JO': '🇯🇴',
+            'LB': '🇱🇧', 'PK': '🇵🇰', 'BD': '🇧🇩', 'LK': '🇱🇰', 'PH': '🇵🇭',
+            'MY': '🇲🇾', 'SG': '🇸🇬', 'TH': '🇹🇭', 'ID': '🇮🇩', 'VN': '🇻🇳',
+            'CN': '🇨🇳', 'JP': '🇯🇵', 'KR': '🇰🇷', 'RU': '🇷🇺', 'TR': '🇹🇷',
+            'IT': '🇮🇹', 'ES': '🇪🇸', 'NL': '🇳🇱', 'BE': '🇧🇪', 'CH': '🇨🇭',
+            'AT': '🇦🇹', 'SE': '🇸🇪', 'NO': '🇳🇴', 'DK': '🇩🇰', 'FI': '🇫🇮',
+            'IE': '🇮🇪', 'PT': '🇵🇹', 'GR': '🇬🇷', 'PL': '🇵🇱', 'CZ': '🇨🇿',
+            'HU': '🇭🇺', 'RO': '🇷🇴', 'BG': '🇧🇬', 'HR': '🇭🇷', 'RS': '🇷🇸',
+            'BA': '🇧🇦', 'MK': '🇲🇰', 'AL': '🇦🇱', 'MT': '🇲🇹', 'CY': '🇨🇾',
+            'IS': '🇮🇸', 'LU': '🇱🇺', 'LI': '🇱🇮', 'AD': '🇦🇩', 'MC': '🇲🇨',
+            'SM': '🇸🇲', 'VA': '🇻🇦', 'BR': '🇧🇷', 'AR': '🇦🇷', 'MX': '🇲🇽',
+            'CO': '🇨🇴', 'PE': '🇵🇪', 'CL': '🇨🇱', 'UY': '🇺🇾', 'PY': '🇵🇾',
+            'BO': '🇧🇴', 'EC': '🇪🇨', 'VE': '🇻🇪', 'GY': '🇬🇾', 'SR': '🇸🇷',
+            'ZA': '🇿🇦', 'NG': '🇳🇬', 'KE': '🇰🇪', 'ET': '🇪🇹', 'GH': '🇬🇭',
+            'MA': '🇲🇦', 'TN': '🇹🇳', 'DZ': '🇩🇿', 'LY': '🇱🇾', 'SD': '🇸🇩',
+            'IR': '🇮🇷', 'IQ': '🇮🇶', 'SY': '🇸🇾', 'YE': '🇾🇪', 'AF': '🇦🇫',
+            'UZ': '🇺🇿', 'KZ': '🇰🇿', 'KG': '🇰🇬', 'TJ': '🇹🇯', 'TM': '🇹🇲',
+            'MN': '🇲🇳', 'LA': '🇱🇦', 'KH': '🇰🇭', 'MM': '🇲🇲', 'NP': '🇳🇵',
+            'BT': '🇧🇹', 'MV': '🇲🇻', 'LK': '🇱🇰', 'FJ': '🇫🇯', 'PG': '🇵🇬',
+            'SB': '🇸🇧', 'VU': '🇻🇺', 'NC': '🇳🇨', 'PF': '🇵🇫', 'WS': '🇼🇸',
+            'TO': '🇹🇴', 'TV': '🇹🇻', 'NR': '🇳🇷', 'KI': '🇰🇮', 'MH': '🇲🇭',
+            'FM': '🇫🇲', 'PW': '🇵🇼', 'Unknown': '🌍'
+        };
+
+        // Load leads on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            checkAuth();
+        });
+
+        async function checkAuth() {
+            // Check for manager session first
+            const managerSession = sessionStorage.getItem('managerSession');
+            if (managerSession) {
+                try {
+                    const sessionData = JSON.parse(atob(managerSession));
+                    if (sessionData.role === 'manager') {
+                        // Manager is logged in
+                        currentUser = {
+                            role: 'manager',
+                            name: sessionData.username,
+                            username: sessionData.username
+                        };
+                        authToken = 'manager-session'; // Dummy token for manager
+                        loadLeads();
+                        setupEventListeners();
+                        return;
+                    }
+                } catch (e) {
+                    sessionStorage.removeItem('managerSession');
+                }
+            }
+
+            // Check admin token
+            authToken = localStorage.getItem('adminToken');
+            
+            if (!authToken) {
+                redirectToLogin();
+                return;
+            }
+
+            // Verify token with server
+            try {
+                const response = await fetch('/api/admin/verify', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+
+                if (!response.ok) {
+                    localStorage.removeItem('adminToken');
+                    redirectToLogin();
+                    return;
+                }
+
+                // Token is valid, load the dashboard
+                currentUser = { role: 'admin', name: 'Administrator' };
+                loadLeads();
+                setupEventListeners();
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                redirectToLogin();
+            }
+        }
+
+        function redirectToLogin() {
+            window.location.href = '/login';
+        }
+
+        async function logout() {
+            // Check if manager session
+            const managerSession = sessionStorage.getItem('managerSession');
+            if (managerSession) {
+                sessionStorage.removeItem('managerSession');
+                localStorage.removeItem('currentUser');
+                window.location.href = '/manager-login';
+                return;
+            }
+
+            try {
+                // Call logout endpoint for admin
+                await fetch('/api/admin/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+
+            // Clear local storage and redirect
+            localStorage.removeItem('adminToken');
+            redirectToLogin();
+        }
+
+        function setupEventListeners() {
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', filterLeads);
+            
+            // Date filters
+            document.getElementById('dateFrom').addEventListener('change', filterLeads);
+            document.getElementById('dateTo').addEventListener('change', filterLeads);
+            
+            // Select filters
+            document.getElementById('interestFilter').addEventListener('change', filterLeads);
+            document.getElementById('countryFilter').addEventListener('change', filterLeads);
+        }
+
+        // Refresh leads function
+        function refreshLeads() {
+            loadLeads();
+        }
+
+        // Export filtered data
+        function exportFiltered(format) {
+            const filteredData = Array.from(document.querySelectorAll('#leadsTable tbody tr:not([style*="display: none"])'));
+            if (filteredData.length === 0) {
+                alert('No leads to export!');
+                return;
+            }
+            
+            if (format === 'all') {
+                // Show options
+                const choice = confirm('Export as CSV? (Cancel for Excel)');
+                if (choice) {
+                    downloadCSV();
+                } else {
+                    downloadExcel();
+                }
+            }
+        }
+
+        // Bulk email function (placeholder)
+        function sendBulkEmail() {
+            const selectedLeads = Array.from(document.querySelectorAll('#leadsTable tbody tr:not([style*="display: none"])'));
+            const emails = selectedLeads.map(row => {
+                const emailCell = row.querySelector('.lead-email');
+                return emailCell ? emailCell.textContent : null;
+            }).filter(email => email);
+            
+            if (emails.length === 0) {
+                alert('No leads found to send emails!');
+                return;
+            }
+            
+            const message = `Found ${emails.length} leads to email.\n\nThis feature requires email integration setup.\n\nEmails found:\n${emails.slice(0, 5).join(', ')}${emails.length > 5 ? '...' : ''}`;
+            alert(message);
+        }
+
+        async function loadLeads() {
+            try {
+                document.getElementById('loadingMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('leadsTable').style.display = 'none';
+                document.getElementById('noLeadsMessage').style.display = 'none';
+
+                const response = await fetch('/api/leads', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.status === 401) {
+                    // Unauthorized - redirect to login
+                    localStorage.removeItem('adminToken');
+                    redirectToLogin();
+                    return;
+                }
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                allLeads = await response.json();
+                
+                // Cache leads data for managers to access
+                localStorage.setItem('cachedLeads', JSON.stringify(allLeads));
+                
+                // Load saved statuses from localStorage
+                const savedStatuses = localStorage.getItem('leadStatuses');
+                if (savedStatuses) {
+                    try {
+                        leadStatuses = JSON.parse(savedStatuses);
+                    } catch (e) {
+                        leadStatuses = {};
+                    }
+                }
+
+                // Check user role and update UI
+                updateUIForUserRole();
+                
+                document.getElementById('loadingMessage').style.display = 'none';
+                
+                if (allLeads.length === 0) {
+                    document.getElementById('noLeadsMessage').style.display = 'block';
+                } else {
+                    populateCountryFilter();
+                    filteredLeads = [...allLeads];
+                    displayLeads();
+                    updateStats();
+                }
+                
+            } catch (error) {
+                console.error('Error loading leads:', error);
+                document.getElementById('loadingMessage').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').textContent = 'Failed to load leads: ' + error.message;
+            }
+        }
+
+        function populateCountryFilter() {
+            const countryFilter = document.getElementById('countryFilter');
+            const countries = [...new Set(allLeads.map(lead => lead.country).filter(Boolean))].sort();
+            
+            // Clear existing options except "All Countries"
+            countryFilter.innerHTML = '<option value="">All Countries</option>';
+            
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countryFilter.appendChild(option);
+            });
+        }
+
+        function displayLeads() {
+            const tbody = document.getElementById('leadsTableBody');
+            tbody.innerHTML = '';
+
+            if (filteredLeads.length === 0) {
+                document.getElementById('leadsTable').style.display = 'none';
+                document.getElementById('noLeadsMessage').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('leadsTable').style.display = 'table';
+            document.getElementById('noLeadsMessage').style.display = 'none';
+
+            filteredLeads.forEach(lead => {
+                const row = document.createElement('tr');
+                
+                const dateTime = new Date(lead.timestamp);
+                const formattedDate = dateTime.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                const formattedTime = dateTime.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                // Use IP-based country detection
+                let countryCode = lead.country_code || lead.country || 'Unknown';
+
+                const countryFlag = countryFlags[countryCode] || countryFlags['Unknown'];
+
+                // Get lead status (default to 'new' if not set)
+                const leadId = `${lead.email}_${lead.timestamp}`;
+                const currentStatus = leadStatuses[leadId] || 'new';
+
+                // Check if manager role - managers can't edit or delete
+                const isAdmin = currentUser.role === 'admin';
+
+                // Check if lead is assigned to a manager
+                const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+                let assignedManager = null;
+                for (const [username, leadIds] of Object.entries(assignments)) {
+                    if (leadIds.includes(leadId)) {
+                        assignedManager = username;
+                        break;
+                    }
+                }
+
+                row.innerHTML = `
+                    <td class="checkbox-cell">
+                        <input type="checkbox" class="lead-checkbox" data-lead-id="${leadId}" onchange="updateSelectedLeads()">
+                    </td>
+                    <td>
+                        <div class="datetime">
+                            <div>${formattedDate}</div>
+                            <div>${formattedTime}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="lead-name">${lead.firstName} ${lead.lastName}</div>
+                        ${assignedManager ? `<div style="font-size: 0.75rem; color: #f57c00; margin-top: 0.2rem;">👤 ${assignedManager}</div>` : ''}
+                    </td>
+                    <td>
+                        <div><a href="mailto:${lead.email}" class="lead-email">${lead.email}</a></div>
+                        <div class="lead-phone">${lead.phone}</div>
+                    </td>
+                    <td>
+                        <span class="country-code">
+                            <span class="country-flag">${countryFlag}</span>
+                            ${countryCode}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="interest-tag">${lead.interest}</span>
+                    </td>
+                    <td>
+                        <select class="status-select status-${currentStatus}" 
+                                onchange="updateLeadStatus('${leadId}', this.value)" 
+                                data-lead-id="${leadId}">
+                            <option value="new" ${currentStatus === 'new' ? 'selected' : ''}>🆕 New</option>
+                            <option value="contacted" ${currentStatus === 'contacted' ? 'selected' : ''}>📞 Contacted</option>
+                            <option value="qualified" ${currentStatus === 'qualified' ? 'selected' : ''}>✅ Qualified</option>
+                            <option value="converted" ${currentStatus === 'converted' ? 'selected' : ''}>💰 Converted</option>
+                            <option value="not-interested" ${currentStatus === 'not-interested' ? 'selected' : ''}>❌ Not Interested</option>
+                            <option value="no-answer" ${currentStatus === 'no-answer' ? 'selected' : ''}>📵 No Answer</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="lead-message" title="${lead.message}">
+                            ${lead.message || '-'}
+                        </div>
+                    </td>
+                    <td>
+                        ${isAdmin ? `
+                            <button class="btn btn-small btn-primary" onclick="openEditModal('${leadId}')" title="Edit Lead">✏️</button>
+                            <button class="btn btn-small btn-danger" onclick="deleteLead('${leadId}')" title="Delete Lead">🗑️</button>
+                            ${assignedManager ? `<button class="btn btn-small btn-warning" onclick="quickUnassignLead('${assignedManager}', '${leadId}')" title="Remove from Manager">🔓</button>` : ''}
+                        ` : '<span style="color: #999;">View Only</span>'}
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // Update lead status
+        function updateLeadStatus(leadId, newStatus) {
+            leadStatuses[leadId] = newStatus;
+            
+            // Update select styling
+            const select = document.querySelector(`select[data-lead-id="${leadId}"]`);
+            if (select) {
+                // Remove all status classes
+                select.className = 'status-select';
+                // Add new status class
+                select.classList.add(`status-${newStatus}`);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('leadStatuses', JSON.stringify(leadStatuses));
+            
+            // Update stats
+            updateStats();
+        }
+
+        function filterLeads() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const interestFilter = document.getElementById('interestFilter').value;
+            const countryFilter = document.getElementById('countryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredLeads = allLeads.filter(lead => {
+                // Search filter
+                const searchMatch = !searchTerm || 
+                    lead.firstName.toLowerCase().includes(searchTerm) ||
+                    lead.lastName.toLowerCase().includes(searchTerm) ||
+                    lead.email.toLowerCase().includes(searchTerm) ||
+                    lead.phone.includes(searchTerm) ||
+                    (lead.message && lead.message.toLowerCase().includes(searchTerm));
+
+                // Date filters
+                const leadDate = new Date(lead.timestamp).toISOString().split('T')[0];
+                const dateFromMatch = !dateFrom || leadDate >= dateFrom;
+                const dateToMatch = !dateTo || leadDate <= dateTo;
+
+                // Status filter
+                const leadId = `${lead.email}_${lead.timestamp}`;
+                const leadStatus = leadStatuses[leadId] || 'new';
+                const statusMatch = !statusFilter || leadStatus === statusFilter;
+
+                // Interest filter
+                const interestMatch = !interestFilter || lead.interest === interestFilter;
+
+                // Country filter
+                const countryMatch = !countryFilter || lead.country === countryFilter;
+
+                return searchMatch && dateFromMatch && dateToMatch && interestMatch && countryMatch && statusMatch;
+            });
+
+            displayLeads();
+            updateStats();
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            document.getElementById('interestFilter').value = '';
+            document.getElementById('countryFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            
+            filteredLeads = [...allLeads];
+            displayLeads();
+            updateStats();
+        }
+
+        function updateStats() {
+            const now = new Date();
+            const today = now.toISOString().split('T')[0];
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            const monthAgo = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+
+            const todayCount = filteredLeads.filter(lead => 
+                lead.timestamp.split('T')[0] === today
+            ).length;
+
+            const weekCount = filteredLeads.filter(lead => 
+                lead.timestamp.split('T')[0] >= weekAgo
+            ).length;
+
+            const monthCount = filteredLeads.filter(lead => 
+                lead.timestamp.split('T')[0] >= monthAgo
+            ).length;
+
+            document.getElementById('totalLeads').textContent = filteredLeads.length;
+            document.getElementById('todayLeads').textContent = todayCount;
+            document.getElementById('weekLeads').textContent = weekCount;
+            document.getElementById('monthLeads').textContent = monthCount;
+        }
+
+        async function downloadCSV() {
+            try {
+                const response = await fetch('/api/leads/download/csv', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        leads: filteredLeads
+                    })
+                });
+
+                if (response.status === 401) {
+                    alert('Session expired. Please login again.');
+                    redirectToLogin();
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate CSV');
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `leblanc_leads_${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+            } catch (error) {
+                alert('Failed to download CSV: ' + error.message);
+            }
+        }
+
+        async function downloadExcel() {
+            try {
+                const response = await fetch('/api/leads/download/excel', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        leads: filteredLeads
+                    })
+                });
+
+                if (response.status === 401) {
+                    alert('Session expired. Please login again.');
+                    redirectToLogin();
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate Excel file');
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `leblanc_leads_${new Date().toISOString().split('T')[0]}.xlsx`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+            } catch (error) {
+                alert('Failed to download Excel file: ' + error.message);
+            }
+        }
+
+        // ===== SETTINGS & MODAL FUNCTIONS =====
+
+        function toggleSettingsMenu() {
+            const menu = document.getElementById('settingsMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.querySelector('.settings-dropdown');
+            const menu = document.getElementById('settingsMenu');
+            if (dropdown && !dropdown.contains(event.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        function openSettingsModal() {
+            document.getElementById('settingsModal').classList.add('active');
+            document.getElementById('settingsMenu').classList.remove('active');
+            loadManagers();
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.remove('active');
+            document.getElementById('addManagerForm').reset();
+        }
+
+        function openProfileSettings() {
+            document.getElementById('changePasswordModal').classList.add('active');
+            document.getElementById('settingsMenu').classList.remove('active');
+        }
+
+        function closePasswordModal() {
+            document.getElementById('changePasswordModal').classList.remove('active');
+            document.getElementById('changePasswordForm').reset();
+        }
+
+        function openEditLeadModal() {
+            document.getElementById('editLeadModal').classList.add('active');
+        }
+
+        function closeEditLeadModal() {
+            document.getElementById('editLeadModal').classList.remove('active');
+            document.getElementById('editLeadForm').reset();
+        }
+
+        // ===== USER ROLE MANAGEMENT =====
+
+        function updateUIForUserRole() {
+            const isAdmin = currentUser.role === 'admin';
+            
+            // Update user display
+            document.getElementById('currentUserName').textContent = currentUser.name;
+            document.getElementById('currentUserRole').textContent = isAdmin ? 'Super Admin' : 'Manager';
+
+            // Hide/show settings dropdown based on role
+            if (!isAdmin) {
+                // For managers: Hide "Manage Users" option
+                const manageUsersItem = document.getElementById('manageUsersMenuItem');
+                if (manageUsersItem) {
+                    manageUsersItem.style.display = 'none';
+                }
+
+                // Hide bulk actions bar for managers (they can't edit/delete)
+                // Managers can still see checkboxes but edit/delete buttons are disabled per-lead
+            }
+        }
+
+        // ===== MANAGER MANAGEMENT =====
+
+        function loadManagers() {
+            // Load from localStorage
+            const savedManagers = localStorage.getItem('managers');
+            if (savedManagers) {
+                managers = JSON.parse(savedManagers);
+            }
+            displayManagers();
+            updateManagerDropdown();
+        }
+
+        function displayManagers() {
+            const container = document.getElementById('managerList');
+            if (managers.length === 0) {
+                container.innerHTML = '<p style="color: #999; text-align: center; padding: 2rem;">No managers added yet.</p>';
+                return;
+            }
+
+            // Get lead assignments
+            const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+
+            container.innerHTML = managers.map(manager => {
+                const assignedCount = (assignments[manager.username] || []).length;
+                return `
+                <div class="manager-item">
+                    <div class="manager-info">
+                        <div class="manager-name">${manager.username}</div>
+                        <div class="manager-email">Role: Manager | Assigned Leads: <strong>${assignedCount}</strong></div>
+                    </div>
+                    <div class="manager-actions">
+                        ${assignedCount > 0 ? `<button class="btn btn-small btn-warning" onclick="viewManagerLeads('${manager.username}')">📋 View Leads (${assignedCount})</button>` : ''}
+                        <button class="btn btn-small btn-primary" onclick="editManager('${manager.username}')">✏️ Edit</button>
+                        <button class="btn btn-small btn-info" onclick="resetManagerPassword('${manager.username}')">🔑 Reset Password</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteManager('${manager.username}')">🗑️ Delete</button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function updateManagerDropdown() {
+            const select = document.getElementById('assignManagerSelect');
+            const currentOptions = select.innerHTML;
+            select.innerHTML = '<option value="">Assign to Manager...</option>' + 
+                managers.map(m => `<option value="${m.username}">${m.username}</option>`).join('');
+        }
+
+        function addManager(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('managerUsername').value.trim().replace(/\s+/g, '');
+            const password = document.getElementById('managerPassword').value;
+
+            // Check if manager already exists
+            if (managers.find(m => m.username === username)) {
+                alert('A manager with this username already exists!');
+                return;
+            }
+
+            const newManager = {
+                username,
+                password, // In production, hash this!
+                role: 'manager',
+                createdAt: new Date().toISOString()
+            };
+
+            managers.push(newManager);
+            localStorage.setItem('managers', JSON.stringify(managers));
+
+            alert(`Manager "${username}" created successfully!\n\nLogin credentials:\nUsername: ${username}\nPassword: ${password}\n\nLogin at: /manager-login`);
+            document.getElementById('addManagerForm').reset();
+            displayManagers();
+            updateManagerDropdown();
+        }
+
+        function editManager(username) {
+            const manager = managers.find(m => m.username === username);
+            if (!manager) return;
+
+            const newUsername = prompt('Enter new username:', manager.username);
+            if (newUsername && newUsername.trim()) {
+                const cleanUsername = newUsername.trim().replace(/\s+/g, '');
+                if (managers.find(m => m.username === cleanUsername && m.username !== manager.username)) {
+                    alert('This username is already taken!');
+                    return;
+                }
+                manager.username = cleanUsername;
+                localStorage.setItem('managers', JSON.stringify(managers));
+                displayManagers();
+                updateManagerDropdown();
+                alert('Manager updated successfully!');
+            }
+        }
+
+        function resetManagerPassword(username) {
+            const manager = managers.find(m => m.username === username);
+            if (!manager) return;
+
+            const newPassword = prompt(`Enter new password for ${manager.username}:`);
+            if (newPassword && newPassword.length >= 6) {
+                manager.password = newPassword;
+                localStorage.setItem('managers', JSON.stringify(managers));
+                alert('Password updated successfully!');
+            } else if (newPassword !== null) {
+                alert('Password must be at least 6 characters!');
+            }
+        }
+
+        function deleteManager(username) {
+            const manager = managers.find(m => m.username === username);
+            if (!manager) return;
+
+            if (confirm(`Are you sure you want to delete manager "${manager.username}"?`)) {
+                managers = managers.filter(m => m.username !== username);
+                localStorage.setItem('managers', JSON.stringify(managers));
+                displayManagers();
+                updateManagerDropdown();
+                alert('Manager deleted successfully!');
+            }
+        }
+
+        function changePassword(event) {
+            event.preventDefault();
+
+            const current = document.getElementById('currentPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            // For demo - check against 'admin123'
+            if (current !== 'admin123') {
+                alert('Current password is incorrect!');
+                return;
+            }
+
+            if (newPass !== confirm) {
+                alert('New passwords do not match!');
+                return;
+            }
+
+            if (newPass.length < 6) {
+                alert('Password must be at least 6 characters!');
+                return;
+            }
+
+            // In production, send to backend
+            alert('Password changed successfully!');
+            closePasswordModal();
+        }
+
+        // ===== LEAD SELECTION & BULK ACTIONS =====
+
+        function toggleSelectAll(checkbox) {
+            const checkboxes = document.querySelectorAll('.lead-checkbox[data-lead-id]');
+            checkboxes.forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+            updateSelectedLeads();
+        }
+
+        function updateSelectedLeads() {
+            selectedLeads.clear();
+            const checkboxes = document.querySelectorAll('.lead-checkbox[data-lead-id]:checked');
+            checkboxes.forEach(cb => {
+                selectedLeads.add(cb.dataset.leadId);
+            });
+
+            // Update UI
+            const count = selectedLeads.size;
+            document.getElementById('selectedCount').textContent = count;
+            const bulkBar = document.getElementById('bulkActionsBar');
+            
+            if (count > 0) {
+                bulkBar.classList.add('active');
+            } else {
+                bulkBar.classList.remove('active');
+            }
+
+            // Update select all checkbox
+            const selectAllCheckbox = document.getElementById('selectAllCheckbox');
+            const allCheckboxes = document.querySelectorAll('.lead-checkbox[data-lead-id]');
+            selectAllCheckbox.checked = allCheckboxes.length > 0 && count === allCheckboxes.length;
+        }
+
+        function deselectAll() {
+            selectedLeads.clear();
+            document.querySelectorAll('.lead-checkbox').forEach(cb => cb.checked = false);
+            updateSelectedLeads();
+        }
+
+        function editSelectedLead() {
+            if (currentUser.role !== 'admin') {
+                alert('Only administrators can edit leads!');
+                return;
+            }
+
+            if (selectedLeads.size === 0) {
+                alert('Please select a lead to edit.');
+                return;
+            }
+
+            if (selectedLeads.size > 1) {
+                alert('Please select only one lead to edit.');
+                return;
+            }
+
+            const leadId = Array.from(selectedLeads)[0];
+            openEditModal(leadId);
+        }
+
+        function openEditModal(leadId) {
+            const [email, timestamp] = leadId.split('_');
+            const lead = allLeads.find(l => l.email === email && l.timestamp === timestamp);
+            
+            if (!lead) {
+                alert('Lead not found!');
+                return;
+            }
+
+            document.getElementById('editLeadId').value = leadId;
+            document.getElementById('editFirstName').value = lead.firstName;
+            document.getElementById('editLastName').value = lead.lastName;
+            document.getElementById('editEmail').value = lead.email;
+            document.getElementById('editPhone').value = lead.phone;
+            document.getElementById('editInterest').value = lead.interest;
+            document.getElementById('editMessage').value = lead.message || '';
+
+            openEditLeadModal();
+        }
+
+        function saveLeadEdit(event) {
+            event.preventDefault();
+
+            if (currentUser.role !== 'admin') {
+                alert('Only administrators can edit leads!');
+                return;
+            }
+
+            const leadId = document.getElementById('editLeadId').value;
+            const [email, timestamp] = leadId.split('_');
+            const lead = allLeads.find(l => l.email === email && l.timestamp === timestamp);
+
+            if (!lead) {
+                alert('Lead not found!');
+                return;
+            }
+
+            // Update lead data
+            lead.firstName = document.getElementById('editFirstName').value;
+            lead.lastName = document.getElementById('editLastName').value;
+            lead.email = document.getElementById('editEmail').value;
+            lead.phone = document.getElementById('editPhone').value;
+            lead.interest = document.getElementById('editInterest').value;
+            lead.message = document.getElementById('editMessage').value;
+
+            // In production, send update to backend
+            alert('Lead updated successfully!');
+            
+            closeEditLeadModal();
+            displayLeads();
+        }
+
+        function deleteSelectedLeads() {
+            if (currentUser.role !== 'admin') {
+                alert('Only administrators can delete leads!');
+                return;
+            }
+
+            if (selectedLeads.size === 0) {
+                alert('Please select leads to delete.');
+                return;
+            }
+
+            if (!confirm(`Are you sure you want to delete ${selectedLeads.size} lead(s)? This action cannot be undone.`)) {
+                return;
+            }
+
+            // Remove selected leads
+            selectedLeads.forEach(leadId => {
+                const [email, timestamp] = leadId.split('_');
+                const index = allLeads.findIndex(l => l.email === email && l.timestamp === timestamp);
+                if (index !== -1) {
+                    allLeads.splice(index, 1);
+                }
+            });
+
+            // In production, send delete request to backend
+
+            alert(`${selectedLeads.size} lead(s) deleted successfully!`);
+            selectedLeads.clear();
+            filterLeads();
+        }
+
+        // New bulk delete function
+        async function bulkDeleteLeads() {
+            if (currentUser.role !== 'admin') {
+                alert('Only administrators can delete leads!');
+                return;
+            }
+
+            if (selectedLeads.size === 0) {
+                alert('Please select leads to delete.');
+                return;
+            }
+
+            const confirmMsg = `⚠️ WARNING: You are about to permanently delete ${selectedLeads.size} lead(s).\n\n` +
+                               `This action CANNOT be undone!\n\n` +
+                               `Are you absolutely sure you want to continue?`;
+
+            if (!confirm(confirmMsg)) {
+                return;
+            }
+
+            try {
+                const leadIdsArray = Array.from(selectedLeads);
+                const token = localStorage.getItem('adminToken') || sessionStorage.getItem('adminToken');
+                
+                const response = await fetch('/api/leads/delete/bulk', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ leadIds: leadIdsArray })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Remove deleted leads from frontend array
+                    selectedLeads.forEach(leadId => {
+                        const [email, timestamp] = leadId.split('_');
+                        const index = allLeads.findIndex(l => l.email === email && l.timestamp === timestamp);
+                        if (index !== -1) {
+                            allLeads.splice(index, 1);
+                        }
+                        // Also remove from statuses
+                        delete leadStatuses[leadId];
+                    });
+
+                    // Update cached leads
+                    localStorage.setItem('cachedLeads', JSON.stringify(allLeads));
+
+                    // Save updated statuses
+                    localStorage.setItem('leadStatuses', JSON.stringify(leadStatuses));
+
+                    // Remove from lead assignments if assigned
+                    const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+                    selectedLeads.forEach(leadId => {
+                        for (const manager in assignments) {
+                            const leadIndex = assignments[manager].indexOf(leadId);
+                            if (leadIndex !== -1) {
+                                assignments[manager].splice(leadIndex, 1);
+                            }
+                        }
+                    });
+                    localStorage.setItem('leadAssignments', JSON.stringify(assignments));
+
+                    alert(`✅ Successfully deleted ${data.deletedCount} lead(s)!`);
+                    selectedLeads.clear();
+                    updateSelectedCount();
+                    filterLeads();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to delete leads'));
+                }
+            } catch (error) {
+                console.error('Bulk delete error:', error);
+                alert('❌ Error deleting leads. Please try again.');
+            }
+        }
+
+        async function deleteLead(leadId) {
+            if (currentUser.role !== 'admin') {
+                alert('Only administrators can delete leads!');
+                return;
+            }
+
+            const [email, timestamp] = leadId.split('_');
+            const lead = allLeads.find(l => l.email === email && l.timestamp === timestamp);
+            
+            if (!lead) {
+                alert('Lead not found!');
+                return;
+            }
+
+            if (!confirm(`Are you sure you want to delete the lead for ${lead.firstName} ${lead.lastName}?`)) {
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('adminToken') || sessionStorage.getItem('adminToken');
+                const response = await fetch('/api/leads/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ leadId: leadId })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Remove from frontend array
+                    const index = allLeads.indexOf(lead);
+                    if (index !== -1) {
+                        allLeads.splice(index, 1);
+                    }
+
+                    // Update cached leads
+                    localStorage.setItem('cachedLeads', JSON.stringify(allLeads));
+
+                    // Remove from lead assignments if assigned
+                    const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+                    for (const manager in assignments) {
+                        const leadIndex = assignments[manager].indexOf(leadId);
+                        if (leadIndex !== -1) {
+                            assignments[manager].splice(leadIndex, 1);
+                        }
+                    }
+                    localStorage.setItem('leadAssignments', JSON.stringify(assignments));
+
+                    alert('✅ Lead deleted successfully!');
+                    filterLeads();
+                } else {
+                    alert('❌ Error: ' + (data.message || 'Failed to delete lead'));
+                }
+            } catch (error) {
+                console.error('Delete error:', error);
+                alert('❌ Error deleting lead. Please try again.');
+            }
+        }
+
+        // Show assign manager modal
+        function showAssignModal() {
+            if (currentUser.role !== 'admin') {
+                alert('Only administrators can assign leads!');
+                return;
+            }
+
+            if (selectedLeads.size === 0) {
+                alert('Please select leads to assign.');
+                return;
+            }
+
+            // Update count in modal
+            document.getElementById('assignLeadCount').textContent = selectedLeads.size;
+
+            // Populate manager dropdown
+            const select = document.getElementById('assignManagerSelect');
+            select.innerHTML = '<option value="">-- Choose a Manager --</option>';
+            
+            managers.forEach(manager => {
+                const option = document.createElement('option');
+                option.value = manager.username;
+                option.textContent = `${manager.username}`;
+                select.appendChild(option);
+            });
+
+            // Populate manager list display
+            const managerList = document.getElementById('managerListForAssign');
+            if (managers.length === 0) {
+                managerList.innerHTML = '<p style="color: #999; font-size: 0.85rem;">No managers available. Create managers in Settings.</p>';
+            } else {
+                managerList.innerHTML = managers.map(m => 
+                    `<div style="padding: 0.5rem; background: white; margin: 0.3rem 0; border-radius: 6px; border-left: 3px solid #d4af37;">
+                        👤 ${m.username}
+                    </div>`
+                ).join('');
+            }
+
+            // Show modal
+            document.getElementById('assignManagerModal').classList.add('active');
+        }
+
+        function closeAssignModal() {
+            document.getElementById('assignManagerModal').classList.remove('active');
+            document.getElementById('assignManagerSelect').value = '';
+        }
+
+        // Assign leads to manager
+        function assignLeadsToManager() {
+            const managerUsername = document.getElementById('assignManagerSelect').value;
+            
+            if (!managerUsername) {
+                alert('Please select a manager!');
+                return;
+            }
+
+            const manager = managers.find(m => m.username === managerUsername);
+            if (!manager) {
+                alert('Manager not found!');
+                return;
+            }
+
+            // Get or create manager assignments
+            let assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+            
+            // Assign selected leads to manager
+            let assignedCount = 0;
+            selectedLeads.forEach(leadId => {
+                if (!assignments[managerUsername]) {
+                    assignments[managerUsername] = [];
+                }
+                if (!assignments[managerUsername].includes(leadId)) {
+                    assignments[managerUsername].push(leadId);
+                    assignedCount++;
+                }
+            });
+
+            // Save assignments
+            localStorage.setItem('leadAssignments', JSON.stringify(assignments));
+
+            // In production, send assignment to backend API
+            
+            alert(`✅ Successfully assigned ${assignedCount} lead(s) to ${manager.username}!\n\nThe manager can now view and manage these leads on their dashboard.`);
+            
+            closeAssignModal();
+            deselectAll();
+            displayManagers(); // Refresh manager list to show updated count
+        }
+
+        // View manager's assigned leads
+        function viewManagerLeads(managerUsername) {
+            const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+            const assignedLeadIds = assignments[managerUsername] || [];
+            
+            if (assignedLeadIds.length === 0) {
+                alert('No leads assigned to this manager.');
+                return;
+            }
+
+            // Get full lead data
+            const assignedLeads = allLeads.filter(lead => {
+                const leadId = `${lead.email}_${lead.timestamp}`;
+                return assignedLeadIds.includes(leadId);
+            });
+
+            // Update modal
+            document.getElementById('managerLeadsUsername').textContent = managerUsername;
+            
+            const container = document.getElementById('managerLeadsList');
+            container.innerHTML = assignedLeads.map(lead => {
+                const leadId = `${lead.email}_${lead.timestamp}`;
+                const dateTime = new Date(lead.timestamp);
+                const formattedDate = dateTime.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                return `
+                    <div style="padding: 1rem; background: #f8f6f3; margin: 0.5rem 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600; color: #1a1a1a; margin-bottom: 0.3rem;">
+                                ${lead.firstName} ${lead.lastName}
+                            </div>
+                            <div style="color: #666; font-size: 0.85rem;">
+                                📧 ${lead.email} | 📞 ${lead.phone}
+                            </div>
+                            <div style="color: #999; font-size: 0.8rem; margin-top: 0.2rem;">
+                                📅 ${formattedDate} | 🏠 ${lead.interest}
+                            </div>
+                        </div>
+                        <button class="btn btn-small btn-danger" onclick="removeLeadFromManager('${managerUsername}', '${leadId}')">
+                            ✖️ Remove
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            // Show modal
+            document.getElementById('managerLeadsModal').classList.add('active');
+        }
+
+        function closeManagerLeadsModal() {
+            document.getElementById('managerLeadsModal').classList.remove('active');
+        }
+
+        // Remove lead from manager
+        function removeLeadFromManager(managerUsername, leadId) {
+            if (!confirm('Remove this lead from the manager\'s dashboard?')) {
+                return;
+            }
+
+            // Get assignments
+            let assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+            
+            if (assignments[managerUsername]) {
+                // Remove the lead
+                assignments[managerUsername] = assignments[managerUsername].filter(id => id !== leadId);
+                
+                // If no more leads, remove the manager entry
+                if (assignments[managerUsername].length === 0) {
+                    delete assignments[managerUsername];
+                }
+                
+                // Save updated assignments
+                localStorage.setItem('leadAssignments', JSON.stringify(assignments));
+                
+                alert('✅ Lead removed from manager successfully!');
+                
+                // Refresh the modal
+                closeManagerLeadsModal();
+                viewManagerLeads(managerUsername);
+                displayManagers(); // Refresh manager list to show updated count
+            }
+        }
+
+        // Quick unassign from leads table
+        function quickUnassignLead(managerUsername, leadId) {
+            if (!confirm(`Remove this lead from ${managerUsername}'s dashboard?`)) {
+                return;
+            }
+
+            // Get assignments
+            let assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+            
+            if (assignments[managerUsername]) {
+                // Remove the lead
+                assignments[managerUsername] = assignments[managerUsername].filter(id => id !== leadId);
+                
+                // If no more leads, remove the manager entry
+                if (assignments[managerUsername].length === 0) {
+                    delete assignments[managerUsername];
+                }
+                
+                // Save updated assignments
+                localStorage.setItem('leadAssignments', JSON.stringify(assignments));
+                
+                alert('✅ Lead unassigned successfully!');
+                
+                // Refresh the display
+                displayLeads();
+                displayManagers();
+            }
+        }
+
+        // Automatic token refresh
+        async function refreshAuthToken() {
+            const token = localStorage.getItem('adminToken') || sessionStorage.getItem('adminToken');
+            
+            if (!token) return;
+
+            try {
+                const response = await fetch('/api/admin/refresh', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    console.log('✅ Token refreshed successfully');
+                } else {
+                    console.warn('Token refresh failed:', data.message);
+                    // If token is expired, redirect to login
+                    if (response.status === 401) {
+                        redirectToLogin();
+                    }
+                }
+            } catch (error) {
+                console.error('Token refresh error:', error);
+            }
+        }
+
+        // Set up automatic token refresh every 30 minutes
+        setInterval(refreshAuthToken, 30 * 60 * 1000); // 30 minutes
+
+        // Also refresh on page visibility change (when user comes back to tab)
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                refreshAuthToken();
+            }
+        });
+
+        // Load managers on page load
+        loadManagers();
+    </script>
+</body>
+</html>

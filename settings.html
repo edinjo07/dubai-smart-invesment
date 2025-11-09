@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dubai Smart Invest - Settings & User Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f6f3;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .header-left h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .header-left h1 span {
+            color: #d4af37;
+        }
+
+        .header-left p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            color: #f8f6f3;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .back-btn {
+            padding: 0.7rem 1.5rem;
+            background: white;
+            color: #1a1a1a;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            background: #f8f6f3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .logout-btn {
+            padding: 0.7rem 1.5rem;
+            background: rgba(212, 175, 55, 0.15);
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logout-btn:hover {
+            background: #d4af37;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e8e6e3;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section {
+            background: #f8f6f3;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e8e6e3;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: #d4af37;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c09d2f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+        }
+
+        .btn-warning {
+            background: #f57c00;
+            color: white;
+            border: 2px solid #f57c00;
+        }
+
+        .btn-warning:hover {
+            background: #e65100;
+            border-color: #e65100;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 124, 0, 0.3);
+        }
+
+        .btn-info {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #2d2d2d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-danger {
+            background: #c62828;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #a02020;
+        }
+
+        .manager-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .manager-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #e8e6e3;
+            transition: all 0.3s ease;
+        }
+
+        .manager-item:hover {
+            border-color: #d4af37;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .manager-info {
+            flex: 1;
+        }
+
+        .manager-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.3rem;
+        }
+
+        .manager-email {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .manager-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #d4af37 0%, #c09d2f 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            overflow: auto;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 900px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 2rem;
+            border-bottom: 3px solid #d4af37;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #e8e6e3;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .close {
+            color: #d4af37;
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .manager-item {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .manager-actions {
+                width: 100%;
+            }
+
+            .manager-actions button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>DUBAI SMART <span>INVEST</span></h1>
+                <p>Settings & User Management</p>
+            </div>
+            <div class="header-right">
+                <a href="/admin" class="back-btn">← Back to Dashboard</a>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalManagers">0</div>
+                    <div class="stat-label">Total Managers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalAssignments">0</div>
+                    <div class="stat-label">Total Assigned Leads</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="activeManagers">0</div>
+                    <div class="stat-label">Managers with Leads</div>
+                </div>
+            </div>
+
+            <!-- Add Manager Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>➕ Add New Manager</h2>
+                </div>
+                <form id="addManagerForm" onsubmit="addManager(event)">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <div class="form-group">
+                            <label>Username *</label>
+                            <input type="text" id="managerUsername" required placeholder="Enter username (no spaces)">
+                        </div>
+                        <div class="form-group">
+                            <label>Password *</label>
+                            <input type="password" id="managerPassword" required minlength="6" placeholder="Minimum 6 characters">
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-end;">
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">👤 Create Manager</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Manager List Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2>👥 Current Managers</h2>
+                    <span id="managerCount" style="color: #666; font-size: 1rem;"></span>
+                </div>
+                <div class="manager-list" id="managerList">
+                    <!-- Managers will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Manager Leads Modal -->
+    <div id="managerLeadsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close" onclick="closeManagerLeadsModal()">&times;</span>
+                <h2>📋 Assigned Leads - <span id="managerLeadsUsername"></span></h2>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 1rem; color: #666;">
+                    These leads are currently assigned to this manager. You can remove leads from their dashboard.
+                </p>
+                <div id="managerLeadsList" style="max-height: 400px; overflow-y: auto;">
+                    <!-- Leads will be populated here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info" onclick="closeManagerLeadsModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Manager Modal -->
+    <div id="editManagerModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <span class="close" onclick="closeEditManagerModal()">&times;</span>
+                <h2>✏️ Edit Manager</h2>
+            </div>
+            <div class="modal-body">
+                <form id="editManagerForm">
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="editManagerUsername" readonly style="background: #f0f0f0;">
+                    </div>
+                    <div class="form-group">
+                        <label>New Password (leave blank to keep current)</label>
+                        <input type="password" id="editManagerPassword" minlength="6" placeholder="Enter new password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info" onclick="closeEditManagerModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveManagerEdit()">💾 Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let managers = [];
+        let allLeads = [];
+        let currentUser = { role: 'admin', name: 'Administrator' };
+
+        // Check authentication
+        function checkAuth() {
+            // Check for manager session (should redirect)
+            const managerSession = sessionStorage.getItem('managerSession');
+            if (managerSession) {
+                window.location.href = '/manager';
+                return;
+            }
+
+            // Check for admin token
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            // Verify token with backend
+            fetch('/api/admin/verify', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).then(response => {
+                if (!response.ok) {
+                    localStorage.removeItem('adminToken');
+                    window.location.href = '/login';
+                }
+            }).catch(() => {
+                window.location.href = '/login';
+            });
+        }
+
+        function logout() {
+            const token = localStorage.getItem('adminToken');
+            
+            fetch('/api/admin/logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }).finally(() => {
+                localStorage.removeItem('adminToken');
+                localStorage.removeItem('currentUser');
+                window.location.href = '/login';
+            });
+        }
+
+        // Load managers from localStorage
+        function loadManagers() {
+            const managersData = localStorage.getItem('managers');
+            if (managersData) {
+                try {
+                    managers = JSON.parse(managersData);
+                } catch (e) {
+                    managers = [];
+                }
+            }
+            displayManagers();
+            updateStats();
+        }
+
+        // Load leads from localStorage
+        function loadLeads() {
+            const cachedLeads = localStorage.getItem('cachedLeads');
+            if (cachedLeads) {
+                try {
+                    allLeads = JSON.parse(cachedLeads);
+                } catch (e) {
+                    allLeads = [];
+                }
+            }
+        }
+
+        function updateStats() {
+            const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+            
+            // Total managers
+            document.getElementById('totalManagers').textContent = managers.length;
+            
+            // Total assigned leads
+            let totalAssigned = 0;
+            for (const leadIds of Object.values(assignments)) {
+                totalAssigned += leadIds.length;
+            }
+            document.getElementById('totalAssignments').textContent = totalAssigned;
+            
+            // Active managers (with leads)
+            const activeCount = Object.keys(assignments).length;
+            document.getElementById('activeManagers').textContent = activeCount;
+        }
+
+        function displayManagers() {
+            const container = document.getElementById('managerList');
+            const countElement = document.getElementById('managerCount');
+            
+            countElement.textContent = `${managers.length} manager(s)`;
+            
+            if (managers.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">👥</div>
+                        <p style="font-size: 1.2rem; margin-bottom: 0.5rem;">No managers added yet</p>
+                        <p>Create your first manager using the form above</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Get lead assignments
+            const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+
+            container.innerHTML = managers.map(manager => {
+                const assignedCount = (assignments[manager.username] || []).length;
+                return `
+                <div class="manager-item">
+                    <div class="manager-info">
+                        <div class="manager-name">👤 ${manager.username}</div>
+                        <div class="manager-email">
+                            Role: Manager | 
+                            Assigned Leads: <strong style="color: ${assignedCount > 0 ? '#d4af37' : '#999'}">${assignedCount}</strong>
+                            ${manager.createdAt ? ` | Created: ${new Date(manager.createdAt).toLocaleDateString()}` : ''}
+                        </div>
+                    </div>
+                    <div class="manager-actions">
+                        ${assignedCount > 0 ? `<button class="btn btn-small btn-warning" onclick="viewManagerLeads('${manager.username}')">📋 View Leads (${assignedCount})</button>` : ''}
+                        <button class="btn btn-small btn-primary" onclick="editManager('${manager.username}')">✏️ Edit</button>
+                        <button class="btn btn-small btn-info" onclick="resetManagerPassword('${manager.username}')">🔑 Reset Password</button>
+                        <button class="btn btn-small btn-danger" onclick="deleteManager('${manager.username}')">🗑️ Delete</button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function addManager(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('managerUsername').value.trim().replace(/\s+/g, '');
+            const password = document.getElementById('managerPassword').value;
+
+            // Check if manager already exists
+            if (managers.find(m => m.username === username)) {
+                alert('A manager with this username already exists!');
+                return;
+            }
+
+            const newManager = {
+                username,
+                password, // In production, hash this!
+                role: 'manager',
+                createdAt: new Date().toISOString()
+            };
+
+            managers.push(newManager);
+            localStorage.setItem('managers', JSON.stringify(managers));
+
+            alert(`✅ Manager "${username}" created successfully!`);
+            
+            document.getElementById('addManagerForm').reset();
+            displayManagers();
+            updateStats();
+        }
+
+        function editManager(username) {
+            document.getElementById('editManagerUsername').value = username;
+            document.getElementById('editManagerPassword').value = '';
+            document.getElementById('editManagerModal').classList.add('active');
+        }
+
+        function closeEditManagerModal() {
+            document.getElementById('editManagerModal').classList.remove('active');
+        }
+
+        function saveManagerEdit() {
+            const username = document.getElementById('editManagerUsername').value;
+            const newPassword = document.getElementById('editManagerPassword').value;
+
+            const manager = managers.find(m => m.username === username);
+            if (!manager) {
+                alert('Manager not found!');
+                return;
+            }
+
+            if (newPassword && newPassword.length >= 6) {
+                manager.password = newPassword;
+                localStorage.setItem('managers', JSON.stringify(managers));
+                alert('✅ Manager password updated successfully!');
+            } else if (newPassword) {
+                alert('Password must be at least 6 characters!');
+                return;
+            }
+
+            closeEditManagerModal();
+            displayManagers();
+        }
+
+        function resetManagerPassword(username) {
+            const newPassword = prompt(`Enter new password for "${username}" (minimum 6 characters):`);
+            
+            if (!newPassword) return;
+
+            if (newPassword.length < 6) {
+                alert('Password must be at least 6 characters!');
+                return;
+            }
+
+            const manager = managers.find(m => m.username === username);
+            if (manager) {
+                manager.password = newPassword;
+                localStorage.setItem('managers', JSON.stringify(managers));
+                alert(`✅ Password reset successfully for "${username}"!\nNew password: ${newPassword}`);
+            }
+        }
+
+        function deleteManager(username) {
+            // Check if manager has assigned leads
+            const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+            const hasLeads = assignments[username] && assignments[username].length > 0;
+
+            let confirmMsg = `Are you sure you want to delete manager "${username}"?`;
+            if (hasLeads) {
+                confirmMsg += `\n\n⚠️ This manager has ${assignments[username].length} assigned lead(s). These leads will be unassigned.`;
+            }
+
+            if (!confirm(confirmMsg)) return;
+
+            // Remove manager
+            managers = managers.filter(m => m.username !== username);
+            localStorage.setItem('managers', JSON.stringify(managers));
+
+            // Remove their assignments
+            if (assignments[username]) {
+                delete assignments[username];
+                localStorage.setItem('leadAssignments', JSON.stringify(assignments));
+            }
+
+            alert(`✅ Manager "${username}" deleted successfully!`);
+            displayManagers();
+            updateStats();
+        }
+
+        function viewManagerLeads(managerUsername) {
+            const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+            const assignedLeadIds = assignments[managerUsername] || [];
+            
+            if (assignedLeadIds.length === 0) {
+                alert('No leads assigned to this manager.');
+                return;
+            }
+
+            // Get full lead data
+            const assignedLeads = allLeads.filter(lead => {
+                const leadId = `${lead.email}_${lead.timestamp}`;
+                return assignedLeadIds.includes(leadId);
+            });
+
+            // Update modal
+            document.getElementById('managerLeadsUsername').textContent = managerUsername;
+            
+            const container = document.getElementById('managerLeadsList');
+            
+            if (assignedLeads.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p style="color: #999;">Assigned leads not found in cache. Please refresh the admin dashboard first.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = assignedLeads.map(lead => {
+                    const leadId = `${lead.email}_${lead.timestamp}`;
+                    const dateTime = new Date(lead.timestamp);
+                    const formattedDate = dateTime.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                    
+                    return `
+                        <div style="padding: 1rem; background: #f8f6f3; margin: 0.5rem 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <div style="font-weight: 600; color: #1a1a1a; margin-bottom: 0.3rem;">
+                                    ${lead.firstName} ${lead.lastName}
+                                </div>
+                                <div style="color: #666; font-size: 0.85rem;">
+                                    📧 ${lead.email} | 📞 ${lead.phone}
+                                </div>
+                                <div style="color: #999; font-size: 0.8rem; margin-top: 0.2rem;">
+                                    📅 ${formattedDate} | 🏠 ${lead.interest}
+                                </div>
+                            </div>
+                            <button class="btn btn-small btn-danger" onclick="removeLeadFromManager('${managerUsername}', '${leadId}')">
+                                ✖️ Remove
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // Show modal
+            document.getElementById('managerLeadsModal').classList.add('active');
+        }
+
+        function closeManagerLeadsModal() {
+            document.getElementById('managerLeadsModal').classList.remove('active');
+        }
+
+        function removeLeadFromManager(managerUsername, leadId) {
+            if (!confirm('Remove this lead from the manager\'s dashboard?')) {
+                return;
+            }
+
+            // Get assignments
+            let assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+            
+            if (assignments[managerUsername]) {
+                // Remove the lead
+                assignments[managerUsername] = assignments[managerUsername].filter(id => id !== leadId);
+                
+                // If no more leads, remove the manager entry
+                if (assignments[managerUsername].length === 0) {
+                    delete assignments[managerUsername];
+                }
+                
+                // Save updated assignments
+                localStorage.setItem('leadAssignments', JSON.stringify(assignments));
+                
+                alert('✅ Lead removed from manager successfully!');
+                
+                // Refresh the modal
+                closeManagerLeadsModal();
+                viewManagerLeads(managerUsername);
+                displayManagers();
+                updateStats();
+            }
+        }
+
+        // Automatic token refresh
+        async function refreshAuthToken() {
+            const token = localStorage.getItem('adminToken');
+            
+            if (!token) return;
+
+            try {
+                const response = await fetch('/api/admin/refresh', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    console.log('✅ Token refreshed successfully');
+                } else {
+                    console.warn('Token refresh failed:', data.message);
+                    if (response.status === 401) {
+                        window.location.href = '/login';
+                    }
+                }
+            } catch (error) {
+                console.error('Token refresh error:', error);
+            }
+        }
+
+        // Set up automatic token refresh every 30 minutes
+        setInterval(refreshAuthToken, 30 * 60 * 1000);
+
+        // Refresh on page visibility change
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                refreshAuthToken();
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            loadManagers();
+            loadLeads();
+        });
+    </script>
+</body>
+</html>

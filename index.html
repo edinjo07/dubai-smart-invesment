@@ -1,0 +1,1699 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Blanc by Imtiaz | Luxury Furnished Apartments in Dubai</title>
+    <meta name="description" content="Le Blanc by Imtiaz at DLRC - Fully furnished luxury apartments from €175K. Flexible payment plans with 30% post-handover. Handover June 2028.">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background-color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-lang-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1a1a1a;
+        }
+
+        .logo span {
+            color: #d4af37;
+        }
+
+        .lang-switcher {
+            position: relative;
+            display: inline-block;
+        }
+
+        .lang-dropdown-btn {
+            background-color: white;
+            color: #1a1a1a;
+            border: 2px solid #d4af37;
+            padding: 0.5rem 2.5rem 0.5rem 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 80px;
+        }
+
+        .lang-dropdown-btn:hover {
+            background-color: #f8f6f3;
+        }
+
+        .lang-dropdown-btn::after {
+            content: '▼';
+            position: absolute;
+            right: 0.8rem;
+            font-size: 0.7rem;
+            color: #d4af37;
+            transition: transform 0.3s;
+        }
+
+        .lang-dropdown-btn.active::after {
+            transform: rotate(180deg);
+        }
+
+        .lang-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #d4af37;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            margin-top: -2px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .lang-dropdown-menu.active {
+            display: block;
+        }
+
+        .lang-option {
+            padding: 0.7rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lang-option:last-child {
+            border-bottom: none;
+        }
+
+        .lang-option:hover {
+            background-color: #f8f6f3;
+            color: #d4af37;
+        }
+
+        .lang-option.selected {
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .lang-flag {
+            font-size: 1.2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #1a1a1a;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #d4af37;
+        }
+
+        .cta-btn {
+            background-color: #d4af37;
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/images/leblanc-building.jpg') center/cover no-repeat;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .eoi-badge {
+            background-color: #d4af37;
+            color: white;
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .hero-location {
+            margin: 1.5rem 0;
+        }
+
+        .hero-location a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #d4af37;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #c09d2f;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background-color: white;
+            color: #1a1a1a;
+        }
+
+        /* Stats Section */
+        .stats {
+            background-color: #f8f6f3;
+            padding: 3rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+        }
+
+        /* Properties Section */
+        .properties {
+            padding: 4rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .property-card {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .property-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+        }
+
+        .property-image {
+            width: 100%;
+            height: 280px;
+            position: relative;
+            overflow: hidden;
+            background-color: #f5f5f5;
+        }
+
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        .property-badge {
+            position: absolute;
+            top: 1.2rem;
+            right: 1.2rem;
+            background-color: #d4af37;
+            color: white;
+            padding: 0.6rem 1.3rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+            z-index: 10;
+        }
+
+        .property-content {
+            padding: 2rem;
+            background-color: white;
+        }
+
+        .property-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-bottom: 1.2rem;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .property-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature {
+            background-color: #f8f6f3;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .property-price {
+            margin: 1.5rem 0;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .price-eur {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #d4af37;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .price-aed {
+            color: #999;
+            font-size: 1rem;
+            display: block;
+        }
+
+        .property-action {
+            margin-top: 1rem;
+        }
+
+        .property-action a {
+            display: block;
+            text-align: center;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .property-action a:hover {
+            background-color: #d4af37;
+        }
+
+        /* Payment Plans Section */
+        .payment-plans {
+            background-color: #f8f6f3;
+            padding: 4rem 0;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .plan-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+        }
+
+        .plan-card.recommended {
+            border: 3px solid #d4af37;
+            position: relative;
+            background: linear-gradient(to bottom, #fffef7, white);
+        }
+
+        .recommended-badge {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #d4af37;
+            color: white;
+            padding: 0.6rem 1.8rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .plan-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #1a1a1a;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .plan-breakdown {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .plan-breakdown li {
+            padding: 1.2rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.05rem;
+        }
+
+        .plan-breakdown li:last-child {
+            border-bottom: none;
+        }
+
+        .percentage {
+            font-weight: 700;
+            color: #d4af37;
+            font-size: 1.2rem;
+        }
+
+        .plan-footer {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 2px solid #f0f0f0;
+            margin-top: 1rem;
+        }
+
+        .handover-date {
+            font-weight: 600;
+            color: #555;
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-note {
+            color: #d4af37;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-top: 0.8rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 4rem 0;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+
+        .contact-info p {
+            margin-bottom: 1.5rem;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .contact-form {
+            background-color: #f8f6f3;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background-color: #d4af37;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #c09d2f;
+        }
+
+        .submit-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1rem;
+            color: #d4af37;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #d4af37;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #888;
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .logo-lang-container {
+                flex-direction: row;
+                gap: 0.75rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .lang-switcher {
+                transform: scale(0.9);
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0,0,0,0.05);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .properties-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo-lang-container">
+                <div class="logo">DUBAI SMART <span>INVEST</span></div>
+                <div class="lang-switcher">
+                    <button class="lang-dropdown-btn" onclick="toggleLanguageDropdown()">
+                        <span class="lang-flag">🇬🇧</span>
+                        <span class="lang-text">EN</span>
+                    </button>
+                    <div class="lang-dropdown-menu" id="langDropdown">
+                        <div class="lang-option selected" onclick="selectLanguage('en', '🇬🇧', 'EN')">
+                            <span class="lang-flag">🇬🇧</span>
+                            <span>English</span>
+                        </div>
+                        <div class="lang-option" onclick="selectLanguage('pl', '🇵🇱', 'PL')">
+                            <span class="lang-flag">🇵🇱</span>
+                            <span>Polski</span>
+                        </div>
+                        <div class="lang-option" onclick="selectLanguage('de', '🇩🇪', 'DE')">
+                            <span class="lang-flag">🇩🇪</span>
+                            <span>Deutsch</span>
+                        </div>
+                        <div class="lang-option" onclick="selectLanguage('ro', '🇷🇴', 'RO')">
+                            <span class="lang-flag">🇷🇴</span>
+                            <span>Română</span>
+                        </div>
+                        <div class="lang-option" onclick="selectLanguage('tr', '🇹🇷', 'TR')">
+                            <span class="lang-flag">🇹🇷</span>
+                            <span>Türkçe</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" data-en="Home" data-pl="Strona główna">Home</a></li>
+                <li><a href="#properties" data-en="Properties" data-pl="Nieruchomości">Properties</a></li>
+                <li><a href="#payment" data-en="Payment Plans" data-pl="Plany płatności">Payment Plans</a></li>
+                <li><a href="#contact" data-en="Contact" data-pl="Kontakt">Contact</a></li>
+                <li><a href="#contact" class="cta-btn" data-en="Book Now" data-pl="Zarezerwuj teraz">Book Now</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <span class="eoi-badge" data-translate="eoi-badge">🔥 EOI NOW OPEN</span>
+            <h1 data-translate="hero-title">Le Blanc by Imtiaz</h1>
+            <p class="hero-subtitle" data-translate="hero-subtitle">Premium Fully Furnished Apartments in Dubai Land Residence Complex</p>
+            <p class="hero-location">📍 <a href="https://maps.app.goo.gl/gzd4iTJWxVH7GKBs6" target="_blank" data-translate="view-map">View on Map - Dubai Land Residence Complex</a></p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary" data-translate="book-unit">Book Your Unit from €12,500</a>
+                <a href="#properties" class="btn btn-secondary" data-translate="explore-properties">Explore Properties</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🏢</div>
+                <div class="stat-value" data-translate="stat-furnished">100% Furnished</div>
+                <div class="stat-label" data-translate="stat-furnished-desc">Fully furnished apartments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">💰</div>
+                <div class="stat-value" data-translate="stat-payment">30% Post-Handover</div>
+                <div class="stat-label" data-translate="stat-payment-desc">Flexible payment option</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🗓️</div>
+                <div class="stat-value" data-translate="stat-handover">June 2028</div>
+                <div class="stat-label" data-translate="stat-handover-desc">Expected handover</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-value" data-translate="stat-visa">Golden Visa</div>
+                <div class="stat-label" data-translate="stat-visa-desc">Eligible for golden visa</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties Section -->
+    <section class="properties" id="properties">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-translate="properties-title">Our Premium Properties</h2>
+                <p data-translate="properties-subtitle">Choose from our selection of fully furnished luxury apartments</p>
+            </div>
+
+            <div class="properties-grid">
+                <!-- Studio -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/images/bedroom.jpg" alt="Studio Apartment">
+                        <div class="property-badge">From €175K</div>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title" data-translate="studio-title">Luxury Studio</h3>
+                        <div class="property-features">
+                            <div class="feature">🛏️ <span data-translate="feature-studio">Studio</span></div>
+                            <div class="feature">🚿 1 <span data-translate="feature-bath">Bath</span></div>
+                            <div class="feature">✨ <span data-translate="feature-furnished">Fully Furnished</span></div>
+                        </div>
+                        <div class="property-price">
+                            <div class="price-eur">€175,000</div>
+                            <div class="price-aed">(AED 700,000)</div>
+                        </div>
+                        <div class="property-action">
+                            <a href="#contact" data-translate="book-now">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1 Bedroom -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/images/living-room.jpg" alt="1 Bedroom Apartment">
+                        <div class="property-badge">From €275K</div>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title" data-translate="bedroom-1-title">1 Bedroom</h3>
+                        <div class="property-features">
+                            <div class="feature">🛏️ 1 <span data-translate="feature-bed">Bed</span></div>
+                            <div class="feature">🚿 1 <span data-translate="feature-bath">Bath</span></div>
+                            <div class="feature">✨ <span data-translate="feature-furnished">Fully Furnished</span></div>
+                        </div>
+                        <div class="property-price">
+                            <div class="price-eur">€275,000</div>
+                            <div class="price-aed">(AED 1,100,000)</div>
+                        </div>
+                        <div class="property-action">
+                            <a href="#contact" data-translate="book-now">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2 Bedroom -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/images/kitchen.jpg" alt="2 Bedroom Apartment">
+                        <div class="property-badge">From €375K</div>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title" data-translate="bedroom-2-title">2 Bedroom</h3>
+                        <div class="property-features">
+                            <div class="feature">🛏️ 2 <span data-translate="feature-beds">Beds</span></div>
+                            <div class="feature">🚿 2 <span data-translate="feature-baths">Baths</span></div>
+                            <div class="feature">✨ <span data-translate="feature-furnished">Fully Furnished</span></div>
+                        </div>
+                        <div class="property-price">
+                            <div class="price-eur">€375,000</div>
+                            <div class="price-aed">(AED 1,500,000)</div>
+                        </div>
+                        <div class="property-action">
+                            <a href="#contact" data-translate="book-now">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 Bedroom -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="/static/images/terrace.jpg" alt="3 Bedroom Apartment with Terrace View">
+                        <div class="property-badge">From €450K</div>
+                    </div>
+                    <div class="property-content">
+                        <h3 class="property-title" data-translate="bedroom-3-title">3 Bedroom Penthouse</h3>
+                        <div class="property-features">
+                            <div class="feature">🛏️ 3 <span data-translate="feature-beds">Beds</span></div>
+                            <div class="feature">🚿 3 <span data-translate="feature-baths">Baths</span></div>
+                            <div class="feature">🌅 <span data-translate="feature-terrace">Terrace View</span></div>
+                        </div>
+                        <div class="property-price">
+                            <div class="price-eur">€450,000</div>
+                            <div class="price-aed">(AED 1,800,000)</div>
+                        </div>
+                        <div class="property-action">
+                            <a href="#contact" data-translate="book-now">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Plans Section -->
+    <section class="payment-plans" id="payment">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-translate="payment-title">Flexible Payment Plans</h2>
+                <p data-translate="payment-subtitle">Choose the payment plan that works best for you</p>
+            </div>
+
+            <div class="plans-grid">
+                <!-- Normal 60/40 Plan -->
+                <div class="plan-card">
+                    <h3 class="plan-title" data-translate="plan-normal">Normal 60/40 Plan</h3>
+                    <ul class="plan-breakdown">
+                        <li>
+                            <span data-translate="down-payment">Down Payment</span>
+                            <span class="percentage">20%</span>
+                        </li>
+                        <li>
+                            <span data-translate="during-construction">During Construction</span>
+                            <span class="percentage">40%</span>
+                        </li>
+                        <li>
+                            <span data-translate="on-handover">On Handover</span>
+                            <span class="percentage">40%</span>
+                        </li>
+                    </ul>
+                    <div class="plan-footer">
+                        <p class="handover-date" data-translate="handover-date">Handover: June 2028</p>
+                    </div>
+                </div>
+
+                <!-- Post Handover 70/30 Plan -->
+                <div class="plan-card recommended">
+                    <span class="recommended-badge" data-translate="recommended-badge">⭐ Recommended</span>
+                    <h3 class="plan-title" data-translate="plan-recommended">Post-Handover 70/30</h3>
+                    <ul class="plan-breakdown">
+                        <li>
+                            <span data-translate="down-payment">Down Payment</span>
+                            <span class="percentage">20%</span>
+                        </li>
+                        <li>
+                            <span data-translate="during-construction">During Construction</span>
+                            <span class="percentage">50%</span>
+                        </li>
+                        <li>
+                            <span data-translate="post-handover">Post-Handover (3 Years)</span>
+                            <span class="percentage">30%</span>
+                        </li>
+                    </ul>
+                    <div class="plan-footer">
+                        <p class="handover-date" data-translate="handover-date">Handover: June 2028</p>
+                        <p style="color: #d4af37; font-weight: 600; margin-top: 0.5rem;" data-translate="post-handover-note">30% paid over 3 years after handover</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem; padding: 2rem; background-color: white; border-radius: 10px;">
+                <h3 style="font-family: 'Playfair Display', serif; color: #1a1a1a; margin-bottom: 1rem;">Book Your Unit Today</h3>
+                <p style="font-size: 1.5rem; color: #d4af37; font-weight: bold; margin-bottom: 1rem;">Starting from €12,500</p>
+                <a href="#contact" class="btn btn-primary">Contact Us Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 data-translate="contact-title">Express Your Interest</h2>
+                <p data-translate="contact-subtitle">Book your luxury apartment with just €12,500</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Why Choose Le Blanc?</h3>
+                    <p>✓ <strong>100% Fully Furnished</strong> - Move-in ready luxury apartments</p>
+                    <p>✓ <strong>Prime Location</strong> - Dubai Land Residence Complex (DLRC)</p>
+                    <p>✓ <strong>Flexible Payment</strong> - 30% post-handover over 3 years</p>
+                    <p>✓ <strong>Golden Visa</strong> - Eligible for UAE residency program</p>
+                    <p>✓ <strong>Freehold Ownership</strong> - 0% tax on your investment</p>
+                    <p>✓ <strong>Resort Amenities</strong> - Pools, gym, parks & more</p>
+                    
+                    <h3 style="margin-top: 2rem;">Location</h3>
+                    <p>📍 Dubai Land Residence Complex (DLRC)<br>
+                    <a href="https://maps.app.goo.gl/gzd4iTJWxVH7GKBs6" target="_blank" style="color: #d4af37;">View on Google Maps</a></p>
+                </div>
+
+                <div class="contact-form">
+                    <div id="formMessage" class="message"></div>
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" data-translate="first-name">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" data-translate="last-name">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email" data-translate="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" data-translate="phone">Phone *</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="propertyType" data-translate="property-type">Interested In *</label>
+                            <select id="propertyType" name="propertyType" required>
+                                <option value="" data-translate="select-property">Select Property Type</option>
+                                <option value="Studio - €175K">Studio - €175K (AED 700K)</option>
+                                <option value="1 Bedroom - €275K">1 Bedroom - €275K (AED 1.1M)</option>
+                                <option value="2 Bedroom - €375K">2 Bedroom - €375K (AED 1.5M)</option>
+                                <option value="3 Bedroom - €450K">3 Bedroom - €450K (AED 1.8M)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="paymentPlan" data-translate="payment-plan">Preferred Payment Plan *</label>
+                            <select id="paymentPlan" name="paymentPlan" required>
+                                <option value="" data-translate="select-payment">Select Payment Plan</option>
+                                <option value="Normal 60/40">Normal 60/40 Plan</option>
+                                <option value="Post-Handover 70/30">Post-Handover 70/30 Plan (Recommended)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message" data-translate="message">Message (Optional)</label>
+                            <textarea id="message" name="message" data-translate="message-placeholder" placeholder="Tell us more about your requirements..."></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn" data-translate="submit-eoi">Submit EOI</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Dubai Smart Invest</h3>
+                    <p>Your trusted partner for premium real estate investments in Dubai. Specializing in luxury properties and smart investment opportunities.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#properties">Properties</a></li>
+                        <li><a href="#payment">Payment Plans</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Info</h3>
+                    <p>📍 Dubai, United Arab Emirates<br>
+                    📧 info@dubaismart-invest.com<br>
+                    📱 +971 50 XXX XXXX</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Dubai Smart Invest. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    document.getElementById('navMenu').classList.remove('active');
+                }
+            });
+        });
+
+        // Contact Form Submission
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const formMessage = document.getElementById('formMessage');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                interest: document.getElementById('propertyType').value + ' | ' + document.getElementById('paymentPlan').value,
+                message: document.getElementById('message').value
+            };
+            
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    formMessage.className = 'message success show';
+                    formMessage.textContent = result.message;
+                    this.reset();
+                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                } else {
+                    formMessage.className = 'message error show';
+                    formMessage.textContent = result.message || 'Something went wrong. Please try again.';
+                }
+            } catch (error) {
+                formMessage.className = 'message error show';
+                formMessage.textContent = 'Network error. Please check your connection and try again.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit EOI';
+                
+                setTimeout(() => {
+                    formMessage.classList.remove('show');
+                }, 5000);
+            }
+        });
+
+        // Form validation
+        const formInputs = document.querySelectorAll('#contactForm input, #contactForm select, #contactForm textarea');
+        formInputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.hasAttribute('required') && !this.value) {
+                    this.style.borderColor = '#dc3545';
+                } else {
+                    this.style.borderColor = '#ddd';
+                }
+            });
+        });
+
+        // Language Switcher
+        let currentLang = 'en';
+
+        const translations = {
+            en: {
+                // Hero Section
+                'eoi-badge': '🔥 EOI NOW OPEN',
+                'hero-title': 'Le Blanc by Imtiaz',
+                'hero-subtitle': 'Premium Fully Furnished Apartments in Dubai Land Residence Complex',
+                'view-map': 'View on Map - Dubai Land Residence Complex',
+                'book-unit': 'Book Your Unit from €12,500',
+                'explore-properties': 'Explore Properties',
+                
+                // Stats
+                'stat-furnished': '100% Furnished',
+                'stat-furnished-desc': 'Fully furnished apartments',
+                'stat-payment': '30% Post-Handover',
+                'stat-payment-desc': 'Flexible payment option',
+                'stat-handover': 'June 2028',
+                'stat-handover-desc': 'Expected handover',
+                'stat-visa': 'Golden Visa',
+                'stat-visa-desc': 'Eligible for golden visa',
+                
+                // Properties
+                'properties-title': 'Our Premium Properties',
+                'properties-subtitle': 'Choose from our selection of fully furnished luxury apartments',
+                'studio-title': 'Luxury Studio',
+                'bedroom-1-title': '1 Bedroom',
+                'bedroom-2-title': '2 Bedroom',
+                'bedroom-3-title': '3 Bedroom Penthouse',
+                'feature-studio': 'Studio',
+                'feature-bed': 'Bed',
+                'feature-beds': 'Beds',
+                'feature-bath': 'Bath',
+                'feature-baths': 'Baths',
+                'feature-furnished': 'Fully Furnished',
+                'feature-terrace': 'Terrace View',
+                'book-now': 'Book Now',
+                
+                // Payment Plans
+                'payment-title': 'Flexible Payment Plans',
+                'payment-subtitle': 'Choose the payment plan that works best for you',
+                'plan-normal': 'Normal 60/40 Plan',
+                'plan-recommended': 'Post-Handover 70/30',
+                'recommended-badge': '⭐ Recommended',
+                'down-payment': 'Down Payment',
+                'during-construction': 'During Construction',
+                'on-handover': 'On Handover',
+                'post-handover': 'Post-Handover (3 Years)',
+                'handover-date': 'Handover: June 2028',
+                'post-handover-note': '30% paid over 3 years after handover',
+                
+                // Contact
+                'contact-title': 'Express Your Interest',
+                'contact-subtitle': 'Book your luxury apartment with just €12,500',
+                'first-name': 'First Name',
+                'last-name': 'Last Name',
+                'email': 'Email',
+                'phone': 'Phone',
+                'property-type': 'Property Type',
+                'payment-plan': 'Payment Plan',
+                'select-property': 'Select Property Type',
+                'select-payment': 'Select Payment Plan',
+                'message': 'Message (Optional)',
+                'message-placeholder': 'Any specific requirements or questions?',
+                'submit-eoi': 'Submit EOI',
+                
+                // Footer
+                'quick-links': 'Quick Links',
+                'contact-us': 'Contact Us',
+                'rights': 'All rights reserved.'
+            },
+            pl: {
+                // Hero Section
+                'eoi-badge': '🔥 REJESTRACJA OTWARTA',
+                'hero-title': 'Le Blanc by Imtiaz',
+                'hero-subtitle': 'Premium w pełni umeblowane apartamenty w kompleksie Dubai Land Residence',
+                'view-map': 'Zobacz na mapie - Dubai Land Residence Complex',
+                'book-unit': 'Zarezerwuj swoją jednostkę od €12,500',
+                'explore-properties': 'Przeglądaj nieruchomości',
+                
+                // Stats
+                'stat-furnished': '100% Umeblowane',
+                'stat-furnished-desc': 'W pełni umeblowane apartamenty',
+                'stat-payment': '30% po przekazaniu',
+                'stat-payment-desc': 'Elastyczna opcja płatności',
+                'stat-handover': 'Czerwiec 2028',
+                'stat-handover-desc': 'Oczekiwane przekazanie',
+                'stat-visa': 'Złota Wiza',
+                'stat-visa-desc': 'Kwalifikuje się do złotej wizy',
+                
+                // Properties
+                'properties-title': 'Nasze Premium Nieruchomości',
+                'properties-subtitle': 'Wybierz z naszej oferty w pełni umeblowanych luksusowych apartamentów',
+                'studio-title': 'Luksusowe Studio',
+                'bedroom-1-title': '1 Sypialnia',
+                'bedroom-2-title': '2 Sypialnie',
+                'bedroom-3-title': 'Penthouse z 3 Sypialniami',
+                'feature-studio': 'Studio',
+                'feature-bed': 'Łóżko',
+                'feature-beds': 'Łóżka',
+                'feature-bath': 'Łazienka',
+                'feature-baths': 'Łazienki',
+                'feature-furnished': 'W pełni umeblowane',
+                'feature-terrace': 'Widok na taras',
+                'book-now': 'Zarezerwuj teraz',
+                
+                // Payment Plans
+                'payment-title': 'Elastyczne plany płatności',
+                'payment-subtitle': 'Wybierz plan płatności, który najbardziej Ci odpowiada',
+                'plan-normal': 'Normalny plan 60/40',
+                'plan-recommended': 'Po przekazaniu 70/30',
+                'recommended-badge': '⭐ Polecane',
+                'down-payment': 'Wpłata początkowa',
+                'during-construction': 'Podczas budowy',
+                'on-handover': 'Przy przekazaniu',
+                'post-handover': 'Po przekazaniu (3 lata)',
+                'handover-date': 'Przekazanie: Czerwiec 2028',
+                'post-handover-note': '30% płatne przez 3 lata po przekazaniu',
+                
+                // Contact
+                'contact-title': 'Wyraź swoje zainteresowanie',
+                'contact-subtitle': 'Zarezerwuj swój luksusowy apartament za jedyne €12,500',
+                'first-name': 'Imię',
+                'last-name': 'Nazwisko',
+                'email': 'E-mail',
+                'phone': 'Telefon',
+                'property-type': 'Typ nieruchomości',
+                'payment-plan': 'Plan płatności',
+                'select-property': 'Wybierz typ nieruchomości',
+                'select-payment': 'Wybierz plan płatności',
+                'message': 'Wiadomość (opcjonalnie)',
+                'message-placeholder': 'Jakieś szczególne wymagania lub pytania?',
+                'submit-eoi': 'Wyślij zgłoszenie',
+                
+                // Footer
+                'quick-links': 'Szybkie linki',
+                'contact-us': 'Kontakt',
+                'rights': 'Wszelkie prawa zastrzeżone.'
+            },
+            de: {
+                // Hero Section
+                'eoi-badge': '🔥 ANMELDUNG JETZT OFFEN',
+                'hero-title': 'Le Blanc by Imtiaz',
+                'hero-subtitle': 'Premium voll möblierte Apartments im Dubai Land Residence Complex',
+                'view-map': 'Auf Karte anzeigen - Dubai Land Residence Complex',
+                'book-unit': 'Buchen Sie Ihre Einheit ab €12.500',
+                'explore-properties': 'Immobilien erkunden',
+                
+                // Stats
+                'stat-furnished': '100% Möbliert',
+                'stat-furnished-desc': 'Voll möblierte Apartments',
+                'stat-payment': '30% Nach Übergabe',
+                'stat-payment-desc': 'Flexible Zahlungsoption',
+                'stat-handover': 'Juni 2028',
+                'stat-handover-desc': 'Voraussichtliche Übergabe',
+                'stat-visa': 'Goldenes Visum',
+                'stat-visa-desc': 'Berechtigt für goldenes Visum',
+                
+                // Properties
+                'properties-title': 'Unsere Premium-Immobilien',
+                'properties-subtitle': 'Wählen Sie aus unserer Auswahl an voll möblierten Luxusapartments',
+                'studio-title': 'Luxus-Studio',
+                'bedroom-1-title': '1 Schlafzimmer',
+                'bedroom-2-title': '2 Schlafzimmer',
+                'bedroom-3-title': '3 Schlafzimmer Penthouse',
+                'feature-studio': 'Studio',
+                'feature-bed': 'Bett',
+                'feature-beds': 'Betten',
+                'feature-bath': 'Bad',
+                'feature-baths': 'Bäder',
+                'feature-furnished': 'Voll möbliert',
+                'feature-terrace': 'Terrasse Aussicht',
+                'book-now': 'Jetzt buchen',
+                
+                // Payment Plans
+                'payment-title': 'Flexible Zahlungspläne',
+                'payment-subtitle': 'Wählen Sie den Zahlungsplan, der am besten zu Ihnen passt',
+                'plan-normal': 'Normal 60/40 Plan',
+                'plan-recommended': 'Nach Übergabe 70/30',
+                'recommended-badge': '⭐ Empfohlen',
+                'down-payment': 'Anzahlung',
+                'during-construction': 'Während des Baus',
+                'on-handover': 'Bei Übergabe',
+                'post-handover': 'Nach Übergabe (3 Jahre)',
+                'handover-date': 'Übergabe: Juni 2028',
+                'post-handover-note': '30% über 3 Jahre nach Übergabe bezahlt',
+                
+                // Contact
+                'contact-title': 'Bekunden Sie Ihr Interesse',
+                'contact-subtitle': 'Buchen Sie Ihr Luxusapartment für nur €12.500',
+                'first-name': 'Vorname',
+                'last-name': 'Nachname',
+                'email': 'E-Mail',
+                'phone': 'Telefon',
+                'property-type': 'Immobilientyp',
+                'payment-plan': 'Zahlungsplan',
+                'select-property': 'Immobilientyp wählen',
+                'select-payment': 'Zahlungsplan wählen',
+                'message': 'Nachricht (Optional)',
+                'message-placeholder': 'Besondere Anforderungen oder Fragen?',
+                'submit-eoi': 'Interesse senden',
+                
+                // Footer
+                'quick-links': 'Schnelle Links',
+                'contact-us': 'Kontakt',
+                'rights': 'Alle Rechte vorbehalten.'
+            },
+            ro: {
+                // Hero Section
+                'eoi-badge': '🔥 ÎNREGISTRARE DESCHISĂ',
+                'hero-title': 'Le Blanc by Imtiaz',
+                'hero-subtitle': 'Apartamente Premium Complet Mobilate în Dubai Land Residence Complex',
+                'view-map': 'Vezi pe hartă - Dubai Land Residence Complex',
+                'book-unit': 'Rezervă unitatea ta de la €12.500',
+                'explore-properties': 'Explorează proprietățile',
+                
+                // Stats
+                'stat-furnished': '100% Mobilat',
+                'stat-furnished-desc': 'Apartamente complet mobilate',
+                'stat-payment': '30% După predare',
+                'stat-payment-desc': 'Opțiune de plată flexibilă',
+                'stat-handover': 'Iunie 2028',
+                'stat-handover-desc': 'Predare estimată',
+                'stat-visa': 'Viză de Aur',
+                'stat-visa-desc': 'Eligibil pentru viză de aur',
+                
+                // Properties
+                'properties-title': 'Proprietățile Noastre Premium',
+                'properties-subtitle': 'Alege din selecția noastră de apartamente de lux complet mobilate',
+                'studio-title': 'Studio de Lux',
+                'bedroom-1-title': '1 Dormitor',
+                'bedroom-2-title': '2 Dormitoare',
+                'bedroom-3-title': 'Penthouse cu 3 Dormitoare',
+                'feature-studio': 'Studio',
+                'feature-bed': 'Pat',
+                'feature-beds': 'Paturi',
+                'feature-bath': 'Baie',
+                'feature-baths': 'Băi',
+                'feature-furnished': 'Complet mobilat',
+                'feature-terrace': 'Vedere la terasă',
+                'book-now': 'Rezervă acum',
+                
+                // Payment Plans
+                'payment-title': 'Planuri de Plată Flexibile',
+                'payment-subtitle': 'Alege planul de plată care ți se potrivește cel mai bine',
+                'plan-normal': 'Plan Normal 60/40',
+                'plan-recommended': 'După Predare 70/30',
+                'recommended-badge': '⭐ Recomandat',
+                'down-payment': 'Avans',
+                'during-construction': 'În timpul construcției',
+                'on-handover': 'La predare',
+                'post-handover': 'După predare (3 ani)',
+                'handover-date': 'Predare: Iunie 2028',
+                'post-handover-note': '30% plătit în 3 ani după predare',
+                
+                // Contact
+                'contact-title': 'Exprimă-ți Interesul',
+                'contact-subtitle': 'Rezervă apartamentul tău de lux cu doar €12.500',
+                'first-name': 'Prenume',
+                'last-name': 'Nume',
+                'email': 'Email',
+                'phone': 'Telefon',
+                'property-type': 'Tip proprietate',
+                'payment-plan': 'Plan de plată',
+                'select-property': 'Selectează tipul proprietății',
+                'select-payment': 'Selectează planul de plată',
+                'message': 'Mesaj (Opțional)',
+                'message-placeholder': 'Cerințe specifice sau întrebări?',
+                'submit-eoi': 'Trimite interesul',
+                
+                // Footer
+                'quick-links': 'Link-uri rapide',
+                'contact-us': 'Contactează-ne',
+                'rights': 'Toate drepturile rezervate.'
+            },
+            tr: {
+                // Hero Section
+                'eoi-badge': '🔥 KAYIT AÇIK',
+                'hero-title': 'Le Blanc by Imtiaz',
+                'hero-subtitle': 'Dubai Land Residence Complex\'te Premium Tam Mobilyalı Daireler',
+                'view-map': 'Haritada Görüntüle - Dubai Land Residence Complex',
+                'book-unit': '€12.500\'dan itibaren dairenizi ayırtın',
+                'explore-properties': 'Mülkleri keşfet',
+                
+                // Stats
+                'stat-furnished': '%100 Mobilyalı',
+                'stat-furnished-desc': 'Tam mobilyalı daireler',
+                'stat-payment': 'Teslimden Sonra %30',
+                'stat-payment-desc': 'Esnek ödeme seçeneği',
+                'stat-handover': 'Haziran 2028',
+                'stat-handover-desc': 'Tahmini teslim',
+                'stat-visa': 'Altın Vize',
+                'stat-visa-desc': 'Altın vize için uygun',
+                
+                // Properties
+                'properties-title': 'Premium Mülklerimiz',
+                'properties-subtitle': 'Tam mobilyalı lüks dairelerimizden seçim yapın',
+                'studio-title': 'Lüks Stüdyo',
+                'bedroom-1-title': '1 Yatak Odası',
+                'bedroom-2-title': '2 Yatak Odası',
+                'bedroom-3-title': '3 Yatak Odalı Çatı Katı',
+                'feature-studio': 'Stüdyo',
+                'feature-bed': 'Yatak',
+                'feature-beds': 'Yataklar',
+                'feature-bath': 'Banyo',
+                'feature-baths': 'Banyolar',
+                'feature-furnished': 'Tam mobilyalı',
+                'feature-terrace': 'Teras manzarası',
+                'book-now': 'Şimdi ayırt',
+                
+                // Payment Plans
+                'payment-title': 'Esnek Ödeme Planları',
+                'payment-subtitle': 'Size en uygun ödeme planını seçin',
+                'plan-normal': 'Normal 60/40 Planı',
+                'plan-recommended': 'Teslim Sonrası 70/30',
+                'recommended-badge': '⭐ Önerilen',
+                'down-payment': 'Peşinat',
+                'during-construction': 'İnşaat sırasında',
+                'on-handover': 'Teslimde',
+                'post-handover': 'Teslim sonrası (3 yıl)',
+                'handover-date': 'Teslim: Haziran 2028',
+                'post-handover-note': 'Teslimden sonra 3 yıl içinde %30 ödenir',
+                
+                // Contact
+                'contact-title': 'İlginizi Belirtin',
+                'contact-subtitle': 'Lüks dairenizi sadece €12.500 ile ayırtın',
+                'first-name': 'Ad',
+                'last-name': 'Soyad',
+                'email': 'E-posta',
+                'phone': 'Telefon',
+                'property-type': 'Mülk türü',
+                'payment-plan': 'Ödeme planı',
+                'select-property': 'Mülk türünü seçin',
+                'select-payment': 'Ödeme planını seçin',
+                'message': 'Mesaj (İsteğe bağlı)',
+                'message-placeholder': 'Özel gereksinimler veya sorular?',
+                'submit-eoi': 'İlgi gönder',
+                
+                // Footer
+                'quick-links': 'Hızlı bağlantılar',
+                'contact-us': 'Bize ulaşın',
+                'rights': 'Tüm hakları saklıdır.'
+            }
+        };
+
+        // Language dropdown functionality
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('langDropdown');
+            const btn = document.querySelector('.lang-dropdown-btn');
+            dropdown.classList.toggle('active');
+            btn.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const langSwitcher = document.querySelector('.lang-switcher');
+            if (langSwitcher && !langSwitcher.contains(event.target)) {
+                const dropdown = document.getElementById('langDropdown');
+                const btn = document.querySelector('.lang-dropdown-btn');
+                if (dropdown) dropdown.classList.remove('active');
+                if (btn) btn.classList.remove('active');
+            }
+        });
+
+        function selectLanguage(lang, flag, code) {
+            if (lang === currentLang) {
+                toggleLanguageDropdown();
+                return;
+            }
+            
+            currentLang = lang;
+            
+            // Update dropdown button
+            document.querySelector('.lang-dropdown-btn .lang-flag').textContent = flag;
+            document.querySelector('.lang-dropdown-btn .lang-text').textContent = code;
+            
+            // Update selected option
+            document.querySelectorAll('.lang-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.target.closest('.lang-option').classList.add('selected');
+            
+            // Close dropdown
+            toggleLanguageDropdown();
+            
+            // Update all elements with data attributes
+            document.querySelectorAll('[data-en]').forEach(element => {
+                const key = element.getAttribute(`data-${lang}`);
+                if (key) {
+                    element.textContent = key;
+                }
+            });
+            
+            // Update all elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.textContent = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Save preference
+            localStorage.setItem('preferred-language', lang);
+            localStorage.setItem('preferred-flag', flag);
+            localStorage.setItem('preferred-code', code);
+        }
+
+        // Load saved language preference
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferred-language');
+            const savedFlag = localStorage.getItem('preferred-flag');
+            const savedCode = localStorage.getItem('preferred-code');
+            
+            if (savedLang && savedLang !== 'en') {
+                currentLang = savedLang;
+                
+                // Update dropdown button
+                if (savedFlag && savedCode) {
+                    document.querySelector('.lang-dropdown-btn .lang-flag').textContent = savedFlag;
+                    document.querySelector('.lang-dropdown-btn .lang-text').textContent = savedCode;
+                }
+                
+                // Update selected option
+                document.querySelectorAll('.lang-option').forEach(option => {
+                    option.classList.remove('selected');
+                    if (option.getAttribute('onclick').includes(`'${savedLang}'`)) {
+                        option.classList.add('selected');
+                    }
+                });
+                
+                // Apply translations
+                document.querySelectorAll('[data-translate]').forEach(element => {
+                    const key = element.getAttribute('data-translate');
+                    if (translations[savedLang][key]) {
+                        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                            element.placeholder = translations[savedLang][key];
+                        } else {
+                            element.textContent = translations[savedLang][key];
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

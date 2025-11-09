@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dubai Smart Invest - Manager Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f8f6f3;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .header-left h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .header-left h1 span {
+            color: #d4af37;
+        }
+
+        .header-left p {
+            font-size: 0.95rem;
+            opacity: 0.85;
+            color: #f8f6f3;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .manager-info {
+            text-align: right;
+            margin-right: 1rem;
+        }
+
+        .manager-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .manager-role {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            color: #d4af37;
+        }
+
+        .logout-btn {
+            padding: 0.7rem 1.5rem;
+            background: rgba(212, 175, 55, 0.15);
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .logout-btn:hover {
+            background: #d4af37;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .settings-dropdown {
+            position: relative;
+            margin-right: 1rem;
+            z-index: 100;
+        }
+
+        .settings-btn {
+            padding: 0.7rem 1.5rem;
+            background: white;
+            color: #1a1a1a;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .settings-btn:hover {
+            background: #f8f6f3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+        }
+
+        .settings-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: white;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            min-width: 200px;
+            display: none;
+            z-index: 1000;
+        }
+
+        .settings-menu.active {
+            display: block;
+        }
+
+        .settings-menu-item {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .settings-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-menu-item:hover {
+            background: #f8f6f3;
+            color: #d4af37;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            background: #f8f6f3;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e8e6e3;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            border-color: #d4af37;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-sublabel {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .controls {
+            padding: 2rem;
+            background: white;
+            border-bottom: 1px solid #e8e6e3;
+        }
+
+        .controls-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .controls-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: #1a1a1a;
+            font-size: 1.8rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .controls-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-input {
+            padding: 0.75rem;
+            border: 2px solid #e8e6e3;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: #d4af37;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #c09d2f;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-success {
+            background: #2e7d32;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-info {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background: #2d2d2d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: #666;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+        }
+
+        .leads-table-container {
+            padding: 2rem;
+            background: white;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .table-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #1a1a1a;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .leads-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .leads-table thead {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+        }
+
+        .leads-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .leads-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .leads-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .leads-table tbody tr:hover {
+            background: #f8f6f3;
+        }
+
+        .lead-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.2rem;
+        }
+
+        .lead-email {
+            color: #d4af37;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .lead-email:hover {
+            text-decoration: underline;
+        }
+
+        .lead-phone {
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+
+        .datetime {
+            font-size: 0.85rem;
+        }
+
+        .datetime div:first-child {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .datetime div:last-child {
+            color: #666;
+            margin-top: 0.2rem;
+        }
+
+        .interest-tag {
+            background: linear-gradient(135deg, #d4af37 0%, #c09d2f 100%);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .country-flag {
+            font-size: 1.2rem;
+            margin-right: 0.3rem;
+        }
+
+        .country-code {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #f8f6f3;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .status-select {
+            padding: 0.4rem 0.8rem;
+            border: 2px solid #e8e6e3;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            min-width: 140px;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        .status-new {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-color: #1976d2;
+        }
+
+        .status-contacted {
+            background: #fff3e0;
+            color: #f57c00;
+            border-color: #f57c00;
+        }
+
+        .status-qualified {
+            background: #f3e5f5;
+            color: #7b1fa2;
+            border-color: #7b1fa2;
+        }
+
+        .status-converted {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-color: #2e7d32;
+        }
+
+        .status-not-interested {
+            background: #ffebee;
+            color: #c62828;
+            border-color: #c62828;
+        }
+
+        .status-no-answer {
+            background: #f5f5f5;
+            color: #616161;
+            border-color: #616161;
+        }
+
+        .lead-message {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .loading, .error, .no-leads {
+            padding: 3rem;
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .error {
+            color: #c62828;
+            background: #ffebee;
+            border-radius: 10px;
+            margin: 2rem;
+        }
+
+        .view-only-badge {
+            background: #f5f5f5;
+            color: #666;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            overflow: auto;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 2rem;
+            border-bottom: 3px solid #d4af37;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #d4af37;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #e8e6e3;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .close {
+            color: #d4af37;
+            float: right;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e8e6e3;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .manager-info {
+                text-align: center;
+                margin-right: 0;
+            }
+
+            .controls-row {
+                grid-template-columns: 1fr;
+            }
+
+            .leads-table {
+                font-size: 0.85rem;
+            }
+
+            .leads-table th,
+            .leads-table td {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>DUBAI SMART <span>INVEST</span></h1>
+                <p>Manager Dashboard - Lead Management System</p>
+            </div>
+            <div class="header-right">
+                <div class="manager-info">
+                    <div class="manager-name" id="currentUserName">Manager</div>
+                    <div class="manager-role" id="currentUserRole">Manager Access</div>
+                </div>
+                <div class="settings-dropdown" id="settingsDropdown">
+                    <button class="settings-btn" onclick="toggleSettingsMenu()">
+                        ⚙️ Settings
+                    </button>
+                    <div class="settings-menu" id="settingsMenu">
+                        <div class="settings-menu-item" onclick="openProfileSettings()">
+                            🔑 Change Password
+                        </div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-number" id="totalLeads">-</div>
+                <div class="stat-label">Total Leads</div>
+                <div class="stat-sublabel">All time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-number" id="todayLeads">-</div>
+                <div class="stat-label">Today</div>
+                <div class="stat-sublabel">Last 24 hours</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-number" id="weekLeads">-</div>
+                <div class="stat-label">This Week</div>
+                <div class="stat-sublabel">Last 7 days</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📆</div>
+                <div class="stat-number" id="monthLeads">-</div>
+                <div class="stat-label">This Month</div>
+                <div class="stat-sublabel">Last 30 days</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="controls-header">
+                <h2>🔍 Filter & Search</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-info" onclick="refreshLeads()">🔄 Refresh</button>
+                </div>
+            </div>
+            <div class="controls-row">
+                <div class="filter-group search-box">
+                    <label for="searchInput">🔎 Search</label>
+                    <input type="text" id="searchInput" class="filter-input" 
+                           placeholder="Search by name, email, phone...">
+                </div>
+                <div class="filter-group">
+                    <label for="dateFrom">📅 From Date</label>
+                    <input type="date" id="dateFrom" class="filter-input">
+                </div>
+                <div class="filter-group">
+                    <label for="dateTo">📅 To Date</label>
+                    <input type="date" id="dateTo" class="filter-input">
+                </div>
+                <div class="filter-group">
+                    <label for="interestFilter">🏠 Property Interest</label>
+                    <select id="interestFilter" class="filter-input">
+                        <option value="">All Properties</option>
+                        <option value="Studio - €175,000">Studio - €175,000</option>
+                        <option value="1 Bedroom - €275,000">1 Bedroom - €275,000</option>
+                        <option value="2 Bedrooms - €375,000">2 Bedrooms - €375,000</option>
+                        <option value="3 Bedrooms - €450,000">3 Bedrooms - €450,000</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="countryFilter">🌍 Country</label>
+                    <select id="countryFilter" class="filter-input">
+                        <option value="">All Countries</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="statusFilter">📌 Status</label>
+                    <select id="statusFilter" class="filter-input">
+                        <option value="">All Status</option>
+                        <option value="new">🆕 New</option>
+                        <option value="contacted">📞 Contacted</option>
+                        <option value="qualified">✅ Qualified</option>
+                        <option value="converted">💰 Converted</option>
+                        <option value="not-interested">❌ Not Interested</option>
+                        <option value="no-answer">📵 No Answer</option>
+                    </select>
+                </div>
+            </div>
+            <div class="controls-row" style="margin-top: 1rem;">
+                <button class="btn btn-secondary" onclick="clearFilters()">🗑️ Clear Filters</button>
+            </div>
+        </div>
+
+        <div class="leads-table-container">
+            <div class="table-header">
+                <h3>📋 Leads Overview</h3>
+                <div class="view-only-badge">👁️ View Only Access</div>
+            </div>
+
+            <div id="loadingMessage" class="loading">Loading leads...</div>
+            <div id="errorMessage" class="error" style="display: none;"></div>
+            
+            <table class="leads-table" id="leadsTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Date & Time</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Country</th>
+                        <th>Interest</th>
+                        <th>Status</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody id="leadsTableBody">
+                </tbody>
+            </table>
+            
+            <div id="noLeadsMessage" class="no-leads" style="display: none;">
+                <p>No leads found matching your criteria.</p>
+            </div>
+        </div>
+
+        <!-- Change Password Modal -->
+        <div id="changePasswordModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="close" onclick="closePasswordModal()">&times;</span>
+                    <h2>🔑 Change Password</h2>
+                </div>
+                <div class="modal-body">
+                    <form id="changePasswordForm" onsubmit="changePassword(event)">
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input type="password" id="currentPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="newPassword" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm New Password</label>
+                            <input type="password" id="confirmPassword" required minlength="6">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" onclick="closePasswordModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="changePassword(event)">🔒 Update Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allLeads = [];
+        let filteredLeads = [];
+        let authToken = null;
+        let leadStatuses = {};
+        let currentUser = { role: 'manager', name: 'Manager', username: '' };
+
+        // Country flags mapping
+        const countryFlags = {
+            'AE': '🇦🇪', 'US': '🇺🇸', 'GB': '🇬🇧', 'SA': '🇸🇦', 'QA': '🇶🇦',
+            'BH': '🇧🇭', 'OM': '🇴🇲', 'KW': '🇰🇼', 'JO': '🇯🇴', 'LB': '🇱🇧',
+            'EG': '🇪🇬', 'PK': '🇵🇰', 'IN': '🇮🇳', 'BD': '🇧🇩', 'LK': '🇱🇰',
+            'FR': '🇫🇷', 'DE': '🇩🇪', 'IT': '🇮🇹', 'ES': '🇪🇸', 'NL': '🇳🇱',
+            'BE': '🇧🇪', 'CH': '🇨🇭', 'AT': '🇦🇹', 'SE': '🇸🇪', 'NO': '🇳🇴',
+            'DK': '🇩🇰', 'FI': '🇫🇮', 'PL': '🇵🇱', 'CZ': '🇨🇿', 'RO': '🇷🇴',
+            'GR': '🇬🇷', 'PT': '🇵🇹', 'IE': '🇮🇪', 'CA': '🇨🇦', 'AU': '🇦🇺',
+            'NZ': '🇳🇿', 'SG': '🇸🇬', 'MY': '🇲🇾', 'TH': '🇹🇭', 'PH': '🇵🇭',
+            'ID': '🇮🇩', 'VN': '🇻🇳', 'CN': '🇨🇳', 'JP': '🇯🇵', 'KR': '🇰🇷',
+            'RU': '🇷🇺', 'TR': '🇹🇷', 'IL': '🇮🇱', 'ZA': '🇿🇦', 'NG': '🇳🇬',
+            'KE': '🇰🇪', 'BR': '🇧🇷', 'MX': '🇲🇽', 'AR': '🇦🇷', 'CL': '🇨🇱',
+            'Unknown': '🌍'
+        };
+
+        // Load leads on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+
+        async function checkAuth() {
+            // Check for manager session
+            const managerSession = sessionStorage.getItem('managerSession');
+            if (!managerSession) {
+                window.location.href = '/manager-login';
+                return;
+            }
+
+            try {
+                const sessionData = JSON.parse(atob(managerSession));
+                if (sessionData.role !== 'manager') {
+                    sessionStorage.removeItem('managerSession');
+                    window.location.href = '/manager-login';
+                    return;
+                }
+
+                // Manager is logged in
+                currentUser = {
+                    role: 'manager',
+                    name: sessionData.username,
+                    username: sessionData.username
+                };
+                
+                document.getElementById('currentUserName').textContent = currentUser.username;
+                authToken = 'manager-session';
+                
+                loadLeads();
+                setupEventListeners();
+            } catch (e) {
+                sessionStorage.removeItem('managerSession');
+                window.location.href = '/manager-login';
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('managerSession');
+            localStorage.removeItem('currentUser');
+            window.location.href = '/manager-login';
+        }
+
+        function toggleSettingsMenu() {
+            const menu = document.getElementById('settingsMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.querySelector('.settings-dropdown');
+            const menu = document.getElementById('settingsMenu');
+            if (dropdown && !dropdown.contains(event.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        function openProfileSettings() {
+            document.getElementById('changePasswordModal').classList.add('active');
+            document.getElementById('settingsMenu').classList.remove('active');
+        }
+
+        function closePasswordModal() {
+            document.getElementById('changePasswordModal').classList.remove('active');
+            document.getElementById('changePasswordForm').reset();
+        }
+
+        function changePassword(event) {
+            event.preventDefault();
+
+            const current = document.getElementById('currentPassword').value;
+            const newPass = document.getElementById('newPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            // Get managers from localStorage
+            const managersData = localStorage.getItem('managers');
+            if (!managersData) {
+                alert('Error: Manager data not found.');
+                return;
+            }
+
+            let managers = JSON.parse(managersData);
+            const manager = managers.find(m => m.username === currentUser.username);
+
+            if (!manager) {
+                alert('Error: Manager not found.');
+                return;
+            }
+
+            // Check current password
+            if (current !== manager.password) {
+                alert('Current password is incorrect!');
+                return;
+            }
+
+            if (newPass !== confirm) {
+                alert('New passwords do not match!');
+                return;
+            }
+
+            if (newPass.length < 6) {
+                alert('Password must be at least 6 characters!');
+                return;
+            }
+
+            // Update password
+            manager.password = newPass;
+            localStorage.setItem('managers', JSON.stringify(managers));
+
+            alert('Password changed successfully!');
+            closePasswordModal();
+        }
+
+        async function loadLeads() {
+            try {
+                document.getElementById('loadingMessage').style.display = 'block';
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('leadsTable').style.display = 'none';
+                document.getElementById('noLeadsMessage').style.display = 'none';
+
+                // Try to get leads from localStorage first (cached from admin)
+                let allLeadsData = [];
+                const cachedLeads = localStorage.getItem('cachedLeads');
+                
+                if (cachedLeads) {
+                    try {
+                        allLeadsData = JSON.parse(cachedLeads);
+                    } catch (e) {
+                        allLeadsData = [];
+                    }
+                }
+                
+                // If no cached leads, try API (won't work for managers without proper auth, but try anyway)
+                if (allLeadsData.length === 0) {
+                    try {
+                        const response = await fetch('/api/leads');
+                        if (response.ok) {
+                            allLeadsData = await response.json();
+                        }
+                    } catch (e) {
+                        console.log('API fetch failed, using cached data only');
+                    }
+                }
+                
+                // Get assigned leads for this manager
+                const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
+                const myAssignedLeadIds = assignments[currentUser.username] || [];
+                
+                console.log('Manager:', currentUser.username);
+                console.log('Assigned lead IDs:', myAssignedLeadIds);
+                console.log('Total leads available:', allLeadsData.length);
+                
+                // Filter to show only assigned leads
+                if (myAssignedLeadIds.length > 0 && allLeadsData.length > 0) {
+                    allLeads = allLeadsData.filter(lead => {
+                        const leadId = `${lead.email}_${lead.timestamp}`;
+                        return myAssignedLeadIds.includes(leadId);
+                    });
+                    console.log('Filtered assigned leads:', allLeads.length);
+                } else {
+                    allLeads = []; // No assigned leads
+                }
+                
+                // Load saved statuses from localStorage
+                const savedStatuses = localStorage.getItem('leadStatuses');
+                if (savedStatuses) {
+                    try {
+                        leadStatuses = JSON.parse(savedStatuses);
+                    } catch (e) {
+                        leadStatuses = {};
+                    }
+                }
+                
+                document.getElementById('loadingMessage').style.display = 'none';
+                
+                if (allLeads.length === 0) {
+                    document.getElementById('noLeadsMessage').innerHTML = 
+                        '<p>📭 No leads assigned to you yet.</p>' +
+                        '<p style="color: #999; font-size: 0.9rem; margin-top: 0.5rem;">Contact your administrator to get leads assigned.</p>';
+                    document.getElementById('noLeadsMessage').style.display = 'block';
+                } else {
+                    populateCountryFilter();
+                    filteredLeads = [...allLeads];
+                    displayLeads();
+                    updateStats();
+                }
+
+            } catch (error) {
+                console.error('Failed to load leads:', error);
+                document.getElementById('loadingMessage').style.display = 'none';
+                document.getElementById('errorMessage').innerHTML = 
+                    '<p>Unable to load leads.</p>' +
+                    '<p style="font-size: 0.9rem; margin-top: 0.5rem;">Please ask your administrator to assign leads to you from the admin dashboard.</p>';
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+
+        function populateCountryFilter() {
+            const countries = [...new Set(allLeads.map(lead => lead.country || 'Unknown'))];
+            const select = document.getElementById('countryFilter');
+            
+            // Keep the "All Countries" option and add unique countries
+            select.innerHTML = '<option value="">All Countries</option>' +
+                countries.map(country => `<option value="${country}">${countryFlags[country] || '🌍'} ${country}</option>`).join('');
+        }
+
+        function displayLeads() {
+            const tbody = document.getElementById('leadsTableBody');
+            tbody.innerHTML = '';
+
+            if (filteredLeads.length === 0) {
+                document.getElementById('leadsTable').style.display = 'none';
+                document.getElementById('noLeadsMessage').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('leadsTable').style.display = 'table';
+            document.getElementById('noLeadsMessage').style.display = 'none';
+
+            filteredLeads.forEach(lead => {
+                const row = document.createElement('tr');
+                
+                const dateTime = new Date(lead.timestamp);
+                const formattedDate = dateTime.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                const formattedTime = dateTime.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                // Use IP-based country detection
+                let countryCode = lead.country_code || lead.country || 'Unknown';
+                const countryFlag = countryFlags[countryCode] || countryFlags['Unknown'];
+
+                // Get lead status (default to 'new' if not set)
+                const leadId = `${lead.email}_${lead.timestamp}`;
+                const currentStatus = leadStatuses[leadId] || 'new';
+
+                row.innerHTML = `
+                    <td>
+                        <div class="datetime">
+                            <div>${formattedDate}</div>
+                            <div>${formattedTime}</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="lead-name">${lead.firstName} ${lead.lastName}</div>
+                    </td>
+                    <td>
+                        <div><a href="mailto:${lead.email}" class="lead-email">${lead.email}</a></div>
+                        <div class="lead-phone">${lead.phone}</div>
+                    </td>
+                    <td>
+                        <span class="country-code">
+                            <span class="country-flag">${countryFlag}</span>
+                            ${countryCode}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="interest-tag">${lead.interest}</span>
+                    </td>
+                    <td>
+                        <select class="status-select status-${currentStatus}" 
+                                onchange="updateLeadStatus('${leadId}', this.value)" 
+                                data-lead-id="${leadId}">
+                            <option value="new" ${currentStatus === 'new' ? 'selected' : ''}>🆕 New</option>
+                            <option value="contacted" ${currentStatus === 'contacted' ? 'selected' : ''}>📞 Contacted</option>
+                            <option value="qualified" ${currentStatus === 'qualified' ? 'selected' : ''}>✅ Qualified</option>
+                            <option value="converted" ${currentStatus === 'converted' ? 'selected' : ''}>💰 Converted</option>
+                            <option value="not-interested" ${currentStatus === 'not-interested' ? 'selected' : ''}>❌ Not Interested</option>
+                            <option value="no-answer" ${currentStatus === 'no-answer' ? 'selected' : ''}>📵 No Answer</option>
+                        </select>
+                    </td>
+                    <td>
+                        <div class="lead-message" title="${lead.message}">
+                            ${lead.message || '-'}
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateLeadStatus(leadId, newStatus) {
+            leadStatuses[leadId] = newStatus;
+            
+            // Update select styling
+            const select = document.querySelector(`select[data-lead-id="${leadId}"]`);
+            if (select) {
+                // Remove all status classes
+                select.className = 'status-select';
+                // Add new status class
+                select.classList.add(`status-${newStatus}`);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('leadStatuses', JSON.stringify(leadStatuses));
+            
+            // Update stats
+            updateStats();
+        }
+
+        function filterLeads() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const interestFilter = document.getElementById('interestFilter').value;
+            const countryFilter = document.getElementById('countryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredLeads = allLeads.filter(lead => {
+                // Search filter
+                const searchMatch = !searchTerm || 
+                    lead.firstName.toLowerCase().includes(searchTerm) ||
+                    lead.lastName.toLowerCase().includes(searchTerm) ||
+                    lead.email.toLowerCase().includes(searchTerm) ||
+                    lead.phone.includes(searchTerm) ||
+                    (lead.message && lead.message.toLowerCase().includes(searchTerm));
+
+                // Date filters
+                const leadDate = new Date(lead.timestamp).toISOString().split('T')[0];
+                const dateFromMatch = !dateFrom || leadDate >= dateFrom;
+                const dateToMatch = !dateTo || leadDate <= dateTo;
+
+                // Status filter
+                const leadId = `${lead.email}_${lead.timestamp}`;
+                const leadStatus = leadStatuses[leadId] || 'new';
+                const statusMatch = !statusFilter || leadStatus === statusFilter;
+
+                // Interest filter
+                const interestMatch = !interestFilter || lead.interest === interestFilter;
+
+                // Country filter
+                const countryMatch = !countryFilter || lead.country === countryFilter;
+
+                return searchMatch && dateFromMatch && dateToMatch && interestMatch && countryMatch && statusMatch;
+            });
+
+            displayLeads();
+            updateStats();
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            document.getElementById('interestFilter').value = '';
+            document.getElementById('countryFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            
+            filteredLeads = [...allLeads];
+            displayLeads();
+            updateStats();
+        }
+
+        function updateStats() {
+            const now = new Date();
+            const today = now.toISOString().split('T')[0];
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+            const todayCount = filteredLeads.filter(lead => 
+                lead.timestamp.split('T')[0] === today
+            ).length;
+
+            const weekCount = filteredLeads.filter(lead => 
+                lead.timestamp.split('T')[0] >= weekAgo
+            ).length;
+
+            const monthCount = filteredLeads.filter(lead => 
+                lead.timestamp.split('T')[0] >= monthAgo
+            ).length;
+
+            document.getElementById('totalLeads').textContent = filteredLeads.length;
+            document.getElementById('todayLeads').textContent = todayCount;
+            document.getElementById('weekLeads').textContent = weekCount;
+            document.getElementById('monthLeads').textContent = monthCount;
+        }
+
+        function setupEventListeners() {
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', filterLeads);
+            
+            // Date filters
+            document.getElementById('dateFrom').addEventListener('change', filterLeads);
+            document.getElementById('dateTo').addEventListener('change', filterLeads);
+            
+            // Select filters
+            document.getElementById('interestFilter').addEventListener('change', filterLeads);
+            document.getElementById('countryFilter').addEventListener('change', filterLeads);
+            document.getElementById('statusFilter').addEventListener('change', filterLeads);
+        }
+
+        function refreshLeads() {
+            loadLeads();
+        }
+    </script>
+</body>
+</html>

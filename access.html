@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Blanc Dubai - Quick Access</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 20px 40px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .icon {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .description {
+            color: #666;
+            margin: 30px 0;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .btn {
+                padding: 15px 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏢 Le Blanc Dubai</h1>
+        
+        <p class="description">
+            Welcome to Le Blanc Dubai Real Estate Portal. Choose your destination:
+        </p>
+        
+        <div class="links">
+            <a href="/" class="btn btn-primary">
+                <span class="icon">🏠</span>
+                Main Website
+            </a>
+            
+            <a href="/login" class="btn btn-secondary">
+                <span class="icon">�</span>
+                Admin Login
+            </a>
+        </div>
+        
+        <p class="description" style="margin-top: 30px; font-size: 0.9em; color: #999;">
+            <strong>Main Website:</strong> Public property showcase and contact form<br>
+            <strong>Admin Login:</strong> Secure access to lead management dashboard
+        </p>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 10px; font-size: 0.85em; color: #666;">
+            <strong>🔑 Default Login Credentials:</strong><br>
+            Username: <code style="background: white; padding: 2px 8px; border-radius: 4px;">admin</code><br>
+            Password: <code style="background: white; padding: 2px 8px; border-radius: 4px;">admin123</code>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dubai Smart Invest - Website Editor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
+
+        .editor-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Left Sidebar - Editor Panel */
+        .editor-panel {
+            width: 350px;
+            background: white;
+            border-right: 2px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .editor-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            color: white;
+            padding: 1.5rem;
+            border-bottom: 3px solid #d4af37;
+        }
+
+        .editor-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .editor-header h1 span {
+            color: #d4af37;
+        }
+
+        .editor-header p {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .editor-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .editor-tab {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+        }
+
+        .editor-tab:hover {
+            background: #e9ecef;
+        }
+
+        .editor-tab.active {
+            background: white;
+            border-bottom-color: #d4af37;
+            color: #d4af37;
+        }
+
+        .editor-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .editor-section {
+            display: none;
+        }
+
+        .editor-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .color-picker-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .color-picker-group input[type="color"] {
+            width: 60px;
+            height: 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .color-picker-group input[type="text"] {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-primary {
+            background: #d4af37;
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: #c19b2d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .section-header h3 {
+            font-size: 1.1rem;
+            color: #1a1a1a;
+        }
+
+        .image-upload-area {
+            border: 2px dashed #d4af37;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .image-upload-area:hover {
+            background: #e9ecef;
+            border-color: #c19b2d;
+        }
+
+        .image-upload-area input {
+            display: none;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Right Side - Live Preview */
+        .preview-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #e9ecef;
+        }
+
+        .preview-header {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-header h2 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .preview-actions button {
+            padding: 0.5rem 1rem;
+        }
+
+        .preview-content {
+            flex: 1;
+            overflow: auto;
+            padding: 2rem;
+        }
+
+        .preview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .device-selector {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .device-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .device-btn:hover {
+            border-color: #d4af37;
+        }
+
+        .device-btn.active {
+            background: #d4af37;
+            color: white;
+            border-color: #d4af37;
+        }
+
+        .action-buttons {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .section-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 2px solid #e0e0e0;
+        }
+
+        .section-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-item-title {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .section-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .icon-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .collapsible {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .collapsible-header {
+            padding: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .collapsible-header:hover {
+            background: #e9ecef;
+        }
+
+        .collapsible-content {
+            padding: 1rem;
+            display: none;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .collapsible.active .collapsible-content {
+            display: block;
+        }
+
+        .collapsible-icon {
+            transition: transform 0.3s;
+        }
+
+        .collapsible.active .collapsible-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="editor-container">
+        <!-- Left Sidebar - Editor Panel -->
+        <div class="editor-panel">
+            <div class="editor-header">
+                <h1>DUBAI SMART <span>INVEST</span></h1>
+                <p>Website Content Editor</p>
+            </div>
+
+            <div class="editor-tabs">
+                <button class="editor-tab active" onclick="switchTab('content')">📝 Content</button>
+                <button class="editor-tab" onclick="switchTab('design')">🎨 Design</button>
+                <button class="editor-tab" onclick="switchTab('images')">🖼️ Images</button>
+                <button class="editor-tab" onclick="switchTab('sections')">➕ Add</button>
+            </div>
+
+            <div class="editor-content">
+                <!-- Content Tab -->
+                <div class="editor-section active" id="content-section">
+                    <!-- Header Section -->
+                    <div class="collapsible active">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>🏠 Header & Logo</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Logo Text (Part 1)</label>
+                                <input type="text" id="logo-text-1" value="DUBAI SMART" onchange="updateContent()">
+                            </div>
+                            <div class="form-group">
+                                <label>Logo Text (Part 2 - Gold)</label>
+                                <input type="text" id="logo-text-2" value="INVEST" onchange="updateContent()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hero Section -->
+                    <div class="collapsible">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>🎯 Hero Section</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Main Title</label>
+                                <input type="text" id="hero-title" value="Le Blanc by Imtiaz" onchange="updateContent()">
+                            </div>
+                            <div class="form-group">
+                                <label>Subtitle</label>
+                                <textarea id="hero-subtitle" onchange="updateContent()">Premium Fully Furnished Apartments in Dubai Land Residence Complex</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Primary Button Text</label>
+                                <input type="text" id="hero-btn-primary" value="Book Your Unit from €12,500" onchange="updateContent()">
+                            </div>
+                            <div class="form-group">
+                                <label>Secondary Button Text</label>
+                                <input type="text" id="hero-btn-secondary" value="Explore Properties" onchange="updateContent()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer Section -->
+                    <div class="collapsible">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>📧 Footer & Contact</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Company Name</label>
+                                <input type="text" id="footer-company" value="Dubai Smart Invest" onchange="updateContent()">
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <textarea id="footer-description" onchange="updateContent()">Your trusted partner for premium real estate investments in Dubai.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" id="footer-email" value="info@dubaismart-invest.com" onchange="updateContent()">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" id="footer-phone" value="+971 50 XXX XXXX" onchange="updateContent()">
+                            </div>
+                            <div class="form-group">
+                                <label>Location</label>
+                                <input type="text" id="footer-location" value="Dubai, United Arab Emirates" onchange="updateContent()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design Tab -->
+                <div class="editor-section" id="design-section">
+                    <div class="collapsible active">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>🎨 Colors</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Primary Gold Color</label>
+                                <div class="color-picker-group">
+                                    <input type="color" id="color-primary" value="#d4af37" onchange="updateColors()">
+                                    <input type="text" id="color-primary-text" value="#d4af37" onchange="updateColors()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Dark Background Color</label>
+                                <div class="color-picker-group">
+                                    <input type="color" id="color-dark" value="#1a1a1a" onchange="updateColors()">
+                                    <input type="text" id="color-dark-text" value="#1a1a1a" onchange="updateColors()">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Light Background Color</label>
+                                <div class="color-picker-group">
+                                    <input type="color" id="color-light" value="#f8f6f3" onchange="updateColors()">
+                                    <input type="text" id="color-light-text" value="#f8f6f3" onchange="updateColors()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapsible">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>📝 Typography</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Heading Font</label>
+                                <select id="heading-font" onchange="updateFonts()">
+                                    <option value="Playfair Display">Playfair Display</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Times New Roman">Times New Roman</option>
+                                    <option value="Lora">Lora</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Body Font</label>
+                                <select id="body-font" onchange="updateFonts()">
+                                    <option value="Poppins">Poppins</option>
+                                    <option value="Arial">Arial</option>
+                                    <option value="Helvetica">Helvetica</option>
+                                    <option value="Open Sans">Open Sans</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Images Tab -->
+                <div class="editor-section" id="images-section">
+                    <div class="collapsible active">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>🏠 Hero Background</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Upload New Hero Image</label>
+                                <div class="image-upload-area" onclick="document.getElementById('hero-bg-upload').click()">
+                                    <input type="file" id="hero-bg-upload" accept="image/*" onchange="handleImageUpload(this, 'hero-bg')">
+                                    <p>📤 Click to upload</p>
+                                    <small>Recommended: 1920x1080px</small>
+                                </div>
+                                <img id="hero-bg-preview" class="image-preview" style="display: none;">
+                            </div>
+                            <div class="form-group">
+                                <label>Or Enter Image URL</label>
+                                <input type="url" id="hero-bg-url" placeholder="https://example.com/image.jpg" onchange="updateHeroBackground()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="collapsible">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>🖼️ Property Images</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <p style="color: #666; font-size: 0.85rem; margin-bottom: 1rem;">
+                                Upload images to /static/images/ folder and they will be available for properties.
+                            </p>
+                            <div class="form-group">
+                                <label>Upload Property Images</label>
+                                <div class="image-upload-area" onclick="document.getElementById('property-images-upload').click()">
+                                    <input type="file" id="property-images-upload" accept="image/*" multiple onchange="handleMultipleImageUpload(this)">
+                                    <p>📤 Click to upload multiple images</p>
+                                    <small>Recommended: 800x600px</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sections/Add Tab -->
+                <div class="editor-section" id="sections-section">
+                    <div class="alert alert-success" id="section-add-alert" style="display: none;">
+                        ✅ Section added! Check preview to see changes.
+                    </div>
+
+                    <!-- Add New Section -->
+                    <div class="collapsible active">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>➕ Add New Section</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Section Type</label>
+                                <select id="new-section-type" onchange="updateSectionPreview()">
+                                    <option value="text">📝 Text Section</option>
+                                    <option value="image">🖼️ Image Section</option>
+                                    <option value="card">🃏 Card Section</option>
+                                    <option value="features">⭐ Features Grid</option>
+                                    <option value="cta">📢 Call-to-Action</option>
+                                    <option value="testimonial">💬 Testimonial</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Section Title</label>
+                                <input type="text" id="new-section-title" placeholder="Enter section title">
+                            </div>
+                            <div class="form-group">
+                                <label>Section Content</label>
+                                <textarea id="new-section-content" placeholder="Enter section content or description"></textarea>
+                            </div>
+                            <button class="btn btn-success" onclick="addNewSection()">➕ Add Section</button>
+                        </div>
+                    </div>
+
+                    <!-- Add Text Block -->
+                    <div class="collapsible">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>📝 Add Text Block</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Text Style</label>
+                                <select id="text-block-style">
+                                    <option value="heading">Heading (H2)</option>
+                                    <option value="subheading">Subheading (H3)</option>
+                                    <option value="paragraph">Paragraph</option>
+                                    <option value="quote">Quote</option>
+                                    <option value="highlight">Highlighted Text</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Text Content</label>
+                                <textarea id="text-block-content" placeholder="Enter your text here..." rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Text Alignment</label>
+                                <select id="text-block-align">
+                                    <option value="left">Left</option>
+                                    <option value="center">Center</option>
+                                    <option value="right">Right</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-success" onclick="addTextBlock()">➕ Add Text</button>
+                        </div>
+                    </div>
+
+                    <!-- Add Image -->
+                    <div class="collapsible">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>🖼️ Add Image</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Upload Image</label>
+                                <div class="image-upload-area" onclick="document.getElementById('new-image-upload').click()">
+                                    <input type="file" id="new-image-upload" accept="image/*" onchange="previewNewImage(this)">
+                                    <p>� Click to upload</p>
+                                    <small>JPG, PNG, WebP</small>
+                                </div>
+                                <img id="new-image-preview" class="image-preview" style="display: none;">
+                            </div>
+                            <div class="form-group">
+                                <label>Or Image URL</label>
+                                <input type="url" id="new-image-url" placeholder="https://example.com/image.jpg">
+                            </div>
+                            <div class="form-group">
+                                <label>Image Caption</label>
+                                <input type="text" id="new-image-caption" placeholder="Optional caption">
+                            </div>
+                            <div class="form-group">
+                                <label>Image Size</label>
+                                <select id="new-image-size">
+                                    <option value="full">Full Width</option>
+                                    <option value="large">Large (80%)</option>
+                                    <option value="medium">Medium (60%)</option>
+                                    <option value="small">Small (40%)</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-success" onclick="addImage()">➕ Add Image</button>
+                        </div>
+                    </div>
+
+                    <!-- Add Card -->
+                    <div class="collapsible">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>🃏 Add Card</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div class="form-group">
+                                <label>Card Style</label>
+                                <select id="card-style">
+                                    <option value="basic">Basic Card</option>
+                                    <option value="bordered">Bordered Card</option>
+                                    <option value="shadow">Shadow Card</option>
+                                    <option value="gradient">Gradient Card</option>
+                                    <option value="icon">Icon Card</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Card Icon (Emoji)</label>
+                                <input type="text" id="card-icon" placeholder="🏠" maxlength="2">
+                            </div>
+                            <div class="form-group">
+                                <label>Card Title</label>
+                                <input type="text" id="card-title" placeholder="Card Title">
+                            </div>
+                            <div class="form-group">
+                                <label>Card Description</label>
+                                <textarea id="card-description" placeholder="Card description or content" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Button Text (Optional)</label>
+                                <input type="text" id="card-button" placeholder="Learn More">
+                            </div>
+                            <div class="form-group">
+                                <label>Button Link (Optional)</label>
+                                <input type="url" id="card-button-link" placeholder="#contact">
+                            </div>
+                            <button class="btn btn-success" onclick="addCard()">➕ Add Card</button>
+                        </div>
+                    </div>
+
+                    <!-- Current Sections -->
+                    <div class="collapsible">
+                        <div class="collapsible-header" onclick="toggleCollapsible(this)">
+                            <span>📋 Current Sections</span>
+                            <span class="collapsible-icon">▼</span>
+                        </div>
+                        <div class="collapsible-content">
+                            <div id="sections-list">
+                                <p style="color: #999; text-align: center;">No custom sections added yet</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="saveChanges()">�💾 Save All Changes</button>
+                <button class="btn btn-danger" onclick="discardChanges()">🗑️ Discard Changes</button>
+                <button class="btn btn-secondary" onclick="previewChanges()">👁️ Preview Changes</button>
+                <button class="btn btn-secondary" onclick="window.open('/', '_blank')">🌐 View Live Site</button>
+            </div>
+        </div>
+
+        <!-- Right Side - Live Preview -->
+        <div class="preview-panel">
+            <div class="preview-header">
+                <h2>📱 Live Preview</h2>
+                <div class="preview-actions">
+                    <div class="device-selector">
+                        <button class="device-btn active" onclick="setPreviewDevice('desktop')" title="Desktop">💻</button>
+                        <button class="device-btn" onclick="setPreviewDevice('tablet')" title="Tablet">📱</button>
+                        <button class="device-btn" onclick="setPreviewDevice('mobile')" title="Mobile">📱</button>
+                    </div>
+                </div>
+            </div>
+            <div class="preview-content">
+                <iframe id="preview-iframe" class="preview-iframe" src="/" sandbox="allow-same-origin allow-scripts"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentChanges = {
+            content: {},
+            design: {},
+            images: {},
+            sections: []
+        };
+
+        function switchTab(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.editor-tab').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update sections
+            document.querySelectorAll('.editor-section').forEach(section => section.classList.remove('active'));
+            document.getElementById(tab + '-section').classList.add('active');
+        }
+
+        function toggleCollapsible(header) {
+            const collapsible = header.parentElement;
+            collapsible.classList.toggle('active');
+        }
+
+        function updateContent() {
+            // Collect all content changes
+            currentChanges.content = {
+                logoText1: document.getElementById('logo-text-1').value,
+                logoText2: document.getElementById('logo-text-2').value,
+                heroTitle: document.getElementById('hero-title').value,
+                heroSubtitle: document.getElementById('hero-subtitle').value,
+                heroBtnPrimary: document.getElementById('hero-btn-primary').value,
+                heroBtnSecondary: document.getElementById('hero-btn-secondary').value,
+                footerCompany: document.getElementById('footer-company').value,
+                footerDescription: document.getElementById('footer-description').value,
+                footerEmail: document.getElementById('footer-email').value,
+                footerPhone: document.getElementById('footer-phone').value,
+                footerLocation: document.getElementById('footer-location').value
+            };
+
+            console.log('Content updated:', currentChanges.content);
+        }
+
+        function updateColors() {
+            const primaryColor = document.getElementById('color-primary').value;
+            const darkColor = document.getElementById('color-dark').value;
+            const lightColor = document.getElementById('color-light').value;
+
+            document.getElementById('color-primary-text').value = primaryColor;
+            document.getElementById('color-dark-text').value = darkColor;
+            document.getElementById('color-light-text').value = lightColor;
+
+            currentChanges.design.colors = {
+                primary: primaryColor,
+                dark: darkColor,
+                light: lightColor
+            };
+
+            console.log('Colors updated:', currentChanges.design.colors);
+        }
+
+        function updateFonts() {
+            currentChanges.design.fonts = {
+                heading: document.getElementById('heading-font').value,
+                body: document.getElementById('body-font').value
+            };
+
+            console.log('Fonts updated:', currentChanges.design.fonts);
+        }
+
+        function handleImageUpload(input, imageType) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const preview = document.getElementById(imageType + '-preview');
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+
+                    currentChanges.images[imageType] = {
+                        file: file,
+                        dataUrl: e.target.result
+                    };
+
+                    console.log('Image uploaded:', imageType);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleMultipleImageUpload(input) {
+            const files = input.files;
+            if (files.length > 0) {
+                currentChanges.images.propertyImages = Array.from(files);
+                alert(`✅ ${files.length} image(s) selected for upload`);
+            }
+        }
+
+        function updateHeroBackground() {
+            const url = document.getElementById('hero-bg-url').value;
+            if (url) {
+                currentChanges.images['hero-bg-url'] = url;
+                console.log('Hero background URL updated:', url);
+            }
+        }
+
+        function setPreviewDevice(device) {
+            const iframe = document.getElementById('preview-iframe');
+            const buttons = document.querySelectorAll('.device-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            switch(device) {
+                case 'desktop':
+                    iframe.style.width = '100%';
+                    iframe.style.maxWidth = '100%';
+                    break;
+                case 'tablet':
+                    iframe.style.width = '768px';
+                    iframe.style.maxWidth = '100%';
+                    break;
+                case 'mobile':
+                    iframe.style.width = '375px';
+                    iframe.style.maxWidth = '100%';
+                    break;
+            }
+        }
+
+        async function saveChanges() {
+            const hasChanges = Object.keys(currentChanges.content).length > 0 || 
+                              Object.keys(currentChanges.design).length > 0 || 
+                              Object.keys(currentChanges.images).length > 0 ||
+                              (currentChanges.sections && currentChanges.sections.length > 0);
+            
+            if (!hasChanges) {
+                alert('⚠️ No changes to save!');
+                return;
+            }
+
+            try {
+                // In production, send to backend API
+                const response = await fetch('/api/website/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+                    },
+                    body: JSON.stringify(currentChanges)
+                });
+
+                if (response.ok) {
+                    alert('✅ Changes saved successfully!');
+                    // Reload preview
+                    document.getElementById('preview-iframe').src = document.getElementById('preview-iframe').src;
+                } else {
+                    // Fallback: Save to localStorage for now
+                    localStorage.setItem('websiteEdits', JSON.stringify(currentChanges));
+                    alert('✅ Changes saved locally! (Backend integration needed for permanent save)');
+                }
+            } catch (error) {
+                console.error('Save error:', error);
+                // Fallback to localStorage
+                localStorage.setItem('websiteEdits', JSON.stringify(currentChanges));
+                alert('✅ Changes saved locally!');
+            }
+        }
+
+        function previewChanges() {
+            // Reload iframe to show changes
+            const iframe = document.getElementById('preview-iframe');
+            iframe.src = iframe.src;
+            alert('🔄 Preview refreshed!');
+        }
+
+        // Check authentication
+        window.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('adminToken');
+            if (!token) {
+                if (confirm('⚠️ You need to be logged in as admin to use the editor. Go to login page?')) {
+                    window.location.href = '/login';
+                }
+            }
+
+            // Sync color inputs
+            document.getElementById('color-primary').addEventListener('input', function() {
+                document.getElementById('color-primary-text').value = this.value;
+            });
+            document.getElementById('color-primary-text').addEventListener('input', function() {
+                document.getElementById('color-primary').value = this.value;
+            });
+
+            document.getElementById('color-dark').addEventListener('input', function() {
+                document.getElementById('color-dark-text').value = this.value;
+            });
+            document.getElementById('color-dark-text').addEventListener('input', function() {
+                document.getElementById('color-dark').value = this.value;
+            });
+
+            document.getElementById('color-light').addEventListener('input', function() {
+                document.getElementById('color-light-text').value = this.value;
+            });
+            document.getElementById('color-light-text').addEventListener('input', function() {
+                document.getElementById('color-light').value = this.value;
+            });
+        });
+
+        // Section Building Functions
+        function addNewSection() {
+            const type = document.getElementById('new-section-type').value;
+            const title = document.getElementById('new-section-title').value;
+            const content = document.getElementById('new-section-content').value;
+
+            if (!title) {
+                alert('Please enter a section title');
+                return;
+            }
+
+            if (!currentChanges.sections) {
+                currentChanges.sections = [];
+            }
+
+            const section = {
+                id: 'section-' + Date.now(),
+                type: type,
+                title: title,
+                content: content,
+                timestamp: new Date().toISOString()
+            };
+
+            currentChanges.sections.push(section);
+            updateSectionsList();
+            
+            // Clear inputs
+            document.getElementById('new-section-title').value = '';
+            document.getElementById('new-section-content').value = '';
+            
+            showAlert('section-add-alert');
+        }
+
+        function addTextBlock() {
+            const style = document.getElementById('text-block-style').value;
+            const content = document.getElementById('text-block-content').value;
+            const align = document.getElementById('text-block-align').value;
+
+            if (!content) {
+                alert('Please enter text content');
+                return;
+            }
+
+            if (!currentChanges.sections) {
+                currentChanges.sections = [];
+            }
+
+            const textBlock = {
+                id: 'text-' + Date.now(),
+                type: 'text',
+                style: style,
+                content: content,
+                align: align,
+                timestamp: new Date().toISOString()
+            };
+
+            currentChanges.sections.push(textBlock);
+            updateSectionsList();
+            
+            // Clear inputs
+            document.getElementById('text-block-content').value = '';
+            
+            showAlert('section-add-alert');
+        }
+
+        function addImage() {
+            const fileInput = document.getElementById('new-image-upload');
+            const url = document.getElementById('new-image-url').value;
+            const caption = document.getElementById('new-image-caption').value;
+            const size = document.getElementById('new-image-size').value;
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageBlock = {
+                        id: 'image-' + Date.now(),
+                        type: 'image',
+                        src: e.target.result,
+                        caption: caption,
+                        size: size,
+                        timestamp: new Date().toISOString()
+                    };
+
+                    if (!currentChanges.sections) {
+                        currentChanges.sections = [];
+                    }
+
+                    currentChanges.sections.push(imageBlock);
+                    updateSectionsList();
+                    
+                    // Clear inputs
+                    fileInput.value = '';
+                    document.getElementById('new-image-preview').style.display = 'none';
+                    document.getElementById('new-image-caption').value = '';
+                    
+                    showAlert('section-add-alert');
+                };
+                reader.readAsDataURL(fileInput.files[0]);
+            } else if (url) {
+                const imageBlock = {
+                    id: 'image-' + Date.now(),
+                    type: 'image',
+                    src: url,
+                    caption: caption,
+                    size: size,
+                    timestamp: new Date().toISOString()
+                };
+
+                if (!currentChanges.sections) {
+                    currentChanges.sections = [];
+                }
+
+                currentChanges.sections.push(imageBlock);
+                updateSectionsList();
+                
+                // Clear inputs
+                document.getElementById('new-image-url').value = '';
+                document.getElementById('new-image-caption').value = '';
+                
+                showAlert('section-add-alert');
+            } else {
+                alert('Please upload an image or provide an image URL');
+            }
+        }
+
+        function addCard() {
+            const style = document.getElementById('card-style').value;
+            const icon = document.getElementById('card-icon').value;
+            const title = document.getElementById('card-title').value;
+            const description = document.getElementById('card-description').value;
+            const buttonText = document.getElementById('card-button').value;
+            const buttonLink = document.getElementById('card-button-link').value;
+
+            if (!title) {
+                alert('Please enter a card title');
+                return;
+            }
+
+            if (!currentChanges.sections) {
+                currentChanges.sections = [];
+            }
+
+            const card = {
+                id: 'card-' + Date.now(),
+                type: 'card',
+                style: style,
+                icon: icon,
+                title: title,
+                description: description,
+                button: buttonText ? { text: buttonText, link: buttonLink } : null,
+                timestamp: new Date().toISOString()
+            };
+
+            currentChanges.sections.push(card);
+            updateSectionsList();
+            
+            // Clear inputs
+            document.getElementById('card-icon').value = '';
+            document.getElementById('card-title').value = '';
+            document.getElementById('card-description').value = '';
+            document.getElementById('card-button').value = '';
+            document.getElementById('card-button-link').value = '';
+            
+            showAlert('section-add-alert');
+        }
+
+        function previewNewImage(input) {
+            const preview = document.getElementById('new-image-preview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function updateSectionsList() {
+            const list = document.getElementById('sections-list');
+            if (!currentChanges.sections || currentChanges.sections.length === 0) {
+                list.innerHTML = '<p style="color: #999; text-align: center;">No custom sections added yet</p>';
+                return;
+            }
+
+            let html = '';
+            currentChanges.sections.forEach((section, index) => {
+                const icon = section.type === 'text' ? '📝' : 
+                            section.type === 'image' ? '🖼️' : 
+                            section.type === 'card' ? '🃏' : '➕';
+                
+                const displayText = section.title || 
+                                  (section.content ? section.content.substring(0, 30) + '...' : '') || 
+                                  section.type.toUpperCase();
+                
+                html += `
+                    <div class="section-item" style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #2a2a2a; border-radius: 5px; margin-bottom: 8px; border-left: 3px solid #d4af37;">
+                        <span style="flex: 1;">${icon} ${displayText}</span>
+                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="removeSection(${index})">🗑️</button>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function removeSection(index) {
+            if (confirm('Remove this section?')) {
+                currentChanges.sections.splice(index, 1);
+                updateSectionsList();
+            }
+        }
+
+        function updateSectionPreview() {
+            // Future enhancement: Show live preview of section template
+        }
+
+        function showAlert(alertId) {
+            const alert = document.getElementById(alertId);
+            alert.style.display = 'block';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+
+        function discardChanges() {
+            if (confirm('Are you sure you want to discard all unsaved changes? This cannot be undone.')) {
+                // Reset changes object
+                currentChanges = {
+                    content: {},
+                    design: {},
+                    images: {},
+                    sections: []
+                };
+                
+                // Clear all input fields
+                document.querySelectorAll('input[type="text"], textarea, input[type="url"], input[type="email"], input[type="tel"], input[type="file"]').forEach(input => {
+                    if (input.type !== 'file' && !input.id.includes('color')) {
+                        const originalValue = input.defaultValue || '';
+                        input.value = originalValue;
+                    } else if (input.type === 'file') {
+                        input.value = '';
+                    }
+                });
+                
+                // Hide all image previews
+                document.querySelectorAll('.image-preview').forEach(img => {
+                    img.style.display = 'none';
+                });
+                
+                // Reset color inputs to defaults
+                document.getElementById('color-primary').value = '#d4af37';
+                document.getElementById('color-primary-text').value = '#d4af37';
+                document.getElementById('color-dark').value = '#1a1a1a';
+                document.getElementById('color-dark-text').value = '#1a1a1a';
+                document.getElementById('color-light').value = '#f8f6f3';
+                document.getElementById('color-light-text').value = '#f8f6f3';
+                
+                // Reset selects to first option
+                document.querySelectorAll('select').forEach(select => {
+                    select.selectedIndex = 0;
+                });
+                
+                // Update sections list
+                updateSectionsList();
+                
+                // Reload preview iframe
+                const iframe = document.getElementById('preview-iframe');
+                iframe.src = iframe.src;
+                
+                alert('✅ All changes have been discarded');
+            }
+        }
+    </script>
+</body>
+</html>

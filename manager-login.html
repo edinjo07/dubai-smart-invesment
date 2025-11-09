@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dubai Smart Invest - Manager Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            padding: 50px 40px;
+            max-width: 450px;
+            width: 100%;
+            animation: slideUp 0.6s ease;
+            position: relative;
+            z-index: 1;
+            border-top: 4px solid #d4af37;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .logo h1 span {
+            color: #d4af37;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 0.95em;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .role-badge {
+            background: linear-gradient(135deg, #d4af37 0%, #c09d2f 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            font-weight: 600;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e8e6e3;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #d4af37 0%, #c09d2f 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.9em;
+            border-left: 4px solid #c62828;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e8e6e3;
+        }
+
+        .footer-links a {
+            color: #d4af37;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #c09d2f;
+            text-decoration: underline;
+        }
+
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle button {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            padding: 5px;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle button:hover {
+            color: #d4af37;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 40px 30px;
+            }
+
+            .logo h1 {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>DUBAI SMART <span>INVEST</span></h1>
+            <p>DUBAI REAL ESTATE</p>
+            <div style="margin-top: 15px;">
+                <span class="role-badge">👤 Manager Access</span>
+            </div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label>
+                    <span>🔑</span> Username
+                </label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    placeholder="Enter your username"
+                    required
+                    autocomplete="username"
+                >
+            </div>
+
+            <div class="form-group">
+                <label>
+                    <span>🔒</span> Password
+                </label>
+                <div class="password-toggle">
+                    <input 
+                        type="password" 
+                        id="password" 
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+                    <button type="button" onclick="togglePassword()">👁️</button>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn">
+                🚀 Login to Dashboard
+            </button>
+        </form>
+
+        <div class="footer-links">
+            <a href="/login">← Admin Login</a>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const button = event.target;
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                button.textContent = '👁️';
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+            
+            setTimeout(() => {
+                errorDiv.classList.remove('show');
+            }, 5000);
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            // Get managers from localStorage
+            const managersData = localStorage.getItem('managers');
+            
+            if (!managersData) {
+                showError('No managers found. Please contact the administrator.');
+                return;
+            }
+
+            let managers = [];
+            try {
+                managers = JSON.parse(managersData);
+            } catch (e) {
+                showError('Error loading manager data. Please contact the administrator.');
+                return;
+            }
+
+            // Find manager with matching username and password
+            const manager = managers.find(m => m.username === username && m.password === password);
+
+            if (manager) {
+                // Create session token
+                const sessionToken = btoa(JSON.stringify({
+                    username: manager.username,
+                    role: 'manager',
+                    loginTime: new Date().toISOString()
+                }));
+
+                // Store session
+                sessionStorage.setItem('managerSession', sessionToken);
+                localStorage.setItem('currentUser', JSON.stringify({
+                    username: manager.username,
+                    role: 'manager',
+                    name: manager.username
+                }));
+
+                // Redirect to manager dashboard
+                window.location.href = '/manager';
+            } else {
+                showError('❌ Invalid username or password. Please try again.');
+                document.getElementById('password').value = '';
+                document.getElementById('password').focus();
+            }
+        }
+
+        // Check if already logged in
+        const currentSession = sessionStorage.getItem('managerSession');
+        if (currentSession) {
+            try {
+                const sessionData = JSON.parse(atob(currentSession));
+                if (sessionData.role === 'manager') {
+                    window.location.href = '/manager';
+                }
+            } catch (e) {
+                // Invalid session, continue to login page
+            }
+        }
+    </script>
+</body>
+</html>
