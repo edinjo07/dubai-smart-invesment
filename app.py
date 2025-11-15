@@ -33,8 +33,8 @@ class Config:
     TO_EMAIL = os.environ.get('TO_EMAIL') or 'sales@leblanc-dubai.com'
     
     # Admin credentials (in production, store these securely in database with hashed passwords)
-    ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME') or 'admin'
-    ADMIN_PASSWORD_HASH = hashlib.sha256((os.environ.get('ADMIN_PASSWORD') or 'admin123').encode()).hexdigest()
+    ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME') or 'dubaiadmin'
+    ADMIN_PASSWORD_HASH = hashlib.sha256((os.environ.get('ADMIN_PASSWORD') or 'dubai1234').encode()).hexdigest()
 
 app.config.from_object(Config)
 
