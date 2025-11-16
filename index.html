@@ -92,6 +92,15 @@
             font-size: 1.8rem;
             font-weight: bold;
             color: #1a1a1a;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo img {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
         }
 
         .logo span {
@@ -836,7 +845,10 @@
     <header class="header">
         <nav class="nav-container">
             <div class="logo-lang-container">
-                <div class="logo">DUBAI SMART <span>INVEST</span></div>
+                <div class="logo">
+                    <img src="/static/images/logo.png" alt="Dubai Smart Invest Logo">
+                    <span>DUBAI SMART <span>INVEST</span></span>
+                </div>
                 <div class="lang-switcher">
                     <button class="lang-dropdown-btn" onclick="toggleLanguageDropdown()">
                         <span class="lang-flag">🇬🇧</span>
@@ -1185,8 +1197,7 @@
                 <div class="footer-section">
                     <h3>Contact Info</h3>
                     <p>📍 Dubai, United Arab Emirates<br>
-                    📧 info@dubaismartinvestment.com<br>
-                    📱 +971 50 XXX XXXX</p>
+                    📧 info@dubaismartinvestment.com</p>
                 </div>
             </div>
             <div class="footer-bottom">
