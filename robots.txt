@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Disallow admin and internal pages
+Disallow: /admin
+Disallow: /login
+Disallow: /manager-login
+Disallow: /manager
+Disallow: /editor
+Disallow: /settings
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://dubaismartinvestment.com/sitemap.xml
