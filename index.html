@@ -39,14 +39,25 @@
     <meta name="geo.position" content="25.276987;55.296249">
     <meta name="ICBM" content="25.276987, 55.296249">
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E6CJGWGVK"></script>
+    <!-- Google tag (gtag.js) with Consent Mode -->
     <script>
+      // Set default consent to 'denied' before loading Analytics
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
+      
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'wait_for_update': 500
+      });
+      
       gtag('js', new Date());
-
-      gtag('config', 'G-6E6CJGWGVK');
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E6CJGWGVK"></script>
+    <script>
+      gtag('config', 'G-6E6CJGWGVK', {
+        'anonymize_ip': true
+      });
     </script>
     
     <!-- Enhanced Structured Data (JSON-LD) for better SEO -->
@@ -1700,6 +1711,10 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
                         </tr>
                     </tbody>
                 </table>
+                
+                <div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 1rem; margin-bottom: 1.5rem; border-radius: 5px; text-align: center;">
+                    <p style="margin: 0; line-height: 1.6; color: #6c757d; font-size: 0.9rem;"><em><strong>Note:</strong> Prices are indicative only and subject to developer approval, market conditions, and availability. Final pricing confirmed by licensed RERA broker.</em></p>
+                </div>
 
                 <div style="background: #e7f3ff; padding: 1.5rem; border-left: 4px solid #2196F3; margin: 2rem 0; border-radius: 5px;">
                     <p style="margin: 0; line-height: 1.7;"><strong>💰 Book your unit with as low as €12,500</strong> (approx. 20% of studio EOI)<br><em style="font-size: 0.9rem; color: #555;">Exact amount depends on developer confirmation.</em></p>
@@ -1707,7 +1722,7 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
 
                 <!-- Key Highlights -->
                 <h3 style="color: #d4af37; margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">🌟 Key Highlights</h3>
-                <ul style="list-style: none; padding: 0; margin-bottom: 2rem;">
+                <ul style="list-style: none; padding: 0; margin-bottom: 1rem;">
                     <li style="padding: 0.5rem 0; font-size: 1.05rem;"><span style="color: #d4af37;">✨</span> Fully furnished apartments — Move-in ready</li>
                     <li style="padding: 0.5rem 0; font-size: 1.05rem;"><span style="color: #d4af37;">✨</span> Ideal for end-users & long-term investors</li>
                     <li style="padding: 0.5rem 0; font-size: 1.05rem;"><span style="color: #d4af37;">✨</span> Developer-branded interiors & premium materials</li>
@@ -1717,6 +1732,10 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
                     <li style="padding: 0.5rem 0; font-size: 1.05rem;"><span style="color: #d4af37;">✨</span> Serene architecture with human-first design</li>
                     <li style="padding: 0.5rem 0; font-size: 1.05rem;"><span style="color: #d4af37;">✨</span> Interiors inspired by warm neutrals, soft stone, and modern detailing</li>
                 </ul>
+                
+                <div style="background: #fff3cd; border-left: 4px solid #ff9800; padding: 1rem; margin-bottom: 2rem; border-radius: 5px;">
+                    <p style="margin: 0; line-height: 1.6; color: #856404; font-size: 0.95rem;"><strong>⚠️ Investment Risk Notice:</strong> Real estate involves financial risk. No guarantee of returns, rental yields, or capital appreciation. Past performance is not indicative of future results. Consult independent legal, financial, and tax advisors before purchasing.</p>
+                </div>
 
                 <!-- Design & Architecture -->
                 <h3 style="color: #d4af37; margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem;">🏢 Design & Architecture</h3>
@@ -1745,7 +1764,7 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
                     <li style="padding: 0.5rem 0; font-size: 1.05rem; border-bottom: 1px solid #e0e0e0;"><strong>✓</strong> Located in a high-growth district</li>
                     <li style="padding: 0.5rem 0; font-size: 1.05rem; border-bottom: 1px solid #e0e0e0;"><strong>✓</strong> Developer with strong track record</li>
                     <li style="padding: 0.5rem 0; font-size: 1.05rem; border-bottom: 1px solid #e0e0e0;"><strong>✓</strong> Ideal for Golden Visa eligibility (subject to UAE rules)</li>
-                    <li style="padding: 0.5rem 0; font-size: 1.05rem;"><strong>✓</strong> Zero agent commission for buyers (paid by developers via licensed brokers)</li>
+                    <li style="padding: 0.5rem 0; font-size: 1.05rem;"><strong>✓</strong> Zero buyer commission (developer-paid via licensed broker partner)</li>
                 </ul>
 
                 <!-- Location -->
@@ -2539,8 +2558,28 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
       }
     }
 
+    // Check consent status on page load and apply saved preference
     window.onload = function() {
-      if (!localStorage.getItem("cookieConsent")) {
+      const consent = localStorage.getItem("cookieConsent");
+      
+      if (consent === "accepted") {
+        // User previously accepted - grant consent
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            'analytics_storage': 'granted',
+            'ad_storage': 'granted'
+          });
+        }
+      } else if (consent === "rejected") {
+        // User previously rejected - keep denied
+        if (typeof gtag !== 'undefined') {
+          gtag('consent', 'update', {
+            'analytics_storage': 'denied',
+            'ad_storage': 'denied'
+          });
+        }
+      } else {
+        // No choice made yet - show banner
         document.getElementById("cookie-banner").style.display = "block";
       }
     };
