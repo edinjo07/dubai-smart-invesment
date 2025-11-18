@@ -756,6 +756,44 @@
         }
 
         /* Responsive Design */
+        
+        /* Tablet (768px - 1024px) */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .properties-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .plans-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .why-dubai-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+                line-height: 1.2;
+            }
+
+            .hero-subtitle {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Mobile & Small Tablet (max-width: 768px) */
         @media (max-width: 768px) {
             .mobile-menu-btn {
                 display: block;
@@ -767,11 +805,11 @@
             }
 
             .logo {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
 
             .lang-switcher {
-                transform: scale(0.9);
+                transform: scale(0.85);
             }
 
             .nav-menu {
@@ -785,18 +823,46 @@
                 transition: 0.3s;
                 box-shadow: 0 10px 27px rgba(0,0,0,0.05);
                 padding: 2rem 0;
+                gap: 0;
+            }
+
+            .nav-menu li {
+                padding: 1rem 0;
+                border-bottom: 1px solid #f0f0f0;
             }
 
             .nav-menu.active {
                 left: 0;
             }
 
+            .hero {
+                min-height: 70vh;
+                margin-top: 60px;
+            }
+
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
+                line-height: 1.2;
+                margin-bottom: 1rem;
             }
 
             .hero-subtitle {
-                font-size: 1.1rem;
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .hero-content {
+                padding: 1.5rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                padding: 1rem 2rem;
             }
 
             .properties-grid {
@@ -809,34 +875,340 @@
                 gap: 2rem;
             }
 
+            .why-dubai-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
             .contact-grid {
                 grid-template-columns: 1fr;
+                gap: 2rem;
             }
 
             .form-row {
                 grid-template-columns: 1fr;
             }
 
-            .hero-buttons {
-                flex-direction: column;
-            }
-
             .section-header h2 {
                 font-size: 2rem;
+                line-height: 1.3;
+            }
+
+            .section-header p {
+                font-size: 1rem;
+            }
+
+            /* Property Highlights Box - Mobile */
+            .property-highlights > div {
+                padding: 1.5rem !important;
+            }
+
+            .property-highlights h3 {
+                font-size: 1.5rem !important;
+            }
+
+            /* Property Description Section - Mobile */
+            .property-description-section {
+                padding: 2rem 0 !important;
+            }
+
+            .property-description-section .container {
+                padding: 0 15px !important;
+            }
+
+            .property-description-section h2 {
+                font-size: 1.8rem !important;
+            }
+
+            .property-description-section h3 {
+                font-size: 1.4rem !important;
+            }
+
+            /* Pricing Table - Mobile */
+            .pricing-table {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .pricing-table table {
+                min-width: 100%;
+                font-size: 0.9rem;
+            }
+
+            /* Amenities Grid - Mobile */
+            .amenities-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1rem !important;
+            }
+
+            /* Contact Sidebar - Mobile */
+            .contact-sidebar {
+                padding: 1.5rem !important;
+            }
+
+            /* Footer - Mobile */
+            .footer-content {
+                grid-template-columns: 1fr !important;
+                gap: 2rem !important;
+            }
+
+            .footer-section {
+                text-align: center;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            /* Brokerage Disclosure Box - Mobile */
+            .brokerage-disclosure-box {
+                padding: 1.5rem !important;
+                margin: 1.5rem 0 !important;
+            }
+
+            .brokerage-disclosure-box h3 {
+                font-size: 1.2rem !important;
+            }
+
+            /* Legal Footer Disclaimer - Mobile */
+            .legal-footer-disclaimer {
+                padding: 1.5rem !important;
+                font-size: 0.85rem !important;
+            }
+
+            /* Cookie Banner - Mobile */
+            .cookie-banner {
+                padding: 1rem !important;
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+
+            .cookie-content {
+                margin-bottom: 1rem;
+            }
+
+            .cookie-buttons {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .cookie-buttons button {
+                width: 100%;
             }
         }
 
+        /* Small Mobile (max-width: 480px) */
         @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .eoi-badge {
+                font-size: 0.8rem;
+                padding: 0.4rem 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.7rem;
+            }
+
+            .property-card {
+                margin: 0;
+            }
+
+            .btn {
+                padding: 0.9rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            /* Hide less critical text on very small screens */
+            .hero-subtitle br {
+                display: none;
+            }
+
+            /* Ensure tables are scrollable */
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            /* Amenities Grid - Very Small Mobile */
+            .amenities-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Stats - Smaller font */
+            .stat-card h3 {
+                font-size: 2rem !important;
+            }
+
+            .stat-card p {
+                font-size: 0.9rem !important;
+            }
+        }
+
+        /* Landscape Mobile (max-height: 500px) */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .hero {
+                min-height: auto;
+                padding: 8rem 0 4rem;
+            }
+
             .hero h1 {
                 font-size: 2rem;
             }
 
-            .logo {
-                font-size: 1.5rem;
+            .hero-subtitle {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Ensure images are responsive */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Prevent horizontal scroll */
+        body {
+            overflow-x: hidden;
+        }
+
+        /* Improve touch targets for mobile */
+        @media (max-width: 768px) {
+            button, .btn, a {
+                min-height: 44px;
+                min-width: 44px;
             }
 
-            .properties-grid {
-                grid-template-columns: 1fr;
+            /* Inline styled elements - Mobile responsive overrides */
+            section[style*="padding: 4rem"] {
+                padding: 2rem 0 !important;
+            }
+
+            div[style*="padding: 3rem"] {
+                padding: 1.5rem !important;
+            }
+
+            div[style*="padding: 2rem"] {
+                padding: 1.5rem !important;
+            }
+
+            h2[style*="font-size: 2.5rem"] {
+                font-size: 1.8rem !important;
+            }
+
+            h3[style*="font-size: 1.5rem"] {
+                font-size: 1.3rem !important;
+            }
+
+            p[style*="font-size: 1.2rem"] {
+                font-size: 1rem !important;
+            }
+
+            p[style*="font-size: 1.1rem"] {
+                font-size: 1rem !important;
+            }
+
+            /* Brochure download button */
+            a[download] {
+                font-size: 1rem !important;
+                padding: 0.8rem 1.5rem !important;
+            }
+
+            /* Pricing table responsive */
+            table {
+                font-size: 0.85rem !important;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            table th, table td {
+                padding: 0.6rem !important;
+                white-space: nowrap;
+            }
+
+            /* Grid layouts in inline styles */
+            div[style*="display: grid"] {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+
+            /* Max width containers */
+            div[style*="max-width: 1000px"],
+            div[style*="max-width: 900px"],
+            div[style*="max-width: 800px"],
+            div[style*="max-width: 750px"] {
+                max-width: 100% !important;
+                margin-left: 1rem !important;
+                margin-right: 1rem !important;
+            }
+
+            /* Legal/compliance boxes */
+            div[style*="border: 2px solid #d4af37"] {
+                padding: 1rem !important;
+                font-size: 0.9rem !important;
+            }
+
+            /* Amenities and feature lists */
+            div[style*="grid-template-columns"] > div {
+                font-size: 0.95rem !important;
+            }
+        }
+
+        /* Additional mobile-specific fixes */
+        @media (max-width: 480px) {
+            div[style*="padding: 1.5rem"] {
+                padding: 1rem !important;
+            }
+
+            h2 {
+                font-size: 1.6rem !important;
+            }
+
+            h3 {
+                font-size: 1.2rem !important;
+            }
+
+            /* Smaller buttons on very small screens */
+            a[href="#contact"] {
+                font-size: 0.9rem !important;
+                padding: 0.7rem 1.2rem !important;
+            }
+
+            /* Tighter spacing */
+            section {
+                padding: 1.5rem 0 !important;
+            }
+        }
+
+        /* Tablet-specific adjustments */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            /* Amenities grid - 2 columns on tablet */
+            div[style*="grid-template-columns: repeat(4"] {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            /* Adjust font sizes for tablet */
+            h2[style*="font-size: 2.5rem"] {
+                font-size: 2rem !important;
+            }
+
+            div[style*="padding: 3rem"] {
+                padding: 2rem !important;
             }
         }
     </style>
