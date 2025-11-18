@@ -1145,5 +1145,38 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
             });
         });
     </script>
+
+    <!-- GDPR-Compliant Cookie Banner -->
+    <div id="cookie-banner" style="position: fixed; bottom: 0; left: 0; width: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); color: #fff; padding: 20px; text-align: center; z-index: 99999; display: none; box-shadow: 0 -4px 20px rgba(0,0,0,0.3); border-top: 2px solid #d4af37;">
+      <div style="max-width: 1200px; margin: 0 auto;">
+        <p style="margin: 0 0 15px 0; font-size: 15px; line-height: 1.6;">
+          <strong style="color: #d4af37;">🍪 Cookie Notice:</strong> We use cookies to enhance your browsing experience and to analyze website traffic. By clicking "Accept All", you consent to the use of all cookies. You may click "Reject Non-Essential" to decline optional cookies.
+          <a href="/cookies.html" style="color: #d4af37; text-decoration: underline; margin-left: 5px;">See our Cookie Policy for full details.</a>
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+          <button onclick="acceptCookies()" style="padding: 10px 24px; background: #d4af37; color: #1a1a1a; border: none; cursor: pointer; border-radius: 5px; font-weight: 600; font-size: 14px; transition: all 0.3s;">Accept All</button>
+          <button onclick="rejectCookies()" style="padding: 10px 24px; background: #444; color: #fff; border: none; cursor: pointer; border-radius: 5px; font-weight: 600; font-size: 14px; transition: all 0.3s;">Reject Non-Essential</button>
+          <a href="/cookies.html" style="padding: 10px 24px; background: transparent; color: #ccc; border: 1px solid #666; text-decoration: none; cursor: pointer; border-radius: 5px; font-weight: 600; font-size: 14px; display: inline-block;">Cookie Settings</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    function acceptCookies() {
+      localStorage.setItem("cookieConsent", "accepted");
+      document.getElementById("cookie-banner").style.display = "none";
+    }
+
+    function rejectCookies() {
+      localStorage.setItem("cookieConsent", "rejected");
+      document.getElementById("cookie-banner").style.display = "none";
+    }
+
+    window.onload = function() {
+      if (!localStorage.getItem("cookieConsent")) {
+        document.getElementById("cookie-banner").style.display = "block";
+      }
+    };
+    </script>
 </body>
 </html>
