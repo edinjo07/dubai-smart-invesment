@@ -296,6 +296,27 @@ def serve_static(filename):
     """Serve static files (images, css, js)"""
     return send_from_directory('static', filename)
 
+# Clean URL routes for legal pages (without .html extension)
+@app.route('/terms')
+def terms_clean():
+    """Serve terms page without .html extension"""
+    return send_from_directory('.', 'terms.html')
+
+@app.route('/privacy')
+def privacy_clean():
+    """Serve privacy page without .html extension"""
+    return send_from_directory('.', 'privacy.html')
+
+@app.route('/disclaimer')
+def disclaimer_clean():
+    """Serve disclaimer page without .html extension"""
+    return send_from_directory('.', 'disclaimer.html')
+
+@app.route('/cookies')
+def cookies_clean():
+    """Serve cookies page without .html extension"""
+    return send_from_directory('.', 'cookies.html')
+
 @app.route('/<path:filename>')
 def static_files(filename):
     """Serve static files"""
