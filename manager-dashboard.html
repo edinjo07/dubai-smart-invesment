@@ -762,7 +762,6 @@
             </div>
             <div class="controls-row" style="margin-top: 1rem;">
                 <button class="btn btn-secondary" onclick="clearFilters()">🗑️ Clear Filters</button>
-                <button class="btn btn-primary" onclick="refreshLeads()" style="margin-left: 0.5rem;">🔄 Refresh Leads</button>
             </div>
         </div>
 
@@ -1277,10 +1276,6 @@
             document.getElementById('interestFilter').addEventListener('change', filterLeads);
             document.getElementById('countryFilter').addEventListener('change', filterLeads);
             document.getElementById('statusFilter').addEventListener('change', filterLeads);
-        }
-
-        function refreshLeads() {
-            loadLeads();
         }
     </script>
 </body>
