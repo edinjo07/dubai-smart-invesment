@@ -132,15 +132,16 @@ def send_email(form_data):
         
         CONTACT INFORMATION:
         =====================
-        First Name: {form_data.get('firstName', 'N/A')}
-        Last Name: {form_data.get('lastName', 'N/A')}
+        Name: {form_data.get('firstName', 'N/A')} {form_data.get('lastName', 'N/A')}
         Email: {form_data.get('email', 'N/A')}
-        Phone: {form_data.get('phone', 'N/A')}
+        WhatsApp: {form_data.get('whatsapp', 'N/A')}
+        Country: {form_data.get('country', 'N/A')}
         
         INQUIRY DETAILS:
         ================
-        Interest: {form_data.get('interest', 'N/A')}
-        Message: {form_data.get('message', 'N/A')}
+        Preferred Contact: {form_data.get('contactMethod', 'N/A')}
+        Buying Timeframe: {form_data.get('timeframe', 'N/A')}
+        Property Interest: {form_data.get('propertyType', 'Not specified')}
         
         ADDITIONAL INFO:
         ================
@@ -198,8 +199,11 @@ def send_confirmation_email(form_data):
         =====================
         Name: {form_data.get('firstName')} {form_data.get('lastName')}
         Email: {form_data.get('email')}
-        Phone: {form_data.get('phone')}
-        Interest: {form_data.get('interest', 'General Inquiry')}
+        WhatsApp: {form_data.get('whatsapp')}
+        Country: {form_data.get('country')}
+        Preferred Contact: {form_data.get('contactMethod')}
+        Buying Timeframe: {form_data.get('timeframe')}
+        Property Interest: {form_data.get('propertyType', 'To be discussed')}
         
         WHY CHOOSE LE BLANC DUBAI?
         ===========================
@@ -240,7 +244,7 @@ def send_confirmation_email(form_data):
 def save_lead_data(form_data):
     """Save lead data to JSON file for backup"""
     try:
-        # Get country information
+        # Get country information from IP
         ip_address = request.environ.get('REMOTE_ADDR', '127.0.0.1')
         country_code, country_name = get_country_from_ip(ip_address)
         
@@ -249,13 +253,15 @@ def save_lead_data(form_data):
             'firstName': form_data.get('firstName'),
             'lastName': form_data.get('lastName'),
             'email': form_data.get('email'),
-            'phone': form_data.get('phone'),
-            'interest': form_data.get('interest'),
-            'message': form_data.get('message'),
+            'whatsapp': form_data.get('whatsapp'),
+            'country': form_data.get('country'),
+            'contactMethod': form_data.get('contactMethod'),
+            'timeframe': form_data.get('timeframe'),
+            'propertyType': form_data.get('propertyType', 'Not specified'),
             'ip_address': ip_address,
             'user_agent': request.environ.get('HTTP_USER_AGENT'),
-            'country_code': country_code,
-            'country': country_name
+            'detected_country_code': country_code,
+            'detected_country': country_name
         }
         
         # Load existing leads
@@ -309,7 +315,7 @@ def handle_contact_form():
             }), 400
         
         # Validate required fields
-        required_fields = ['firstName', 'lastName', 'email', 'phone']
+        required_fields = ['firstName', 'lastName', 'email', 'whatsapp', 'country', 'contactMethod', 'timeframe']
         missing_fields = [field for field in required_fields if not data.get(field)]
         
         if missing_fields:
@@ -325,11 +331,11 @@ def handle_contact_form():
                 'message': 'Invalid email format'
             }), 400
         
-        # Validate phone format
-        if not validate_phone(data.get('phone')):
+        # Validate WhatsApp number format
+        if not validate_phone(data.get('whatsapp')):
             return jsonify({
                 'success': False,
-                'message': 'Invalid phone number format'
+                'message': 'Invalid WhatsApp number format'
             }), 400
         
         # Save lead data

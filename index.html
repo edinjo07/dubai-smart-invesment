@@ -1829,40 +1829,52 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="email" data-translate="email">Email *</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone" data-translate="phone">Phone *</label>
-                                <input type="tel" id="phone" name="phone" required>
-                            </div>
+                        <div class="form-group">
+                            <label for="email" data-translate="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="propertyType" data-translate="property-type">Interested In *</label>
-                            <select id="propertyType" name="propertyType" required>
-                                <option value="" data-translate="select-property">Select Property Type</option>
-                                <option value="Studio - €172.5K">Studio - €172,500 (AED 690K)</option>
-                                <option value="1 Bedroom - €273.75K">1 Bedroom - €273,750 (AED 1.095M)</option>
-                                <option value="2 Bedroom - €373.5K">2 Bedroom - €373,475 (AED 1.494M)</option>
-                                <option value="3 Bedroom - €448.75K">3 Bedroom - €448,750 (AED 1.795M)</option>
+                            <label for="whatsapp" data-translate="whatsapp">WhatsApp Number *</label>
+                            <input type="tel" id="whatsapp" name="whatsapp" placeholder="+971 XX XXX XXXX" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country" data-translate="country">Country *</label>
+                            <input type="text" id="country" name="country" placeholder="e.g., United Arab Emirates" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contactMethod" data-translate="contact-method">Preferred Contact Method *</label>
+                            <select id="contactMethod" name="contactMethod" required>
+                                <option value="">Select Contact Method</option>
+                                <option value="WhatsApp">WhatsApp</option>
+                                <option value="Phone">Phone Call</option>
+                                <option value="Email">Email</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="paymentPlan" data-translate="payment-plan">Preferred Payment Plan *</label>
-                            <select id="paymentPlan" name="paymentPlan" required>
-                                <option value="" data-translate="select-payment">Select Payment Plan</option>
-                                <option value="Normal 60/40">Normal 60/40 Plan</option>
-                                <option value="Post-Handover 70/30">Post-Handover 70/30 Plan (Recommended)</option>
+                            <label for="timeframe" data-translate="timeframe">When are you planning to buy? *</label>
+                            <select id="timeframe" name="timeframe" required>
+                                <option value="">Select Timeframe</option>
+                                <option value="Within 1 month">Within 1 month</option>
+                                <option value="1-3 months">1–3 months</option>
+                                <option value="3-6 months">3–6 months</option>
+                                <option value="6+ months">6+ months</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="message" data-translate="message">Message (Optional)</label>
-                            <textarea id="message" name="message" data-translate="message-placeholder" placeholder="Tell us more about your requirements..."></textarea>
+                            <label for="propertyType" data-translate="property-type">Interested In (Optional)</label>
+                            <select id="propertyType" name="propertyType">
+                                <option value="">Select Property Type</option>
+                                <option value="Studio">Studio - AED 690K</option>
+                                <option value="1 Bedroom">1 Bedroom - AED 1.095M</option>
+                                <option value="2 Bedroom">2 Bedroom - AED 1.494M</option>
+                                <option value="3 Bedroom">3 Bedroom - AED 1.795M</option>
+                                <option value="Not sure yet">Not sure yet</option>
+                            </select>
                         </div>
                         
                         <!-- Form Privacy Notice -->
