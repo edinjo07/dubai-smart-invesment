@@ -445,26 +445,16 @@ def google_ads_webhook():
 @app.route('/api/health')
 def health_check():
     """Health check endpoint"""
-    mongodb_status = 'disconnected'
-    mongodb_error = None
-    
-    try:
-        if db.client is not None:
-            db.client.admin.command('ping')
-            mongodb_status = 'connected'
-        else:
-            mongodb_error = 'MongoDB client not initialized - using local file storage'
-    except Exception as e:
-        mongodb_error = str(e)
+    mongo_connected = db.client is not None and db.db is not None
+    mongo_uri_set = bool(os.environ.get('MONGODB_URI'))
     
     return jsonify({
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
         'version': '1.0.0',
-        'database': {
-            'mongodb': mongodb_status,
-            'error': mongodb_error
-        }
+        'mongodb_connected': mongo_connected,
+        'mongodb_uri_configured': mongo_uri_set,
+        'database_name': 'dubai_smart_invest' if mongo_connected else 'local_fallback'
     })
 
 @app.route('/api/admin/login', methods=['POST'])
