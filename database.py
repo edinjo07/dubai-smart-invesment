@@ -4,8 +4,10 @@ Handles leads, users, and website configuration storage
 """
 import os
 from pymongo import MongoClient, ASCENDING, DESCENDING
+from bson.objectid import ObjectId
 from datetime import datetime
 import logging
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -83,7 +85,6 @@ class Database:
             if self.leads is None:
                 return self._delete_lead_local(lead_id)
             
-            from bson.objectid import ObjectId
             result = self.leads.delete_one({'_id': ObjectId(lead_id)})
             return result.deleted_count > 0
             
@@ -97,7 +98,6 @@ class Database:
             if self.leads is None:
                 return self._delete_leads_bulk_local(lead_ids)
             
-            from bson.objectid import ObjectId
             object_ids = [ObjectId(lid) for lid in lead_ids]
             result = self.leads.delete_many({'_id': {'$in': object_ids}})
             return result.deleted_count
