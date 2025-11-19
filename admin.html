@@ -1309,6 +1309,10 @@
                             <label>Password</label>
                             <input type="password" id="managerPassword" required minlength="6" placeholder="Minimum 6 characters">
                         </div>
+                        <div class="form-group">
+                            <label>Email (Optional)</label>
+                            <input type="email" id="managerEmail" placeholder="manager@example.com">
+                        </div>
                         <button type="submit" class="btn btn-primary">👤 Create Manager</button>
                     </form>
                 </div>
@@ -2199,11 +2203,34 @@
 
         // ===== MANAGER MANAGEMENT =====
 
-        function loadManagers() {
-            // Load from localStorage
-            const savedManagers = localStorage.getItem('managers');
-            if (savedManagers) {
-                managers = JSON.parse(savedManagers);
+        async function loadManagers() {
+            try {
+                const response = await fetch('/api/managers', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    managers = await response.json();
+                    console.log('Managers loaded from MongoDB:', managers.length);
+                } else if (response.status === 401) {
+                    console.error('Unauthorized - token may be invalid');
+                    // Fall back to localStorage if API fails
+                    const savedManagers = localStorage.getItem('managers');
+                    if (savedManagers) {
+                        managers = JSON.parse(savedManagers);
+                        console.log('Loaded managers from localStorage (fallback)');
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading managers:', error);
+                // Fall back to localStorage
+                const savedManagers = localStorage.getItem('managers');
+                if (savedManagers) {
+                    managers = JSON.parse(savedManagers);
+                    console.log('Loaded managers from localStorage (error fallback)');
+                }
             }
             displayManagers();
             updateManagerDropdown();
@@ -2244,11 +2271,12 @@
                 managers.map(m => `<option value="${m.username}">${m.username}</option>`).join('');
         }
 
-        function addManager(event) {
+        async function addManager(event) {
             event.preventDefault();
             
             const username = document.getElementById('managerUsername').value.trim().replace(/\s+/g, '');
             const password = document.getElementById('managerPassword').value;
+            const email = document.getElementById('managerEmail')?.value || '';
 
             // Check if manager already exists
             if (managers.find(m => m.username === username)) {
@@ -2256,65 +2284,131 @@
                 return;
             }
 
-            const newManager = {
-                username,
-                password, // In production, hash this!
-                role: 'manager',
-                createdAt: new Date().toISOString()
-            };
+            try {
+                const response = await fetch('/api/managers/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password,
+                        email
+                    })
+                });
 
-            managers.push(newManager);
-            localStorage.setItem('managers', JSON.stringify(managers));
+                const result = await response.json();
 
-            alert(`Manager "${username}" created successfully!\n\nLogin credentials:\nUsername: ${username}\nPassword: ${password}\n\nLogin at: /manager-login`);
-            document.getElementById('addManagerForm').reset();
-            displayManagers();
-            updateManagerDropdown();
-        }
-
-        function editManager(username) {
-            const manager = managers.find(m => m.username === username);
-            if (!manager) return;
-
-            const newUsername = prompt('Enter new username:', manager.username);
-            if (newUsername && newUsername.trim()) {
-                const cleanUsername = newUsername.trim().replace(/\s+/g, '');
-                if (managers.find(m => m.username === cleanUsername && m.username !== manager.username)) {
-                    alert('This username is already taken!');
-                    return;
+                if (response.ok && result.success) {
+                    alert(`Manager "${username}" created successfully!\n\nLogin credentials:\nUsername: ${username}\nPassword: ${password}\n\nLogin at: /manager-login`);
+                    document.getElementById('addManagerForm').reset();
+                    await loadManagers(); // Reload from API
+                } else {
+                    alert(`Failed to create manager: ${result.message}`);
                 }
-                manager.username = cleanUsername;
-                localStorage.setItem('managers', JSON.stringify(managers));
-                displayManagers();
-                updateManagerDropdown();
-                alert('Manager updated successfully!');
+            } catch (error) {
+                console.error('Error creating manager:', error);
+                alert('Error creating manager. Check console for details.');
             }
         }
 
-        function resetManagerPassword(username) {
+        async function editManager(username) {
+            const manager = managers.find(m => m.username === username);
+            if (!manager) return;
+
+            const newEmail = prompt('Enter new email for manager:', manager.email || '');
+            if (newEmail !== null && newEmail.trim()) {
+                try {
+                    const response = await fetch('/api/managers/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify({
+                            username,
+                            update_data: { email: newEmail.trim() }
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert('Manager updated successfully!');
+                        await loadManagers();
+                    } else {
+                        alert(`Failed to update manager: ${result.message}`);
+                    }
+                } catch (error) {
+                    console.error('Error updating manager:', error);
+                    alert('Error updating manager. Check console for details.');
+                }
+            }
+        }
+
+        async function resetManagerPassword(username) {
             const manager = managers.find(m => m.username === username);
             if (!manager) return;
 
             const newPassword = prompt(`Enter new password for ${manager.username}:`);
             if (newPassword && newPassword.length >= 6) {
-                manager.password = newPassword;
-                localStorage.setItem('managers', JSON.stringify(managers));
-                alert('Password updated successfully!');
+                try {
+                    const response = await fetch('/api/managers/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify({
+                            username,
+                            update_data: { password: newPassword }
+                        })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert(`Password updated successfully for ${manager.username}!\\n\\nNew password: ${newPassword}`);
+                    } else {
+                        alert(`Failed to update password: ${result.message}`);
+                    }
+                } catch (error) {
+                    console.error('Error updating password:', error);
+                    alert('Error updating password. Check console for details.');
+                }
             } else if (newPassword !== null) {
                 alert('Password must be at least 6 characters!');
             }
         }
 
-        function deleteManager(username) {
+        async function deleteManager(username) {
             const manager = managers.find(m => m.username === username);
             if (!manager) return;
 
             if (confirm(`Are you sure you want to delete manager "${manager.username}"?`)) {
-                managers = managers.filter(m => m.username !== username);
-                localStorage.setItem('managers', JSON.stringify(managers));
-                displayManagers();
-                updateManagerDropdown();
-                alert('Manager deleted successfully!');
+                try {
+                    const response = await fetch('/api/managers/delete', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify({ username })
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok && result.success) {
+                        alert('Manager deleted successfully!');
+                        await loadManagers(); // Reload from API
+                    } else {
+                        alert(`Failed to delete manager: ${result.message}`);
+                    }
+                } catch (error) {
+                    console.error('Error deleting manager:', error);
+                    alert('Error deleting manager. Check console for details.');
+                }
             }
         }
 

@@ -919,6 +919,46 @@ def get_managers():
             'message': 'Error fetching managers'
         }), 500
 
+@app.route('/api/managers/update', methods=['POST'])
+@require_admin_auth
+def update_manager():
+    """Update a manager (admin only)"""
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        update_data = data.get('update_data', {})
+        
+        if not username:
+            return jsonify({
+                'success': False,
+                'message': 'Username is required'
+            }), 400
+        
+        # If updating password, hash it
+        if 'password' in update_data:
+            update_data['password_hash'] = hashlib.sha256(update_data['password'].encode()).hexdigest()
+            del update_data['password']
+        
+        success = db.update_manager(username, update_data)
+        
+        if success:
+            return jsonify({
+                'success': True,
+                'message': f'Manager {username} updated successfully'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'message': 'Manager not found or no changes made'
+            }), 404
+            
+    except Exception as e:
+        logger.error(f"Error updating manager: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Error updating manager'
+        }), 500
+
 @app.route('/api/managers/delete', methods=['POST'])
 @require_admin_auth
 def delete_manager():
