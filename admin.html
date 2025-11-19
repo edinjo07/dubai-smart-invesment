@@ -1864,16 +1864,24 @@
                     </td>
                     <td>
                         <div><a href="mailto:${lead.email}" class="lead-email">${lead.email}</a></div>
-                        <div class="lead-phone">${lead.phone}</div>
+                    </td>
+                    <td>
+                        <div class="lead-phone">${lead.whatsapp || lead.phone || '-'}</div>
                     </td>
                     <td>
                         <span class="country-code">
                             <span class="country-flag">${countryFlag}</span>
-                            ${countryCode}
+                            ${lead.country || countryCode}
                         </span>
                     </td>
                     <td>
-                        <span class="interest-tag">${lead.interest}</span>
+                        <span class="interest-tag">${lead.contactMethod || '-'}</span>
+                    </td>
+                    <td>
+                        <span class="interest-tag">${lead.timeframe || '-'}</span>
+                    </td>
+                    <td>
+                        <span class="interest-tag">${lead.propertyType || '-'}</span>
                     </td>
                     <td>
                         <select class="status-select status-${currentStatus}" 
@@ -1886,11 +1894,6 @@
                             <option value="not-interested" ${currentStatus === 'not-interested' ? 'selected' : ''}>❌ Not Interested</option>
                             <option value="no-answer" ${currentStatus === 'no-answer' ? 'selected' : ''}>📵 No Answer</option>
                         </select>
-                    </td>
-                    <td>
-                        <div class="lead-message" title="${lead.message}">
-                            ${lead.message || '-'}
-                        </div>
                     </td>
                     <td>
                         ${isAdmin ? `
