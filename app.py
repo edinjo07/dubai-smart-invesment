@@ -667,8 +667,8 @@ def download_leads_csv():
         
         # Write header
         writer.writerow([
-            'Date', 'Time', 'First Name', 'Last Name', 'Email', 'Phone',
-            'Country', 'Interest', 'Message', 'IP Address', 'User Agent'
+            'Date', 'Time', 'First Name', 'Last Name', 'Email', 'WhatsApp',
+            'Country', 'Contact Method', 'Buying Timeframe', 'Property Type', 'IP Address', 'User Agent'
         ])
         
         # Write data
@@ -683,10 +683,11 @@ def download_leads_csv():
                 lead.get('firstName', ''),
                 lead.get('lastName', ''),
                 lead.get('email', ''),
-                lead.get('phone', ''),
+                lead.get('whatsapp', lead.get('phone', '')),
                 lead.get('country', 'Unknown'),
-                lead.get('interest', ''),
-                lead.get('message', ''),
+                lead.get('contactMethod', ''),
+                lead.get('timeframe', ''),
+                lead.get('propertyType', lead.get('interest', '')),
                 lead.get('ip_address', ''),
                 lead.get('user_agent', '')
             ])
@@ -727,8 +728,8 @@ def download_leads_excel():
         
         # Write header
         writer.writerow([
-            'Date', 'Time', 'First Name', 'Last Name', 'Email', 'Phone',
-            'Country', 'Interest', 'Message', 'IP Address', 'User Agent'
+            'Date', 'Time', 'First Name', 'Last Name', 'Email', 'WhatsApp',
+            'Country', 'Contact Method', 'Buying Timeframe', 'Property Type', 'IP Address', 'User Agent'
         ])
         
         # Write data
@@ -743,10 +744,11 @@ def download_leads_excel():
                 lead.get('firstName', ''),
                 lead.get('lastName', ''),
                 lead.get('email', ''),
-                lead.get('phone', ''),
+                lead.get('whatsapp', lead.get('phone', '')),
                 lead.get('country', 'Unknown'),
-                lead.get('interest', ''),
-                lead.get('message', ''),
+                lead.get('contactMethod', ''),
+                lead.get('timeframe', ''),
+                lead.get('propertyType', lead.get('interest', '')),
                 lead.get('ip_address', ''),
                 lead.get('user_agent', '')
             ])
