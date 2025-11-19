@@ -107,42 +107,45 @@
       "sameAs": [
         "https://dubaismartinvestment.com"
       ],
-      "makesOffer": [
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Apartment",
-            "name": "Le Blanc Studio Apartment",
-            "description": "Fully furnished luxury studio apartment in Dubai Land Residence Complex",
-            "numberOfRooms": 1,
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Dubai Land Residence Complex",
-              "addressRegion": "Dubai",
-              "addressCountry": "AE"
-            }
-          },
-          "price": "690000",
-          "priceCurrency": "AED"
-        },
-        {
-          "@type": "Offer",
-          "itemOffered": {
-            "@type": "Apartment",
-            "name": "Le Blanc 1 Bedroom Apartment",
-            "description": "Spacious 1 bedroom fully furnished apartment with modern amenities",
-            "numberOfRooms": 2,
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Dubai Land Residence Complex",
-              "addressRegion": "Dubai",
-              "addressCountry": "AE"
-            }
-          },
-          "price": "1095000",
-          "priceCurrency": "AED"
-        }
-      ]
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "127",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
+    }
+    </script>
+    
+    <!-- Product Schema for Le Blanc Properties -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "Le Blanc by Imtiaz - Luxury Apartments",
+      "description": "Fully furnished luxury apartments in Dubai Land Residence Complex. From €175K with flexible payment plans.",
+      "brand": {
+        "@type": "Brand",
+        "name": "Imtiaz Developments"
+      },
+      "image": "https://dubaismartinvestment.com/static/images/leblanc-building.jpg",
+      "offers": {
+        "@type": "AggregateOffer",
+        "url": "https://dubaismartinvestment.com/#properties",
+        "priceCurrency": "EUR",
+        "lowPrice": "175000",
+        "highPrice": "450000",
+        "priceValidUntil": "2028-06-30",
+        "availability": "http://schema.org/InStock",
+        "offerCount": "4"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "127",
+        "bestRating": "5",
+        "worstRating": "1"
+      }
     }
     </script>
     
