@@ -1350,21 +1350,40 @@
                         <input type="email" id="editEmail" required>
                     </div>
                     <div class="form-group">
-                        <label>Phone</label>
-                        <input type="tel" id="editPhone" required>
+                        <label>WhatsApp Number</label>
+                        <input type="tel" id="editWhatsapp" required>
                     </div>
                     <div class="form-group">
-                        <label>Interest</label>
-                        <select id="editInterest" required>
-                            <option value="Studio - €175,000">Studio - €175,000</option>
-                            <option value="1 Bedroom - €275,000">1 Bedroom - €275,000</option>
-                            <option value="2 Bedrooms - €375,000">2 Bedrooms - €375,000</option>
-                            <option value="3 Bedrooms - €450,000">3 Bedrooms - €450,000</option>
+                        <label>Country</label>
+                        <input type="text" id="editCountry" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Method</label>
+                        <select id="editContactMethod" required>
+                            <option value="WhatsApp">WhatsApp</option>
+                            <option value="Phone">Phone Call</option>
+                            <option value="Email">Email</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Message</label>
-                        <textarea id="editMessage" rows="4" style="width: 100%; padding: 0.8rem; border: 2px solid #e8e6e3; border-radius: 8px; font-family: 'Poppins', sans-serif;"></textarea>
+                        <label>Buying Timeframe</label>
+                        <select id="editTimeframe" required>
+                            <option value="Within 1 month">Within 1 month</option>
+                            <option value="1-3 months">1–3 months</option>
+                            <option value="3-6 months">3–6 months</option>
+                            <option value="6+ months">6+ months</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Property Type (Optional)</label>
+                        <select id="editPropertyType">
+                            <option value="">Not specified</option>
+                            <option value="Studio">Studio - AED 690K</option>
+                            <option value="1 Bedroom">1 Bedroom - AED 1.095M</option>
+                            <option value="2 Bedroom">2 Bedroom - AED 1.494M</option>
+                            <option value="3 Bedroom">3 Bedroom - AED 1.795M</option>
+                            <option value="Not sure yet">Not sure yet</option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -2400,9 +2419,11 @@
             document.getElementById('editFirstName').value = lead.firstName;
             document.getElementById('editLastName').value = lead.lastName;
             document.getElementById('editEmail').value = lead.email;
-            document.getElementById('editPhone').value = lead.whatsapp || lead.phone || '';
-            document.getElementById('editInterest').value = lead.propertyType || lead.interest || '';
-            document.getElementById('editMessage').value = lead.message || '';
+            document.getElementById('editWhatsapp').value = lead.whatsapp || lead.phone || '';
+            document.getElementById('editCountry').value = lead.country || '';
+            document.getElementById('editContactMethod').value = lead.contactMethod || 'WhatsApp';
+            document.getElementById('editTimeframe').value = lead.timeframe || 'Within 1 month';
+            document.getElementById('editPropertyType').value = lead.propertyType || lead.interest || '';
 
             openEditLeadModal();
         }
@@ -2428,11 +2449,13 @@
             lead.firstName = document.getElementById('editFirstName').value;
             lead.lastName = document.getElementById('editLastName').value;
             lead.email = document.getElementById('editEmail').value;
-            lead.whatsapp = document.getElementById('editPhone').value;
-            lead.phone = document.getElementById('editPhone').value;
-            lead.propertyType = document.getElementById('editInterest').value;
-            lead.interest = document.getElementById('editInterest').value;
-            lead.message = document.getElementById('editMessage').value;
+            lead.whatsapp = document.getElementById('editWhatsapp').value;
+            lead.phone = document.getElementById('editWhatsapp').value;
+            lead.country = document.getElementById('editCountry').value;
+            lead.contactMethod = document.getElementById('editContactMethod').value;
+            lead.timeframe = document.getElementById('editTimeframe').value;
+            lead.propertyType = document.getElementById('editPropertyType').value;
+            lead.interest = document.getElementById('editPropertyType').value;
 
             // In production, send update to backend
             alert('Lead updated successfully!');
