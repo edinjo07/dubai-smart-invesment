@@ -14,10 +14,25 @@ logger = logging.getLogger(__name__)
 class Database:
     def __init__(self):
         # MongoDB connection string from environment variable
-        mongo_uri = os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/')
+        mongo_uri = os.environ.get('MONGODB_URI', None)
+        
+        if not mongo_uri:
+            logger.warning("MONGODB_URI environment variable not set! Using local file storage as fallback.")
+            self.client = None
+            self.db = None
+            self.leads = None
+            self.users = None
+            self.sessions = None
+            self.config = None
+            return
         
         try:
-            self.client = MongoClient(mongo_uri)
+            logger.info(f"Attempting to connect to MongoDB...")
+            self.client = MongoClient(mongo_uri, serverSelectionTimeoutMS=5000)
+            
+            # Test connection
+            self.client.admin.command('ping')
+            
             self.db = self.client['dubai_smart_invest']
             
             # Collections
@@ -33,13 +48,18 @@ class Database:
             self.sessions.create_index([('expires_at', ASCENDING)])
             self.users.create_index([('username', ASCENDING)], unique=True)
             
-            logger.info("MongoDB connected successfully")
+            logger.info("✅ MongoDB connected successfully!")
             
         except Exception as e:
-            logger.error(f"MongoDB connection failed: {str(e)}")
+            logger.error(f"❌ MongoDB connection failed: {str(e)}")
+            logger.warning("Falling back to local file storage")
             # Fallback to local storage if MongoDB fails
             self.client = None
             self.db = None
+            self.leads = None
+            self.users = None
+            self.sessions = None
+            self.config = None
     
     def save_lead(self, lead_data):
         """Save a new lead to database"""
