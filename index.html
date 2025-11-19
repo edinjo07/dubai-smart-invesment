@@ -2121,10 +2121,8 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
                 const result = await response.json();
                 
                 if (result.success) {
-                    formMessage.className = 'message success show';
-                    formMessage.textContent = result.message;
-                    this.reset();
-                    formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    // Redirect to thank you page for conversion tracking
+                    window.location.href = '/thank-you.html';
                 } else {
                     formMessage.className = 'message error show';
                     formMessage.textContent = result.message || 'Something went wrong. Please try again.';
