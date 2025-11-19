@@ -1234,7 +1234,6 @@
 
             <div class="controls-row" style="margin-top: 1rem;">
                 <button class="btn btn-secondary" onclick="clearFilters()">🗑️ Clear Filters</button>
-                <button class="btn btn-primary" onclick="refreshLeads()" style="margin-left: 0.5rem;">🔄 Refresh Leads</button>
             </div>
         </div>
 
@@ -1685,11 +1684,6 @@
             document.getElementById('countryFilter').addEventListener('change', filterLeads);
         }
 
-        // Refresh leads function
-        function refreshLeads() {
-            loadLeads();
-        }
-
         // Export filtered data
         function exportFiltered(format) {
             const filteredData = Array.from(document.querySelectorAll('#leadsTable tbody tr:not([style*="display: none"])'));
@@ -1791,21 +1785,27 @@
         }
 
         async function refreshLeads() {
-            const refreshBtn = event.target;
-            refreshBtn.disabled = true;
-            refreshBtn.textContent = '⏳ Refreshing...';
+            const refreshBtn = event ? event.target : document.querySelector('[onclick="refreshLeads()"]');
+            if (refreshBtn) {
+                refreshBtn.disabled = true;
+                refreshBtn.textContent = '⏳ Refreshing...';
+            }
             
             try {
                 await loadLeads();
-                refreshBtn.textContent = '✅ Refreshed!';
-                setTimeout(() => {
-                    refreshBtn.disabled = false;
-                    refreshBtn.textContent = '🔄 Refresh Leads';
-                }, 1500);
+                if (refreshBtn) {
+                    refreshBtn.textContent = '✅ Refreshed!';
+                    setTimeout(() => {
+                        refreshBtn.disabled = false;
+                        refreshBtn.textContent = '🔄 Refresh';
+                    }, 1500);
+                }
             } catch (error) {
-                refreshBtn.disabled = false;
-                refreshBtn.textContent = '🔄 Refresh Leads';
-                alert('Failed to refresh leads: ' + error.message);
+                if (refreshBtn) {
+                    refreshBtn.disabled = false;
+                    refreshBtn.textContent = '🔄 Refresh';
+                }
+                console.error('Failed to refresh leads:', error);
             }
         }
 
