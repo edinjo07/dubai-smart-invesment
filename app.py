@@ -13,6 +13,7 @@ import logging
 import requests
 import secrets
 import hashlib
+from database import db
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -242,14 +243,13 @@ def send_confirmation_email(form_data):
         return False
 
 def save_lead_data(form_data):
-    """Save lead data to JSON file for backup"""
+    """Save lead data to MongoDB database"""
     try:
         # Get country information from IP
         ip_address = request.environ.get('REMOTE_ADDR', '127.0.0.1')
         country_code, country_name = get_country_from_ip(ip_address)
         
         lead_data = {
-            'timestamp': datetime.now().isoformat(),
             'firstName': form_data.get('firstName'),
             'lastName': form_data.get('lastName'),
             'email': form_data.get('email'),
@@ -258,29 +258,21 @@ def save_lead_data(form_data):
             'contactMethod': form_data.get('contactMethod'),
             'timeframe': form_data.get('timeframe'),
             'propertyType': form_data.get('propertyType', 'Not specified'),
+            'source': form_data.get('source', 'Website Contact Form'),
+            'campaign_id': form_data.get('campaign_id', ''),
+            'lead_id': form_data.get('lead_id', ''),
             'ip_address': ip_address,
             'user_agent': request.environ.get('HTTP_USER_AGENT'),
             'detected_country_code': country_code,
-            'detected_country': country_name
+            'detected_country': country_name,
+            'status': 'new'
         }
         
-        # Load existing leads
-        leads_file = 'leads.json'
-        leads = []
+        # Save to MongoDB
+        lead_id = db.save_lead(lead_data)
         
-        if os.path.exists(leads_file):
-            with open(leads_file, 'r') as f:
-                leads = json.load(f)
-        
-        # Add new lead
-        leads.append(lead_data)
-        
-        # Save back to file
-        with open(leads_file, 'w') as f:
-            json.dump(leads, f, indent=2)
-        
-        logger.info(f"Lead data saved for {form_data.get('email')}")
-        return True
+        logger.info(f"Lead data saved to MongoDB for {form_data.get('email')}")
+        return lead_id
         
     except Exception as e:
         logger.error(f"Failed to save lead data: {str(e)}")
@@ -586,13 +578,8 @@ def refresh_token():
 def get_leads():
     """Get all leads (admin endpoint)"""
     try:
-        leads_file = 'leads.json'
-        if os.path.exists(leads_file):
-            with open(leads_file, 'r') as f:
-                leads = json.load(f)
-            return jsonify(leads)
-        else:
-            return jsonify([])
+        leads = db.get_all_leads()
+        return jsonify(leads)
     except Exception as e:
         logger.error(f"Error retrieving leads: {str(e)}")
         return jsonify({
