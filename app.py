@@ -388,6 +388,68 @@ def handle_contact_form():
             'message': 'An error occurred while processing your request. Please try again.'
         }), 500
 
+@app.route('/api/google-ads/webhook', methods=['POST'])
+def google_ads_webhook():
+    """Handle Google Ads Lead Form webhook submissions"""
+    try:
+        # Verify webhook key for security
+        webhook_key = request.headers.get('X-Goog-Signature') or request.args.get('key')
+        expected_key = 'GSI2025Dubai'  # Your webhook secret key
+        
+        if webhook_key != expected_key:
+            logger.warning(f"Invalid webhook key attempt: {webhook_key}")
+            return jsonify({'success': False, 'message': 'Unauthorized'}), 401
+        
+        # Get lead data from Google Ads
+        data = request.get_json()
+        
+        if not data:
+            return jsonify({'success': False, 'message': 'No data received'}), 400
+        
+        # Map Google Ads fields to your format
+        lead_data = {
+            'firstName': data.get('user_column_data', {}).get('FIRST_NAME', ''),
+            'lastName': data.get('user_column_data', {}).get('LAST_NAME', ''),
+            'email': data.get('user_column_data', {}).get('EMAIL', ''),
+            'whatsapp': data.get('user_column_data', {}).get('PHONE_NUMBER', ''),
+            'country': data.get('user_column_data', {}).get('COUNTRY', 'Not specified'),
+            'contactMethod': 'WhatsApp',
+            'timeframe': 'As soon as possible',
+            'propertyType': data.get('user_column_data', {}).get('PROPERTY_TYPE', ''),
+            'source': 'Google Ads Lead Form',
+            'campaign_id': data.get('google_key', ''),
+            'lead_id': data.get('lead_id', '')
+        }
+        
+        # Validate essential fields
+        if not lead_data['email'] or not lead_data['firstName']:
+            logger.warning(f"Incomplete Google Ads lead data: {data}")
+            return jsonify({'success': False, 'message': 'Missing required fields'}), 400
+        
+        # Save lead data
+        save_lead_data(lead_data)
+        
+        # Send notification email
+        email_sent = send_email(lead_data)
+        
+        # Send confirmation email to user
+        confirmation_sent = send_confirmation_email(lead_data)
+        
+        logger.info(f"Google Ads lead processed successfully: {lead_data['email']}")
+        
+        return jsonify({
+            'success': True,
+            'message': 'Lead received successfully',
+            'lead_id': lead_data.get('lead_id')
+        })
+        
+    except Exception as e:
+        logger.error(f"Error processing Google Ads webhook: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Internal server error'
+        }), 500
+
 @app.route('/api/health')
 def health_check():
     """Health check endpoint"""
