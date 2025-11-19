@@ -317,6 +317,11 @@ def cookies_clean():
     """Serve cookies page without .html extension"""
     return send_from_directory('.', 'cookies.html')
 
+@app.route('/thank-you')
+def thank_you_page():
+    """Thank you page for form submissions and conversion tracking"""
+    return send_from_directory('.', 'thank-you.html')
+
 @app.route('/<path:filename>')
 def static_files(filename):
     """Serve static files"""
