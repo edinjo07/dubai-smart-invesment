@@ -843,6 +843,229 @@ def editor_page():
     """Serve website editor page"""
     return send_from_directory('.', 'editor.html')
 
+# Manager Management Endpoints
+@app.route('/api/managers/create', methods=['POST'])
+@require_admin_auth
+def create_manager():
+    """Create a new manager user (admin only)"""
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+        email = data.get('email', '')
+        
+        if not username or not password:
+            return jsonify({
+                'success': False,
+                'message': 'Username and password are required'
+            }), 400
+        
+        # Check if username already exists
+        if db.get_manager(username):
+            return jsonify({
+                'success': False,
+                'message': 'Username already exists'
+            }), 400
+        
+        # Hash password
+        password_hash = hashlib.sha256(password.encode()).hexdigest()
+        
+        # Create manager
+        success = db.create_manager(username, password_hash, email)
+        
+        if success:
+            return jsonify({
+                'success': True,
+                'message': f'Manager {username} created successfully'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'message': 'Failed to create manager'
+            }), 500
+            
+    except Exception as e:
+        logger.error(f"Error creating manager: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Error creating manager'
+        }), 500
+
+@app.route('/api/managers')
+@require_admin_auth
+def get_managers():
+    """Get all managers (admin only)"""
+    try:
+        managers = db.get_all_managers()
+        # Remove sensitive data
+        for manager in managers:
+            manager.pop('password_hash', None)
+        return jsonify(managers)
+    except Exception as e:
+        logger.error(f"Error fetching managers: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Error fetching managers'
+        }), 500
+
+@app.route('/api/managers/delete', methods=['POST'])
+@require_admin_auth
+def delete_manager():
+    """Delete a manager (admin only)"""
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        
+        if not username:
+            return jsonify({
+                'success': False,
+                'message': 'Username is required'
+            }), 400
+        
+        success = db.delete_manager(username)
+        
+        if success:
+            return jsonify({
+                'success': True,
+                'message': f'Manager {username} deleted successfully'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'message': 'Manager not found'
+            }), 404
+            
+    except Exception as e:
+        logger.error(f"Error deleting manager: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Error deleting manager'
+        }), 500
+
+@app.route('/api/leads/assign', methods=['POST'])
+@require_admin_auth
+def assign_lead():
+    """Assign a lead to a manager (admin only)"""
+    try:
+        data = request.get_json()
+        lead_id = data.get('leadId')
+        manager_username = data.get('managerUsername')
+        
+        if not lead_id or not manager_username:
+            return jsonify({
+                'success': False,
+                'message': 'Lead ID and manager username are required'
+            }), 400
+        
+        success = db.assign_lead_to_manager(lead_id, manager_username)
+        
+        if success:
+            return jsonify({
+                'success': True,
+                'message': 'Lead assigned successfully'
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'message': 'Failed to assign lead'
+            }), 500
+            
+    except Exception as e:
+        logger.error(f"Error assigning lead: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Error assigning lead'
+        }), 500
+
+@app.route('/api/manager/login', methods=['POST'])
+def manager_login():
+    """Manager login endpoint"""
+    try:
+        data = request.get_json()
+        username = data.get('username', '')
+        password = data.get('password', '')
+        
+        # Get manager from database
+        manager = db.get_manager(username)
+        
+        if not manager:
+            return jsonify({
+                'success': False,
+                'message': 'Invalid username or password'
+            }), 401
+        
+        # Verify password
+        password_hash = hashlib.sha256(password.encode()).hexdigest()
+        
+        if manager['password_hash'] == password_hash and manager.get('active', True):
+            # Generate token
+            token = secrets.token_urlsafe(32)
+            expires_at = datetime.now() + timedelta(hours=24)
+            
+            # Save session to database
+            db.save_session(token, username, expires_at)
+            
+            # Also keep in memory for compatibility
+            active_sessions[token] = {
+                'username': username,
+                'role': 'manager',
+                'expires': expires_at,
+                'created': datetime.now()
+            }
+            
+            logger.info(f"Manager login successful: {username}")
+            
+            return jsonify({
+                'success': True,
+                'token': token,
+                'username': username,
+                'expiresIn': 86400
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'message': 'Invalid username or password'
+            }), 401
+            
+    except Exception as e:
+        logger.error(f"Manager login error: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'An error occurred during login'
+        }), 500
+
+@app.route('/api/manager/leads')
+def get_manager_leads():
+    """Get leads assigned to logged-in manager"""
+    try:
+        token = request.headers.get('Authorization', '').replace('Bearer ', '')
+        
+        if not token or token not in active_sessions:
+            return jsonify({
+                'success': False,
+                'message': 'Unauthorized'
+            }), 401
+        
+        session_data = active_sessions[token]
+        
+        if session_data.get('role') != 'manager':
+            return jsonify({
+                'success': False,
+                'message': 'Unauthorized'
+            }), 401
+        
+        username = session_data.get('username')
+        leads = db.get_manager_leads(username)
+        
+        return jsonify(leads)
+        
+    except Exception as e:
+        logger.error(f"Error fetching manager leads: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': 'Error fetching leads'
+        }), 500
+
 @app.route('/api/website/update', methods=['POST'])
 @require_admin_auth
 def update_website():

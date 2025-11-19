@@ -217,6 +217,129 @@ class Database:
             logger.error(f"Error saving config: {str(e)}")
             return False
     
+    # Manager user management methods
+    def create_manager(self, username, password_hash, email=''):
+        """Create a new manager user"""
+        try:
+            if self.users is None:
+                return False
+            
+            manager_data = {
+                'username': username,
+                'password_hash': password_hash,
+                'email': email,
+                'role': 'manager',
+                'created_at': datetime.now(),
+                'active': True
+            }
+            
+            self.users.insert_one(manager_data)
+            logger.info(f"Manager created: {username}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error creating manager: {str(e)}")
+            return False
+    
+    def get_manager(self, username):
+        """Get manager by username"""
+        try:
+            if self.users is None:
+                return None
+            
+            manager = self.users.find_one({'username': username, 'role': 'manager'})
+            if manager:
+                manager['_id'] = str(manager['_id'])
+            return manager
+            
+        except Exception as e:
+            logger.error(f"Error fetching manager: {str(e)}")
+            return None
+    
+    def get_all_managers(self):
+        """Get all manager users"""
+        try:
+            if self.users is None:
+                return []
+            
+            managers = list(self.users.find({'role': 'manager'}))
+            for manager in managers:
+                manager['_id'] = str(manager['_id'])
+            return managers
+            
+        except Exception as e:
+            logger.error(f"Error fetching managers: {str(e)}")
+            return []
+    
+    def update_manager(self, username, update_data):
+        """Update manager information"""
+        try:
+            if self.users is None:
+                return False
+            
+            update_data['updated_at'] = datetime.now()
+            
+            result = self.users.update_one(
+                {'username': username, 'role': 'manager'},
+                {'$set': update_data}
+            )
+            return result.modified_count > 0
+            
+        except Exception as e:
+            logger.error(f"Error updating manager: {str(e)}")
+            return False
+    
+    def delete_manager(self, username):
+        """Delete a manager user"""
+        try:
+            if self.users is None:
+                return False
+            
+            result = self.users.delete_one({'username': username, 'role': 'manager'})
+            return result.deleted_count > 0
+            
+        except Exception as e:
+            logger.error(f"Error deleting manager: {str(e)}")
+            return False
+    
+    def assign_lead_to_manager(self, lead_id, manager_username):
+        """Assign a lead to a specific manager"""
+        try:
+            if self.leads is None:
+                return False
+            
+            result = self.leads.update_one(
+                {'_id': ObjectId(lead_id)},
+                {'$set': {
+                    'assigned_to': manager_username,
+                    'assigned_at': datetime.now()
+                }}
+            )
+            return result.modified_count > 0
+            
+        except Exception as e:
+            logger.error(f"Error assigning lead: {str(e)}")
+            return False
+    
+    def get_manager_leads(self, manager_username):
+        """Get all leads assigned to a specific manager"""
+        try:
+            if self.leads is None:
+                return []
+            
+            leads = list(self.leads.find({'assigned_to': manager_username}).sort('created_at', DESCENDING))
+            
+            for lead in leads:
+                lead['_id'] = str(lead['_id'])
+                if 'created_at' in lead:
+                    lead['timestamp'] = lead['created_at'].isoformat()
+            
+            return leads
+            
+        except Exception as e:
+            logger.error(f"Error fetching manager leads: {str(e)}")
+            return []
+    
     # Fallback methods for local file storage
     def _save_lead_local(self, lead_data):
         """Fallback: Save lead to local JSON file"""
