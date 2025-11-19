@@ -839,10 +839,11 @@ def admin_dashboard():
     """Serve admin dashboard"""
     return send_from_directory('.', 'admin.html')
 
-@app.route('/settings')
-def settings_page():
-    """Serve settings page"""
-    return send_from_directory('.', 'settings.html')
+# DEPRECATED: settings.html uses localStorage - needs rewrite to use MongoDB API
+# @app.route('/settings')
+# def settings_page():
+#     """Serve settings page"""
+#     return send_from_directory('.', 'settings.html')
 
 @app.route('/editor')
 def editor_page():

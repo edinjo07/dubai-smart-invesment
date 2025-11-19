@@ -892,7 +892,7 @@
 
         function logout() {
             sessionStorage.removeItem('managerSession');
-            localStorage.removeItem('currentUser');
+            sessionStorage.removeItem('managerUsername');
             window.location.href = '/manager-login';
         }
 
@@ -920,33 +920,12 @@
             document.getElementById('changePasswordForm').reset();
         }
 
-        function changePassword(event) {
+        async function changePassword(event) {
             event.preventDefault();
 
             const current = document.getElementById('currentPassword').value;
             const newPass = document.getElementById('newPassword').value;
             const confirm = document.getElementById('confirmPassword').value;
-
-            // Get managers from localStorage
-            const managersData = localStorage.getItem('managers');
-            if (!managersData) {
-                alert('Error: Manager data not found.');
-                return;
-            }
-
-            let managers = JSON.parse(managersData);
-            const manager = managers.find(m => m.username === currentUser.username);
-
-            if (!manager) {
-                alert('Error: Manager not found.');
-                return;
-            }
-
-            // Check current password
-            if (current !== manager.password) {
-                alert('Current password is incorrect!');
-                return;
-            }
 
             if (newPass !== confirm) {
                 alert('New passwords do not match!');
@@ -958,12 +937,16 @@
                 return;
             }
 
-            // Update password
-            manager.password = newPass;
-            localStorage.setItem('managers', JSON.stringify(managers));
-
-            alert('Password changed successfully!');
-            closePasswordModal();
+            try {
+                // Note: This would require a new API endpoint for managers to change their own password
+                // For now, managers need to contact admin to change password
+                alert('⚠️ To change your password, please contact the administrator.');
+                closePasswordModal();
+                
+                // TODO: Implement /api/manager/change-password endpoint
+            } catch (error) {
+                alert('Error changing password: ' + error.message);
+            }
         }
 
         async function refreshLeads() {
@@ -992,58 +975,33 @@
                 document.getElementById('leadsTable').style.display = 'none';
                 document.getElementById('noLeadsMessage').style.display = 'none';
 
-                // Try to get leads from localStorage first (cached from admin)
-                let allLeadsData = [];
-                const cachedLeads = localStorage.getItem('cachedLeads');
-                
-                if (cachedLeads) {
-                    try {
-                        allLeadsData = JSON.parse(cachedLeads);
-                    } catch (e) {
-                        allLeadsData = [];
+                // Get assigned leads from API
+                const token = sessionStorage.getItem('managerSession');
+                const response = await fetch('/api/manager/leads', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
                     }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to load leads');
                 }
-                
-                // If no cached leads, try API (won't work for managers without proper auth, but try anyway)
-                if (allLeadsData.length === 0) {
-                    try {
-                        const response = await fetch('/api/leads');
-                        if (response.ok) {
-                            allLeadsData = await response.json();
-                        }
-                    } catch (e) {
-                        console.log('API fetch failed, using cached data only');
-                    }
-                }
-                
-                // Get assigned leads for this manager
-                const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
-                const myAssignedLeadIds = assignments[currentUser.username] || [];
+
+                const data = await response.json();
+                allLeads = data.leads || [];
                 
                 console.log('Manager:', currentUser.username);
-                console.log('Assigned lead IDs:', myAssignedLeadIds);
-                console.log('Total leads available:', allLeadsData.length);
+                console.log('Assigned leads count:', allLeads.length);
                 
-                // Filter to show only assigned leads
-                if (myAssignedLeadIds.length > 0 && allLeadsData.length > 0) {
-                    allLeads = allLeadsData.filter(lead => {
-                        const leadId = `${lead.email}_${lead.timestamp}`;
-                        return myAssignedLeadIds.includes(leadId);
-                    });
-                    console.log('Filtered assigned leads:', allLeads.length);
-                } else {
-                    allLeads = []; // No assigned leads
-                }
+                // API already filters to manager's assigned leads (from MongoDB assigned_to field)
+                // No need to filter again
                 
-                // Load saved statuses from localStorage
-                const savedStatuses = localStorage.getItem('leadStatuses');
-                if (savedStatuses) {
-                    try {
-                        leadStatuses = JSON.parse(savedStatuses);
-                    } catch (e) {
-                        leadStatuses = {};
-                    }
-                }
+                // Load statuses from MongoDB lead data
+                leadStatuses = {};
+                allLeads.forEach(lead => {
+                    const leadId = lead._id || `${lead.email}_${lead.timestamp}`;
+                    leadStatuses[leadId] = lead.status || 'new';
+                });
                 
                 document.getElementById('loadingMessage').style.display = 'none';
                 
@@ -1176,8 +1134,8 @@
                 select.classList.add(`status-${newStatus}`);
             }
             
-            // Save to localStorage
-            localStorage.setItem('leadStatuses', JSON.stringify(leadStatuses));
+            // TODO: Save status to MongoDB via API
+            // For now, status updates are local only
             
             // Update stats
             updateStats();

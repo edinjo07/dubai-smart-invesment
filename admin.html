@@ -1672,7 +1672,7 @@
             const managerSession = sessionStorage.getItem('managerSession');
             if (managerSession) {
                 sessionStorage.removeItem('managerSession');
-                localStorage.removeItem('currentUser');
+                sessionStorage.removeItem('managerUsername');
                 window.location.href = '/manager-login';
                 return;
             }
@@ -2203,21 +2203,13 @@
                     console.log('Managers loaded from MongoDB:', managers.length);
                 } else if (response.status === 401) {
                     console.error('Unauthorized - token may be invalid');
-                    // Fall back to localStorage if API fails
-                    const savedManagers = localStorage.getItem('managers');
-                    if (savedManagers) {
-                        managers = JSON.parse(savedManagers);
-                        console.log('Loaded managers from localStorage (fallback)');
-                    }
+                    // Redirect to login if token is invalid
+                    window.location.href = '/login.html';
+                    return;
                 }
             } catch (error) {
                 console.error('Error loading managers:', error);
-                // Fall back to localStorage
-                const savedManagers = localStorage.getItem('managers');
-                if (savedManagers) {
-                    managers = JSON.parse(savedManagers);
-                    console.log('Loaded managers from localStorage (error fallback)');
-                }
+                alert('Failed to load managers: ' + error.message);
             }
             displayManagers();
             updateManagerDropdown();
@@ -2840,7 +2832,7 @@
                                 📅 ${formattedDate} | 🏠 ${lead.propertyType || lead.interest || 'N/A'} | ⏰ ${lead.timeframe || 'N/A'}
                             </div>
                         </div>
-                        <button class="btn btn-small btn-danger" onclick="removeLeadFromManager('${managerUsername}', '${leadId}')">
+                        <button class="btn btn-small btn-danger" onclick="quickUnassignLead('${managerUsername}', '${leadId}')">
                             ✖️ Remove
                         </button>
                     </div>
@@ -2855,35 +2847,7 @@
             document.getElementById('managerLeadsModal').classList.remove('active');
         }
 
-        // Remove lead from manager
-        function removeLeadFromManager(managerUsername, leadId) {
-            if (!confirm('Remove this lead from the manager\'s dashboard?')) {
-                return;
-            }
 
-            // Get assignments
-            let assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
-            
-            if (assignments[managerUsername]) {
-                // Remove the lead
-                assignments[managerUsername] = assignments[managerUsername].filter(id => id !== leadId);
-                
-                // If no more leads, remove the manager entry
-                if (assignments[managerUsername].length === 0) {
-                    delete assignments[managerUsername];
-                }
-                
-                // Save updated assignments
-                localStorage.setItem('leadAssignments', JSON.stringify(assignments));
-                
-                alert('✅ Lead removed from manager successfully!');
-                
-                // Refresh the modal
-                closeManagerLeadsModal();
-                viewManagerLeads(managerUsername);
-                displayManagers(); // Refresh manager list to show updated count
-            }
-        }
 
         // Quick unassign from leads table
         async function quickUnassignLead(managerUsername, leadId) {
