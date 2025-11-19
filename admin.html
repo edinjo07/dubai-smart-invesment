@@ -1234,6 +1234,7 @@
 
             <div class="controls-row" style="margin-top: 1rem;">
                 <button class="btn btn-secondary" onclick="clearFilters()">🗑️ Clear Filters</button>
+                <button class="btn btn-primary" onclick="refreshLeads()" style="margin-left: 0.5rem;">🔄 Refresh Leads</button>
             </div>
         </div>
 
@@ -1751,6 +1752,9 @@
                 
                 allLeads = await response.json();
                 
+                // Sort leads by timestamp (newest first)
+                allLeads.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                
                 // Cache leads data for managers to access
                 localStorage.setItem('cachedLeads', JSON.stringify(allLeads));
                 
@@ -1783,6 +1787,25 @@
                 document.getElementById('loadingMessage').style.display = 'none';
                 document.getElementById('errorMessage').style.display = 'block';
                 document.getElementById('errorMessage').textContent = 'Failed to load leads: ' + error.message;
+            }
+        }
+
+        async function refreshLeads() {
+            const refreshBtn = event.target;
+            refreshBtn.disabled = true;
+            refreshBtn.textContent = '⏳ Refreshing...';
+            
+            try {
+                await loadLeads();
+                refreshBtn.textContent = '✅ Refreshed!';
+                setTimeout(() => {
+                    refreshBtn.disabled = false;
+                    refreshBtn.textContent = '🔄 Refresh Leads';
+                }, 1500);
+            } catch (error) {
+                refreshBtn.disabled = false;
+                refreshBtn.textContent = '🔄 Refresh Leads';
+                alert('Failed to refresh leads: ' + error.message);
             }
         }
 
