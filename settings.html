@@ -802,10 +802,10 @@
                                     ${lead.firstName} ${lead.lastName}
                                 </div>
                                 <div style="color: #666; font-size: 0.85rem;">
-                                    📧 ${lead.email} | 📞 ${lead.phone}
+                                    📧 ${lead.email} | 📱 ${lead.whatsapp || lead.phone || 'N/A'}
                                 </div>
                                 <div style="color: #999; font-size: 0.8rem; margin-top: 0.2rem;">
-                                    📅 ${formattedDate} | 🏠 ${lead.interest}
+                                    📅 ${formattedDate} | 🏠 ${lead.propertyType || lead.interest || 'N/A'} | ⏰ ${lead.timeframe || 'N/A'}
                                 </div>
                             </div>
                             <button class="btn btn-small btn-danger" onclick="removeLeadFromManager('${managerUsername}', '${leadId}')">

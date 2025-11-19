@@ -1176,8 +1176,12 @@
                     lead.firstName.toLowerCase().includes(searchTerm) ||
                     lead.lastName.toLowerCase().includes(searchTerm) ||
                     lead.email.toLowerCase().includes(searchTerm) ||
-                    lead.phone.includes(searchTerm) ||
-                    (lead.message && lead.message.toLowerCase().includes(searchTerm));
+                    (lead.whatsapp && lead.whatsapp.includes(searchTerm)) ||
+                    (lead.phone && lead.phone.includes(searchTerm)) ||
+                    (lead.country && lead.country.toLowerCase().includes(searchTerm)) ||
+                    (lead.contactMethod && lead.contactMethod.toLowerCase().includes(searchTerm)) ||
+                    (lead.timeframe && lead.timeframe.toLowerCase().includes(searchTerm)) ||
+                    (lead.propertyType && lead.propertyType.toLowerCase().includes(searchTerm));
 
                 // Date filters
                 const leadDate = new Date(lead.timestamp).toISOString().split('T')[0];
@@ -1189,11 +1193,11 @@
                 const leadStatus = leadStatuses[leadId] || 'new';
                 const statusMatch = !statusFilter || leadStatus === statusFilter;
 
-                // Interest filter
-                const interestMatch = !interestFilter || lead.interest === interestFilter;
+                // Property Type filter
+                const interestMatch = !interestFilter || lead.propertyType === interestFilter || lead.interest === interestFilter;
 
                 // Country filter
-                const countryMatch = !countryFilter || lead.country === countryFilter;
+                const countryMatch = !countryFilter || lead.country === countryFilter || lead.country_code === countryFilter;
 
                 return searchMatch && dateFromMatch && dateToMatch && interestMatch && countryMatch && statusMatch;
             });

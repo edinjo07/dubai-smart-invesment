@@ -1944,8 +1944,12 @@
                     lead.firstName.toLowerCase().includes(searchTerm) ||
                     lead.lastName.toLowerCase().includes(searchTerm) ||
                     lead.email.toLowerCase().includes(searchTerm) ||
-                    lead.phone.includes(searchTerm) ||
-                    (lead.message && lead.message.toLowerCase().includes(searchTerm));
+                    (lead.whatsapp && lead.whatsapp.includes(searchTerm)) ||
+                    (lead.phone && lead.phone.includes(searchTerm)) ||
+                    (lead.country && lead.country.toLowerCase().includes(searchTerm)) ||
+                    (lead.contactMethod && lead.contactMethod.toLowerCase().includes(searchTerm)) ||
+                    (lead.timeframe && lead.timeframe.toLowerCase().includes(searchTerm)) ||
+                    (lead.propertyType && lead.propertyType.toLowerCase().includes(searchTerm));
 
                 // Date filters
                 const leadDate = new Date(lead.timestamp).toISOString().split('T')[0];
@@ -1957,11 +1961,11 @@
                 const leadStatus = leadStatuses[leadId] || 'new';
                 const statusMatch = !statusFilter || leadStatus === statusFilter;
 
-                // Interest filter
-                const interestMatch = !interestFilter || lead.interest === interestFilter;
+                // Property Type filter
+                const interestMatch = !interestFilter || lead.propertyType === interestFilter || lead.interest === interestFilter;
 
                 // Country filter
-                const countryMatch = !countryFilter || lead.country === countryFilter;
+                const countryMatch = !countryFilter || lead.country === countryFilter || lead.country_code === countryFilter;
 
                 return searchMatch && dateFromMatch && dateToMatch && interestMatch && countryMatch && statusMatch;
             });
@@ -2373,8 +2377,8 @@
             document.getElementById('editFirstName').value = lead.firstName;
             document.getElementById('editLastName').value = lead.lastName;
             document.getElementById('editEmail').value = lead.email;
-            document.getElementById('editPhone').value = lead.phone;
-            document.getElementById('editInterest').value = lead.interest;
+            document.getElementById('editPhone').value = lead.whatsapp || lead.phone || '';
+            document.getElementById('editInterest').value = lead.propertyType || lead.interest || '';
             document.getElementById('editMessage').value = lead.message || '';
 
             openEditLeadModal();
@@ -2401,7 +2405,9 @@
             lead.firstName = document.getElementById('editFirstName').value;
             lead.lastName = document.getElementById('editLastName').value;
             lead.email = document.getElementById('editEmail').value;
+            lead.whatsapp = document.getElementById('editPhone').value;
             lead.phone = document.getElementById('editPhone').value;
+            lead.propertyType = document.getElementById('editInterest').value;
             lead.interest = document.getElementById('editInterest').value;
             lead.message = document.getElementById('editMessage').value;
 
@@ -2708,10 +2714,10 @@
                                 ${lead.firstName} ${lead.lastName}
                             </div>
                             <div style="color: #666; font-size: 0.85rem;">
-                                📧 ${lead.email} | 📞 ${lead.phone}
+                                📧 ${lead.email} | 📱 ${lead.whatsapp || lead.phone || 'N/A'}
                             </div>
                             <div style="color: #999; font-size: 0.8rem; margin-top: 0.2rem;">
-                                📅 ${formattedDate} | 🏠 ${lead.interest}
+                                📅 ${formattedDate} | 🏠 ${lead.propertyType || lead.interest || 'N/A'} | ⏰ ${lead.timeframe || 'N/A'}
                             </div>
                         </div>
                         <button class="btn btn-small btn-danger" onclick="removeLeadFromManager('${managerUsername}', '${leadId}')">
