@@ -1941,6 +1941,50 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
     </footer>
 
     <script>
+        // Load website configuration from editor
+        async function loadWebsiteConfig() {
+            try {
+                const response = await fetch('/api/website/config');
+                if (response.ok) {
+                    const config = await response.json();
+                    
+                    // Apply content changes
+                    if (config.content) {
+                        Object.keys(config.content).forEach(key => {
+                            const element = document.querySelector(`[data-config="${key}"]`);
+                            if (element) {
+                                if (element.tagName === 'IMG') {
+                                    element.src = config.content[key];
+                                } else {
+                                    element.textContent = config.content[key];
+                                }
+                            }
+                        });
+                    }
+                    
+                    // Apply design changes (colors, fonts)
+                    if (config.design) {
+                        if (config.design.primaryColor) {
+                            document.documentElement.style.setProperty('--primary-color', config.design.primaryColor);
+                        }
+                        if (config.design.darkColor) {
+                            document.documentElement.style.setProperty('--dark-color', config.design.darkColor);
+                        }
+                        if (config.design.lightColor) {
+                            document.documentElement.style.setProperty('--light-color', config.design.lightColor);
+                        }
+                    }
+                    
+                    console.log('Website configuration loaded successfully');
+                }
+            } catch (error) {
+                console.log('No custom configuration found, using defaults');
+            }
+        }
+
+        // Load config when page loads
+        window.addEventListener('DOMContentLoaded', loadWebsiteConfig);
+
         // Mobile Menu Toggle
         function toggleMenu() {
             const navMenu = document.getElementById('navMenu');
