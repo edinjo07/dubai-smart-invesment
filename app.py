@@ -314,11 +314,6 @@ def thank_you_page():
     """Thank you page for form submissions and conversion tracking"""
     return send_from_directory('.', 'thank-you.html')
 
-@app.route('/test-connection')
-def test_connection_page():
-    """Database connection test page"""
-    return send_from_directory('.', 'test-connection.html')
-
 @app.route('/<path:filename>')
 def static_files(filename):
     """Serve static files"""
@@ -459,7 +454,7 @@ def health_check():
         'version': '1.0.0',
         'mongodb_connected': mongo_connected,
         'mongodb_uri_configured': mongo_uri_set,
-        'database_name': 'dubai_smart_invest' if mongo_connected else 'local_fallback'
+        'database_name': db.db.name if mongo_connected else 'not_connected'
     })
 
 @app.route('/api/admin/login', methods=['POST'])
