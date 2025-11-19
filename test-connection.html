@@ -379,10 +379,15 @@
         async function submitTestLead() {
             log('Submitting test lead...', 'info');
             
+            // Generate a proper email format with timestamp
+            const timestamp = Date.now();
+            const baseEmail = document.getElementById('testEmail').value.split('@')[0];
+            const domain = document.getElementById('testEmail').value.split('@')[1] || 'test.com';
+            
             const leadData = {
                 firstName: document.getElementById('testFirstName').value,
                 lastName: document.getElementById('testLastName').value,
-                email: document.getElementById('testEmail').value + '.' + Date.now() + '@test.com',
+                email: `${baseEmail}${timestamp}@${domain}`,
                 whatsapp: document.getElementById('testWhatsapp').value,
                 country: document.getElementById('testCountry').value,
                 contactMethod: document.getElementById('testContactMethod').value,
