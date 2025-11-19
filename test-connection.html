@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Connection Test - Dubai Smart Investment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #d4af37;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #b0b0b0;
+            font-size: 1.1rem;
+        }
+
+        .test-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .test-section h2 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .status-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid #666;
+        }
+
+        .status-item.success {
+            border-left-color: #4caf50;
+        }
+
+        .status-item.error {
+            border-left-color: #f44336;
+        }
+
+        .status-item.pending {
+            border-left-color: #ff9800;
+        }
+
+        .status-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .status-value {
+            font-family: 'Courier New', monospace;
+            padding: 5px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #d4af37 0%, #f2d777 100%);
+            color: #1a1a2e;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 15px;
+            margin-bottom: 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .test-form {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+
+        .log-box {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .log-entry {
+            padding: 8px;
+            margin-bottom: 5px;
+            border-left: 3px solid #666;
+            padding-left: 15px;
+        }
+
+        .log-entry.success {
+            border-left-color: #4caf50;
+            color: #4caf50;
+        }
+
+        .log-entry.error {
+            border-left-color: #f44336;
+            color: #f44336;
+        }
+
+        .log-entry.info {
+            border-left-color: #2196f3;
+            color: #2196f3;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            border-top-color: #d4af37;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .summary {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.2) 100%);
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .summary h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .summary .big-status {
+            font-size: 4rem;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Database Connection Test</h1>
+            <p>Verify MongoDB Atlas connection and data operations</p>
+        </div>
+
+        <!-- Connection Status Section -->
+        <div class="test-section">
+            <h2>1. MongoDB Connection Status</h2>
+            <div class="status-box" id="connectionStatus">
+                <div class="status-item pending">
+                    <span class="status-label">Status</span>
+                    <span class="status-value">Click "Check Connection" to test</span>
+                </div>
+            </div>
+            <button class="btn" onclick="checkConnection()">Check Connection</button>
+        </div>
+
+        <!-- Lead Submission Test -->
+        <div class="test-section">
+            <h2>2. Lead Submission Test</h2>
+            <p style="margin-bottom: 20px; color: #b0b0b0;">
+                Submit a test lead to verify data is saved to MongoDB
+            </p>
+            
+            <div class="test-form">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" id="testFirstName" value="Test" />
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="testLastName" value="User" />
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="testEmail" value="test@example.com" />
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp Number</label>
+                    <input type="text" id="testWhatsapp" value="+971501234567" />
+                </div>
+                <div class="form-group">
+                    <label>Country</label>
+                    <input type="text" id="testCountry" value="UAE" />
+                </div>
+                <div class="form-group">
+                    <label>Contact Method</label>
+                    <select id="testContactMethod">
+                        <option value="whatsapp">WhatsApp</option>
+                        <option value="email">Email</option>
+                        <option value="phone">Phone</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="submitTestLead()">Submit Test Lead</button>
+            <button class="btn" onclick="verifyLeadSaved()">Verify Lead Saved</button>
+        </div>
+
+        <!-- API Endpoints Test -->
+        <div class="test-section">
+            <h2>3. API Endpoints Test</h2>
+            <div id="apiTestResults" class="status-box">
+                <div class="status-item pending">
+                    <span class="status-label">Click "Test All APIs" to begin</span>
+                </div>
+            </div>
+            <button class="btn" onclick="testAllAPIs()">Test All APIs</button>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="test-section">
+            <h2>Activity Log</h2>
+            <div class="log-box" id="activityLog">
+                <div class="log-entry info">Ready to start testing...</div>
+            </div>
+            <button class="btn" onclick="clearLog()" style="background: #f44336;">Clear Log</button>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary" id="summary" style="display: none;">
+            <h3>Test Results Summary</h3>
+            <div class="big-status" id="summaryIcon">✅</div>
+            <p id="summaryText" style="font-size: 1.2rem;"></p>
+        </div>
+    </div>
+
+    <script>
+        let testLeadId = null;
+
+        function log(message, type = 'info') {
+            const logBox = document.getElementById('activityLog');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logBox.appendChild(entry);
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('activityLog').innerHTML = '<div class="log-entry info">Log cleared.</div>';
+        }
+
+        async function checkConnection() {
+            log('Checking MongoDB connection...', 'info');
+            
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                
+                const statusBox = document.getElementById('connectionStatus');
+                statusBox.innerHTML = '';
+                
+                // MongoDB Connected
+                const connectedStatus = data.mongodb_connected ? 'success' : 'error';
+                statusBox.innerHTML += `
+                    <div class="status-item ${connectedStatus}">
+                        <span class="status-label">MongoDB Connected</span>
+                        <span class="status-value">${data.mongodb_connected ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                `;
+                
+                // Database Name
+                statusBox.innerHTML += `
+                    <div class="status-item ${data.database_name !== 'local_fallback' ? 'success' : 'error'}">
+                        <span class="status-label">Database Name</span>
+                        <span class="status-value">${data.database_name}</span>
+                    </div>
+                `;
+                
+                // URI Configured
+                statusBox.innerHTML += `
+                    <div class="status-item ${data.mongodb_uri_configured ? 'success' : 'error'}">
+                        <span class="status-label">URI Configured</span>
+                        <span class="status-value">${data.mongodb_uri_configured ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                `;
+                
+                if (data.mongodb_connected) {
+                    log('✅ MongoDB connection successful!', 'success');
+                    log(`Database: ${data.database_name}`, 'success');
+                } else {
+                    log('❌ MongoDB connection failed!', 'error');
+                    log('Database falling back to local storage', 'error');
+                }
+                
+            } catch (error) {
+                log(`❌ Error checking connection: ${error.message}`, 'error');
+            }
+        }
+
+        async function submitTestLead() {
+            log('Submitting test lead...', 'info');
+            
+            const leadData = {
+                firstName: document.getElementById('testFirstName').value,
+                lastName: document.getElementById('testLastName').value,
+                email: document.getElementById('testEmail').value + '.' + Date.now() + '@test.com',
+                whatsapp: document.getElementById('testWhatsapp').value,
+                country: document.getElementById('testCountry').value,
+                contactMethod: document.getElementById('testContactMethod').value,
+                timeframe: 'within-month',
+                propertyType: 'apartment'
+            };
+            
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(leadData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    log('✅ Test lead submitted successfully!', 'success');
+                    log(`Email: ${leadData.email}`, 'info');
+                    testLeadId = result.lead_id;
+                    if (testLeadId) {
+                        log(`Lead ID: ${testLeadId}`, 'success');
+                    }
+                } else {
+                    log(`❌ Lead submission failed: ${result.message}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Error submitting lead: ${error.message}`, 'error');
+            }
+        }
+
+        async function verifyLeadSaved() {
+            log('Verifying lead saved in database...', 'info');
+            
+            try {
+                // First, check if we need to authenticate
+                const response = await fetch('/api/leads');
+                
+                if (response.status === 401) {
+                    log('⚠️  Authentication required. Go to admin page and login first.', 'error');
+                    log('Then come back and click "Verify Lead Saved" again.', 'info');
+                    return;
+                }
+                
+                const data = await response.json();
+                
+                if (data.leads && data.leads.length > 0) {
+                    log(`✅ Found ${data.leads.length} leads in database`, 'success');
+                    
+                    // Show the most recent lead
+                    const recentLead = data.leads[0];
+                    log(`Most recent lead: ${recentLead.firstName} ${recentLead.lastName}`, 'info');
+                    log(`Email: ${recentLead.email}`, 'info');
+                    log(`Created: ${new Date(recentLead.created_at).toLocaleString()}`, 'info');
+                    
+                    // If we have a test lead ID, verify it's in the database
+                    if (testLeadId) {
+                        const found = data.leads.some(lead => lead._id === testLeadId);
+                        if (found) {
+                            log('✅ Test lead confirmed in database!', 'success');
+                        } else {
+                            log('⚠️  Test lead not found in results', 'error');
+                        }
+                    }
+                } else {
+                    log('⚠️  No leads found in database', 'error');
+                }
+                
+            } catch (error) {
+                log(`❌ Error verifying leads: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAllAPIs() {
+            log('Testing all API endpoints...', 'info');
+            const resultsBox = document.getElementById('apiTestResults');
+            resultsBox.innerHTML = '';
+            
+            const endpoints = [
+                { url: '/api/health', method: 'GET', name: 'Health Check' },
+                { url: '/api/website/config', method: 'GET', name: 'Website Config' },
+            ];
+            
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(endpoint.url, { method: endpoint.method });
+                    const status = response.ok ? 'success' : 'error';
+                    const statusCode = response.status;
+                    
+                    resultsBox.innerHTML += `
+                        <div class="status-item ${status}">
+                            <span class="status-label">${endpoint.name}</span>
+                            <span class="status-value">${statusCode} ${response.ok ? '✅' : '❌'}</span>
+                        </div>
+                    `;
+                    
+                    log(`${endpoint.name}: ${statusCode} ${response.ok ? '✅' : '❌'}`, status);
+                } catch (error) {
+                    resultsBox.innerHTML += `
+                        <div class="status-item error">
+                            <span class="status-label">${endpoint.name}</span>
+                            <span class="status-value">Error ❌</span>
+                        </div>
+                    `;
+                    log(`${endpoint.name}: Error - ${error.message}`, 'error');
+                }
+            }
+            
+            log('API endpoint testing complete', 'info');
+        }
+
+        // Auto-check connection on page load
+        window.addEventListener('load', () => {
+            setTimeout(checkConnection, 500);
+        });
+    </script>
+</body>
+</html>
