@@ -775,21 +775,18 @@ def download_leads_excel():
         }), 500
 
 @app.route('/admin')
-@require_admin_auth
 def admin_dashboard():
-    """Serve admin dashboard (admin only)"""
+    """Serve admin dashboard"""
     return send_from_directory('.', 'admin.html')
 
 @app.route('/settings')
-@require_admin_auth
 def settings_page():
-    """Serve settings page (admin only)"""
+    """Serve settings page"""
     return send_from_directory('.', 'settings.html')
 
 @app.route('/editor')
-@require_admin_auth
 def editor_page():
-    """Serve website editor page (admin only)"""
+    """Serve website editor page"""
     return send_from_directory('.', 'editor.html')
 
 @app.route('/api/website/update', methods=['POST'])
