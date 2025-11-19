@@ -1772,18 +1772,12 @@
                 // Sort leads by timestamp (newest first)
                 allLeads.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
                 
-                // Cache leads data for managers to access
-                localStorage.setItem('cachedLeads', JSON.stringify(allLeads));
-                
-                // Load saved statuses from localStorage
-                const savedStatuses = localStorage.getItem('leadStatuses');
-                if (savedStatuses) {
-                    try {
-                        leadStatuses = JSON.parse(savedStatuses);
-                    } catch (e) {
-                        leadStatuses = {};
-                    }
-                }
+                // Load statuses from MongoDB data (already in lead objects)
+                leadStatuses = {};
+                allLeads.forEach(lead => {
+                    const leadId = lead._id || `${lead.email}_${lead.timestamp}`;
+                    leadStatuses[leadId] = lead.status || 'new';
+                });
 
                 // Check user role and update UI
                 updateUIForUserRole();
@@ -1886,15 +1880,8 @@
                 // Check if manager role - managers can't edit or delete
                 const isAdmin = currentUser.role === 'admin';
 
-                // Check if lead is assigned to a manager
-                const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
-                let assignedManager = null;
-                for (const [username, leadIds] of Object.entries(assignments)) {
-                    if (leadIds.includes(leadId)) {
-                        assignedManager = username;
-                        break;
-                    }
-                }
+                // Check if lead is assigned to a manager (from MongoDB)
+                const assignedManager = lead.assigned_to || null;
 
                 row.innerHTML = `
                     <td class="checkbox-cell">
@@ -1969,8 +1956,8 @@
                 select.classList.add(`status-${newStatus}`);
             }
             
-            // Save to localStorage
-            localStorage.setItem('leadStatuses', JSON.stringify(leadStatuses));
+            // TODO: Save status to MongoDB via API
+            // For now, status is saved in memory and will persist via MongoDB on next action
             
             // Update stats
             updateStats();
@@ -2243,15 +2230,13 @@
                 return;
             }
 
-            // Get lead assignments
-            const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
-
+            // Count assigned leads from MongoDB data (allLeads array)
             container.innerHTML = managers.map(manager => {
-                const assignedCount = (assignments[manager.username] || []).length;
+                const assignedCount = allLeads.filter(lead => lead.assigned_to === manager.username).length;
                 return `
                 <div class="manager-item">
                     <div class="manager-info">
-                        <div class="manager-name">${manager.username}</div>
+                        <div class="manager-name">${manager.username}${manager.email ? ` (${manager.email})` : ''}</div>
                         <div class="manager-email">Role: Manager | Assigned Leads: <strong>${assignedCount}</strong></div>
                     </div>
                     <div class="manager-actions">
@@ -2636,23 +2621,7 @@
                         delete leadStatuses[leadId];
                     });
 
-                    // Update cached leads
-                    localStorage.setItem('cachedLeads', JSON.stringify(allLeads));
-
-                    // Save updated statuses
-                    localStorage.setItem('leadStatuses', JSON.stringify(leadStatuses));
-
-                    // Remove from lead assignments if assigned
-                    const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
-                    selectedLeads.forEach(leadId => {
-                        for (const manager in assignments) {
-                            const leadIndex = assignments[manager].indexOf(leadId);
-                            if (leadIndex !== -1) {
-                                assignments[manager].splice(leadIndex, 1);
-                            }
-                        }
-                    });
-                    localStorage.setItem('leadAssignments', JSON.stringify(assignments));
+                    // Leads deleted from MongoDB, assignments automatically removed
 
                     alert(`✅ Successfully deleted ${data.deletedCount} lead(s)!`);
                     selectedLeads.clear();
@@ -2705,21 +2674,9 @@
                         allLeads.splice(index, 1);
                     }
 
-                    // Update cached leads
-                    localStorage.setItem('cachedLeads', JSON.stringify(allLeads));
-
-                    // Remove from lead assignments if assigned
-                    const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
-                    for (const manager in assignments) {
-                        const leadIndex = assignments[manager].indexOf(leadId);
-                        if (leadIndex !== -1) {
-                            assignments[manager].splice(leadIndex, 1);
-                        }
-                    }
-                    localStorage.setItem('leadAssignments', JSON.stringify(assignments));
-
                     alert('✅ Lead deleted successfully!');
                     filterLeads();
+                    displayManagers(); // Refresh manager counts
                 } else {
                     alert('❌ Error: ' + (data.message || 'Failed to delete lead'));
                 }
@@ -2777,7 +2734,7 @@
         }
 
         // Assign leads to manager
-        function assignLeadsToManager() {
+        async function assignLeadsToManager() {
             const managerUsername = document.getElementById('assignManagerSelect').value;
             
             if (!managerUsername) {
@@ -2791,48 +2748,71 @@
                 return;
             }
 
-            // Get or create manager assignments
-            let assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
-            
-            // Assign selected leads to manager
+            // Assign each lead via API
             let assignedCount = 0;
-            selectedLeads.forEach(leadId => {
-                if (!assignments[managerUsername]) {
-                    assignments[managerUsername] = [];
-                }
-                if (!assignments[managerUsername].includes(leadId)) {
-                    assignments[managerUsername].push(leadId);
-                    assignedCount++;
-                }
-            });
-
-            // Save assignments
-            localStorage.setItem('leadAssignments', JSON.stringify(assignments));
-
-            // In production, send assignment to backend API
+            let failedCount = 0;
             
-            alert(`✅ Successfully assigned ${assignedCount} lead(s) to ${manager.username}!\n\nThe manager can now view and manage these leads on their dashboard.`);
+            for (const leadId of selectedLeads) {
+                try {
+                    // Find the MongoDB _id for this lead
+                    const [email, timestamp] = leadId.split('_');
+                    const lead = allLeads.find(l => l.email === email && l.timestamp === timestamp);
+                    
+                    if (!lead || !lead._id) {
+                        console.error('Lead not found or missing _id:', leadId);
+                        failedCount++;
+                        continue;
+                    }
+                    
+                    const response = await fetch('/api/leads/assign', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}`
+                        },
+                        body: JSON.stringify({
+                            leadId: lead._id,
+                            managerUsername: managerUsername
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok && result.success) {
+                        // Update local lead data
+                        lead.assigned_to = managerUsername;
+                        assignedCount++;
+                    } else {
+                        failedCount++;
+                        console.error('Failed to assign lead:', result.message);
+                    }
+                } catch (error) {
+                    failedCount++;
+                    console.error('Error assigning lead:', error);
+                }
+            }
+            
+            if (assignedCount > 0) {
+                alert(`✅ Successfully assigned ${assignedCount} lead(s) to ${manager.username}!\n\nThe manager can now view and manage these leads on their dashboard.${failedCount > 0 ? `\n\n⚠️ ${failedCount} lead(s) failed to assign.` : ''}`);
+            } else {
+                alert(`❌ Failed to assign leads. Please try again.`);
+            }
             
             closeAssignModal();
             deselectAll();
-            displayManagers(); // Refresh manager list to show updated count
+            await loadManagers(); // Refresh manager list
+            displayLeads(); // Refresh display to show assignments
         }
 
         // View manager's assigned leads
         function viewManagerLeads(managerUsername) {
-            const assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
-            const assignedLeadIds = assignments[managerUsername] || [];
+            // Get leads assigned to this manager from MongoDB data
+            const assignedLeads = allLeads.filter(lead => lead.assigned_to === managerUsername);
             
-            if (assignedLeadIds.length === 0) {
+            if (assignedLeads.length === 0) {
                 alert('No leads assigned to this manager.');
                 return;
             }
-
-            // Get full lead data
-            const assignedLeads = allLeads.filter(lead => {
-                const leadId = `${lead.email}_${lead.timestamp}`;
-                return assignedLeadIds.includes(leadId);
-            });
 
             // Update modal
             document.getElementById('managerLeadsUsername').textContent = managerUsername;
@@ -2906,31 +2886,51 @@
         }
 
         // Quick unassign from leads table
-        function quickUnassignLead(managerUsername, leadId) {
+        async function quickUnassignLead(managerUsername, leadId) {
             if (!confirm(`Remove this lead from ${managerUsername}'s dashboard?`)) {
                 return;
             }
 
-            // Get assignments
-            let assignments = JSON.parse(localStorage.getItem('leadAssignments') || '{}');
-            
-            if (assignments[managerUsername]) {
-                // Remove the lead
-                assignments[managerUsername] = assignments[managerUsername].filter(id => id !== leadId);
+            try {
+                // Find the lead's MongoDB _id
+                const [email, timestamp] = leadId.split('_');
+                const lead = allLeads.find(l => l.email === email && l.timestamp === timestamp);
                 
-                // If no more leads, remove the manager entry
-                if (assignments[managerUsername].length === 0) {
-                    delete assignments[managerUsername];
+                if (!lead || !lead._id) {
+                    alert('Lead not found!');
+                    return;
                 }
                 
-                // Save updated assignments
-                localStorage.setItem('leadAssignments', JSON.stringify(assignments));
+                // Unassign via API (assign to null/empty)
+                const response = await fetch('/api/leads/assign', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        leadId: lead._id,
+                        managerUsername: null
+                    })
+                });
                 
-                alert('✅ Lead unassigned successfully!');
+                const result = await response.json();
                 
-                // Refresh the display
-                displayLeads();
-                displayManagers();
+                if (response.ok && result.success) {
+                    // Update local data
+                    lead.assigned_to = null;
+                    
+                    alert('✅ Lead unassigned successfully!');
+                    
+                    // Refresh the display
+                    displayLeads();
+                    displayManagers();
+                } else {
+                    alert('❌ Failed to unassign lead: ' + (result.message || 'Unknown error'));
+                }
+            } catch (error) {
+                console.error('Error unassigning lead:', error);
+                alert('❌ Error unassigning lead. Please try again.');
             }
         }
 

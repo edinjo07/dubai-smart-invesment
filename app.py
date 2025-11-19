@@ -991,36 +991,42 @@ def delete_manager():
 @app.route('/api/leads/assign', methods=['POST'])
 @require_admin_auth
 def assign_lead():
-    """Assign a lead to a manager (admin only)"""
+    """Assign or unassign a lead to/from a manager (admin only)"""
     try:
         data = request.get_json()
         lead_id = data.get('leadId')
         manager_username = data.get('managerUsername')
         
-        if not lead_id or not manager_username:
+        if not lead_id:
             return jsonify({
                 'success': False,
-                'message': 'Lead ID and manager username are required'
+                'message': 'Lead ID is required'
             }), 400
         
-        success = db.assign_lead_to_manager(lead_id, manager_username)
+        # If manager_username is None/null, unassign the lead
+        if manager_username is None:
+            success = db.update_lead(lead_id, {'assigned_to': None, 'assigned_at': None})
+            message = 'Lead unassigned successfully'
+        else:
+            success = db.assign_lead_to_manager(lead_id, manager_username)
+            message = 'Lead assigned successfully'
         
         if success:
             return jsonify({
                 'success': True,
-                'message': 'Lead assigned successfully'
+                'message': message
             })
         else:
             return jsonify({
                 'success': False,
-                'message': 'Failed to assign lead'
+                'message': 'Failed to update lead assignment'
             }), 500
             
     except Exception as e:
-        logger.error(f"Error assigning lead: {str(e)}")
+        logger.error(f"Error updating lead assignment: {str(e)}")
         return jsonify({
             'success': False,
-            'message': 'Error assigning lead'
+            'message': 'Error updating lead assignment'
         }), 500
 
 @app.route('/api/manager/login', methods=['POST'])
