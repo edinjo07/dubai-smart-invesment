@@ -2224,14 +2224,16 @@
                     managers = await response.json();
                     console.log('Managers loaded from MongoDB:', managers.length);
                 } else if (response.status === 401) {
-                    console.error('Unauthorized - token may be invalid');
-                    // Redirect to login if token is invalid
-                    window.location.href = '/login.html';
-                    return;
+                    console.error('Unauthorized loading managers - token may be invalid');
+                    // Don't redirect - this might be a temporary issue
+                    // Just initialize empty managers array
+                    managers = [];
+                    console.log('Continuing with empty managers list');
                 }
             } catch (error) {
                 console.error('Error loading managers:', error);
-                alert('Failed to load managers: ' + error.message);
+                // Don't show alert, just log and continue
+                managers = [];
             }
             displayManagers();
             updateManagerDropdown();
@@ -2960,8 +2962,8 @@
             }
         });
 
-        // Load managers on page load
-        loadManagers();
+        // Managers will be loaded when settings modal is opened
+        // loadManagers(); // Removed to prevent 401 errors on page load
     </script>
 </body>
 </html>
