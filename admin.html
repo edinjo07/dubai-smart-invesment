@@ -1640,6 +1640,7 @@
             }
 
             // Verify token with server
+            console.log('Verifying admin token...');
             try {
                 const response = await fetch('/api/admin/verify', {
                     headers: {
@@ -1647,14 +1648,20 @@
                     }
                 });
 
+                console.log('Verify response status:', response.status);
+
                 if (!response.ok) {
-                    console.error('Token verification failed:', response.status);
+                    console.error('Token verification failed - Status:', response.status);
+                    const errorText = await response.text();
+                    console.error('Error response:', errorText);
                     localStorage.removeItem('adminToken');
                     redirectToLogin();
                     return;
                 }
 
                 const data = await response.json();
+                console.log('Verify response data:', data);
+                
                 if (!data.success) {
                     console.error('Token invalid:', data.message);
                     localStorage.removeItem('adminToken');
@@ -1663,19 +1670,23 @@
                 }
 
                 // Token is valid, load the dashboard
-                console.log('Admin authenticated successfully');
+                console.log('✅ Admin authenticated successfully');
                 currentUser = { role: 'admin', name: 'Administrator' };
                 loadLeads();
                 setupEventListeners();
             } catch (error) {
-                console.error('Auth check failed:', error);
+                console.error('❌ Auth check failed with error:', error);
                 localStorage.removeItem('adminToken');
                 redirectToLogin();
             }
         }
 
         function redirectToLogin() {
-            window.location.href = '/login';
+            // Add small delay to prevent redirect loops
+            console.log('Redirecting to login...');
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 100);
         }
 
         async function logout() {
