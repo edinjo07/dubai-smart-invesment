@@ -2611,7 +2611,21 @@
             }
 
             try {
-                const leadIdsArray = Array.from(selectedLeads);
+                // Convert selected lead IDs to MongoDB _id format
+                const mongoIds = [];
+                selectedLeads.forEach(leadId => {
+                    const [email, timestamp] = leadId.split('_');
+                    const lead = allLeads.find(l => l.email === email && l.timestamp === timestamp);
+                    if (lead && lead._id) {
+                        mongoIds.push(lead._id);
+                    }
+                });
+
+                if (mongoIds.length === 0) {
+                    alert('❌ Error: Could not find lead IDs. Please refresh the page and try again.');
+                    return;
+                }
+
                 const token = localStorage.getItem('adminToken') || sessionStorage.getItem('adminToken');
                 
                 const response = await fetch('/api/leads/delete/bulk', {
@@ -2620,7 +2634,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ leadIds: leadIdsArray })
+                    body: JSON.stringify({ leadIds: mongoIds })
                 });
 
                 const data = await response.json();
@@ -2641,7 +2655,7 @@
 
                     alert(`✅ Successfully deleted ${data.deletedCount} lead(s)!`);
                     selectedLeads.clear();
-                    updateSelectedCount();
+                    updateSelectedLeads();
                     filterLeads();
                 } else {
                     alert('❌ Error: ' + (data.message || 'Failed to delete leads'));
@@ -2678,7 +2692,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ leadId: leadId })
+                    body: JSON.stringify({ leadId: lead._id })
                 });
 
                 const data = await response.json();

@@ -607,47 +607,20 @@ def delete_lead():
                 'message': 'Lead ID is required'
             }), 400
         
-        leads_file = 'leads.json'
-        if not os.path.exists(leads_file):
+        # Delete from MongoDB using MongoDB _id
+        success = db.delete_lead(lead_id)
+        
+        if success:
+            logger.info(f"Lead deleted: {lead_id}")
             return jsonify({
-                'success': False,
-                'message': 'No leads found'
-            }), 404
-        
-        # Read existing leads
-        with open(leads_file, 'r') as f:
-            leads = json.load(f)
-        
-        # Parse leadId (format: email_timestamp)
-        parts = lead_id.split('_', 1)
-        if len(parts) != 2:
-            return jsonify({
-                'success': False,
-                'message': 'Invalid lead ID format'
-            }), 400
-        
-        email, timestamp = parts
-        
-        # Find and remove the lead
-        original_count = len(leads)
-        leads = [lead for lead in leads if not (lead.get('email') == email and lead.get('timestamp') == timestamp)]
-        
-        if len(leads) == original_count:
+                'success': True,
+                'message': 'Lead deleted successfully'
+            })
+        else:
             return jsonify({
                 'success': False,
                 'message': 'Lead not found'
             }), 404
-        
-        # Save updated leads
-        with open(leads_file, 'w') as f:
-            json.dump(leads, f, indent=2)
-        
-        logger.info(f"Lead deleted: {email}")
-        
-        return jsonify({
-            'success': True,
-            'message': 'Lead deleted successfully'
-        })
         
     except Exception as e:
         logger.error(f"Error deleting lead: {str(e)}")
@@ -670,33 +643,8 @@ def delete_leads_bulk():
                 'message': 'Lead IDs array is required'
             }), 400
         
-        leads_file = 'leads.json'
-        if not os.path.exists(leads_file):
-            return jsonify({
-                'success': False,
-                'message': 'No leads found'
-            }), 404
-        
-        # Read existing leads
-        with open(leads_file, 'r') as f:
-            leads = json.load(f)
-        
-        # Parse all lead IDs
-        leads_to_delete = set()
-        for lead_id in lead_ids:
-            parts = lead_id.split('_', 1)
-            if len(parts) == 2:
-                email, timestamp = parts
-                leads_to_delete.add((email, timestamp))
-        
-        # Filter out leads to delete
-        original_count = len(leads)
-        leads = [lead for lead in leads if (lead.get('email'), lead.get('timestamp')) not in leads_to_delete]
-        deleted_count = original_count - len(leads)
-        
-        # Save updated leads
-        with open(leads_file, 'w') as f:
-            json.dump(leads, f, indent=2)
+        # Delete from MongoDB using MongoDB _id
+        deleted_count = db.delete_leads_bulk(lead_ids)
         
         logger.info(f"Bulk delete: {deleted_count} leads deleted")
         
