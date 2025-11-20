@@ -885,15 +885,26 @@
         }
 
         function logout() {
+            console.log('Logout function called');
             sessionStorage.removeItem('managerSession');
             sessionStorage.removeItem('managerUsername');
             window.location.href = '/manager-login';
         }
 
         function toggleSettingsMenu() {
+            console.log('Toggle settings menu called');
             const menu = document.getElementById('settingsMenu');
-            menu.classList.toggle('active');
+            if (menu) {
+                menu.classList.toggle('active');
+                console.log('Menu toggled, active:', menu.classList.contains('active'));
+            } else {
+                console.error('Settings menu element not found');
+            }
         }
+        
+        // Make functions globally accessible
+        window.logout = logout;
+        window.toggleSettingsMenu = toggleSettingsMenu;
 
         // Close dropdown when clicking outside
         document.addEventListener('click', function(event) {
@@ -905,14 +916,20 @@
         });
 
         function openProfileSettings() {
+            console.log('Opening profile settings');
             document.getElementById('changePasswordModal').classList.add('active');
             document.getElementById('settingsMenu').classList.remove('active');
         }
 
         function closePasswordModal() {
+            console.log('Closing password modal');
             document.getElementById('changePasswordModal').classList.remove('active');
             document.getElementById('changePasswordForm').reset();
         }
+        
+        // Make functions globally accessible
+        window.openProfileSettings = openProfileSettings;
+        window.closePasswordModal = closePasswordModal;
 
         async function changePassword(event) {
             event.preventDefault();
