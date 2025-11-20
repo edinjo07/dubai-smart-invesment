@@ -45,11 +45,13 @@
     <meta name="ICBM" content="25.276987, 55.296249">
     
     <!-- Google tag (gtag.js) with Consent Mode -->
+    <!-- Google tag (gtag.js) - Analytics and Ads -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E6CJGWGVK"></script>
     <script>
-      // Set default consent to 'denied' before loading Analytics
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       
+      // Set default consent
       gtag('consent', 'default', {
         'analytics_storage': 'denied',
         'ad_storage': 'denied',
@@ -57,20 +59,13 @@
       });
       
       gtag('js', new Date());
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E6CJGWGVK"></script>
-    <script>
+      
+      // Google Analytics
       gtag('config', 'G-6E6CJGWGVK', {
         'anonymize_ip': true
       });
-    </script>
-    
-    <!-- Google Ads Conversion Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17701717784"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      
+      // Google Ads
       gtag('config', 'AW-17701717784');
     </script>
     
