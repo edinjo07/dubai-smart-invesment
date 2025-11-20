@@ -6,11 +6,24 @@
     <title>Thank You - Dubai Smart Investment</title>
     <meta name="robots" content="noindex, nofollow">
     
-    <!-- Google Ads Conversion Tracking - ADD YOUR CODE HERE -->
-    <script>
-      // Google Ads Conversion Tracking will be added here
-      // After you create the campaign, paste the gtag conversion code below
-    </script>
+        <!-- Google tag (gtag.js) for GA4 + Google Ads -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E6CJGWGVK"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}    
+            gtag('js', new Date());
+            gtag('config', 'G-6E6CJGWGVK');
+            gtag('config', 'AW-17701717784');
+        </script>
+    
+        <!-- Event snippet for Sign-up conversion page -->
+        <script>
+            gtag('event', 'conversion', {
+                    'send_to': 'AW-17701717784/BcSlClaXsMMbEJiO6_hB',
+                    'value': 1.0,
+                    'currency': 'USD'
+            });
+        </script>
     
     <style>
         * {
@@ -270,16 +283,6 @@
     </div>
 
     <script>
-        // Track page view in Google Analytics
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'conversion', {
-                'send_to': 'AW-XXXXXXXXX/XXXXXXXXXXXXX', // Will be updated with your conversion ID
-                'event_callback': function() {
-                    console.log('Conversion tracked successfully');
-                }
-            });
-        }
-
         // Auto-redirect to homepage after 30 seconds (optional)
         setTimeout(function() {
             // Uncomment the line below if you want auto-redirect

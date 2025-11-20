@@ -44,30 +44,17 @@
     <meta name="geo.position" content="25.276987;55.296249">
     <meta name="ICBM" content="25.276987, 55.296249">
     
-    <!-- Google tag (gtag.js) with Consent Mode -->
-    <!-- Google tag (gtag.js) - Analytics and Ads -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E6CJGWGVK"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      
-      // Set default consent
-      gtag('consent', 'default', {
-        'analytics_storage': 'denied',
-        'ad_storage': 'denied',
-        'wait_for_update': 500
-      });
-      
-      gtag('js', new Date());
-      
-      // Google Analytics
-      gtag('config', 'G-6E6CJGWGVK', {
-        'anonymize_ip': true
-      });
-      
-      // Google Ads
-      gtag('config', 'AW-17701717784');
-    </script>
+        <!-- Google tag (gtag.js) for GA4 + Google Ads -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E6CJGWGVK"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}    
+            gtag('js', new Date());
+            // GA4 Measurement ID
+            gtag('config', 'G-6E6CJGWGVK');
+            // Google Ads Conversion ID (needed so conversion events are recognised)
+            gtag('config', 'AW-17701717784');
+        </script>
     
     <!-- Enhanced Structured Data (JSON-LD) for better SEO -->
     <script type="application/ld+json">
@@ -2173,12 +2160,12 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
                 const result = await response.json();
                 
                 if (result.success) {
-                    // Track Google Ads conversion
+                    // Track Google Ads Sign-up conversion
                     if (typeof gtag !== 'undefined') {
                         gtag('event', 'conversion', {
-                            'send_to': 'AW-17701717784/BcSlClaXsMMbEJiO6_hB',
+                            'send_to': 'AW-17701717784/zcjyCKGCsMMbEJiO6_hB',
                             'value': 1.0,
-                            'currency': 'EUR'
+                            'currency': 'USD'
                         });
                     }
                     
