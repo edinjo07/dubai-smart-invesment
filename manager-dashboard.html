@@ -872,16 +872,12 @@
                 name: managerUsername,
                 username: managerUsername
             };
-                
-                document.getElementById('currentUserName').textContent = currentUser.username;
-                authToken = 'manager-session';
-                
-                loadLeads();
-                setupEventListeners();
-            } catch (e) {
-                sessionStorage.removeItem('managerSession');
-                window.location.href = '/manager-login';
-            }
+            
+            document.getElementById('currentUserName').textContent = currentUser.username;
+            authToken = 'manager-session';
+            
+            loadLeads();
+            setupEventListeners();
         }
 
         function logout() {
