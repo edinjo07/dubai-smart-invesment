@@ -417,7 +417,14 @@
                 }).then(response => {
                     if (response.ok) {
                         window.location.href = '/admin';
+                    } else {
+                        // Token is invalid, clear it
+                        localStorage.removeItem('adminToken');
                     }
+                }).catch(error => {
+                    // Network error or invalid token, clear it
+                    console.error('Token verification failed:', error);
+                    localStorage.removeItem('adminToken');
                 });
             }
         });

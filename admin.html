@@ -1648,17 +1648,28 @@
                 });
 
                 if (!response.ok) {
+                    console.error('Token verification failed:', response.status);
+                    localStorage.removeItem('adminToken');
+                    redirectToLogin();
+                    return;
+                }
+
+                const data = await response.json();
+                if (!data.success) {
+                    console.error('Token invalid:', data.message);
                     localStorage.removeItem('adminToken');
                     redirectToLogin();
                     return;
                 }
 
                 // Token is valid, load the dashboard
+                console.log('Admin authenticated successfully');
                 currentUser = { role: 'admin', name: 'Administrator' };
                 loadLeads();
                 setupEventListeners();
             } catch (error) {
                 console.error('Auth check failed:', error);
+                localStorage.removeItem('adminToken');
                 redirectToLogin();
             }
         }
