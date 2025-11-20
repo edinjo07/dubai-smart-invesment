@@ -66,13 +66,12 @@
     </script>
     
     <!-- Google Ads Conversion Tracking -->
-    <!-- Replace AW-XXXXXXXXXX with your actual Google Ads Conversion ID -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17701717784"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'AW-XXXXXXXXXX');
+      gtag('config', 'AW-17701717784');
     </script>
     
     <!-- Enhanced Structured Data (JSON-LD) for better SEO -->
@@ -2180,9 +2179,11 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
                 
                 if (result.success) {
                     // Track Google Ads conversion
+                    // Note: Add your Conversion Label after creating conversion action in Google Ads
+                    // Format: 'AW-17701717784/YOUR-CONVERSION-LABEL'
                     if (typeof gtag !== 'undefined') {
                         gtag('event', 'conversion', {
-                            'send_to': 'AW-XXXXXXXXXX/YYYYYYYYYYYYYY', // Replace with your Conversion ID/Label
+                            'send_to': 'AW-17701717784/YOUR-CONVERSION-LABEL',
                             'value': 1.0,
                             'currency': 'EUR'
                         });
