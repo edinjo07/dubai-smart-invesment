@@ -859,25 +859,19 @@
         async function checkAuth() {
             // Check for manager session
             const managerSession = sessionStorage.getItem('managerSession');
-            if (!managerSession) {
+            const managerUsername = sessionStorage.getItem('managerUsername');
+            
+            if (!managerSession || !managerUsername) {
                 window.location.href = '/manager-login';
                 return;
             }
 
-            try {
-                const sessionData = JSON.parse(atob(managerSession));
-                if (sessionData.role !== 'manager') {
-                    sessionStorage.removeItem('managerSession');
-                    window.location.href = '/manager-login';
-                    return;
-                }
-
-                // Manager is logged in
-                currentUser = {
-                    role: 'manager',
-                    name: sessionData.username,
-                    username: sessionData.username
-                };
+            // Manager is logged in - session is a JWT token, not JSON
+            currentUser = {
+                role: 'manager',
+                name: managerUsername,
+                username: managerUsername
+            };
                 
                 document.getElementById('currentUserName').textContent = currentUser.username;
                 authToken = 'manager-session';

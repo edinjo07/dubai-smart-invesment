@@ -350,15 +350,10 @@
 
         // Check if already logged in
         const currentSession = sessionStorage.getItem('managerSession');
-        if (currentSession) {
-            try {
-                const sessionData = JSON.parse(atob(currentSession));
-                if (sessionData.role === 'manager') {
-                    window.location.href = '/manager';
-                }
-            } catch (e) {
-                // Invalid session, continue to login page
-            }
+        const managerUsername = sessionStorage.getItem('managerUsername');
+        if (currentSession && managerUsername) {
+            // Already logged in, redirect to dashboard
+            window.location.href = '/manager';
         }
     </script>
 </body>
