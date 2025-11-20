@@ -31,7 +31,7 @@ class Config:
     SMTP_PORT = int(os.environ.get('SMTP_PORT') or 587)
     EMAIL_USERNAME = os.environ.get('EMAIL_USERNAME') or 'your-email@gmail.com'
     EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD') or 'your-app-password'
-    TO_EMAIL = os.environ.get('TO_EMAIL') or 'sales@leblanc-dubai.com'
+    TO_EMAIL = os.environ.get('TO_EMAIL') or 'marketingspecials9@gmail.com,info@dubaismartinvestments.com'
     
     # Admin credentials (in production, store these securely in database with hashed passwords)
     ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME') or 'dubaiadmin'
@@ -122,7 +122,9 @@ def send_email(form_data):
         # Create message
         msg = MIMEMultipart()
         msg['From'] = app.config['EMAIL_USERNAME']
-        msg['To'] = app.config['TO_EMAIL']
+        # Support multiple recipients (comma-separated)
+        to_emails = [email.strip() for email in app.config['TO_EMAIL'].split(',')]
+        msg['To'] = ', '.join(to_emails)
         msg['Subject'] = f"New Contact Form Submission - Le Blanc Dubai"
         
         # Create email body
@@ -163,10 +165,12 @@ def send_email(form_data):
         server.starttls()
         server.login(app.config['EMAIL_USERNAME'], app.config['EMAIL_PASSWORD'])
         text = msg.as_string()
-        server.sendmail(app.config['EMAIL_USERNAME'], app.config['TO_EMAIL'], text)
+        # Support multiple recipients
+        to_emails = [email.strip() for email in app.config['TO_EMAIL'].split(',')]
+        server.sendmail(app.config['EMAIL_USERNAME'], to_emails, text)
         server.quit()
         
-        logger.info(f"Email sent successfully for {form_data.get('email')}")
+        logger.info(f"Email sent successfully for {form_data.get('email')} to {', '.join(to_emails)}")
         return True
         
     except Exception as e:
