@@ -1061,7 +1061,10 @@ def get_manager_leads():
     try:
         token = request.headers.get('Authorization', '').replace('Bearer ', '')
         
+        logger.info(f"Manager leads request with token: {token[:20] if token else 'none'}...")
+        
         if not token or token not in active_sessions:
+            logger.warning(f"Manager unauthorized - token not in sessions")
             return jsonify({
                 'success': False,
                 'message': 'Unauthorized'
@@ -1070,18 +1073,25 @@ def get_manager_leads():
         session_data = active_sessions[token]
         
         if session_data.get('role') != 'manager':
+            logger.warning(f"Non-manager role attempting to access manager leads: {session_data.get('role')}")
             return jsonify({
                 'success': False,
                 'message': 'Unauthorized'
             }), 401
         
         username = session_data.get('username')
+        logger.info(f"Fetching leads for manager: {username}")
         leads = db.get_manager_leads(username)
+        logger.info(f"Found {len(leads)} leads for manager {username}")
         
-        return jsonify(leads)
+        return jsonify({
+            'success': True,
+            'leads': leads,
+            'count': len(leads)
+        })
         
     except Exception as e:
-        logger.error(f"Error fetching manager leads: {str(e)}")
+        logger.error(f"Error fetching manager leads: {str(e)}", exc_info=True)
         return jsonify({
             'success': False,
             'message': 'Error fetching leads'
