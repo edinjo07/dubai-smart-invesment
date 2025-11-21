@@ -2717,7 +2717,7 @@
         }
 
         // Show assign manager modal
-        function showAssignModal() {
+        async function showAssignModal() {
             if (currentUser.role !== 'admin') {
                 alert('Only administrators can assign leads!');
                 return;
@@ -2727,6 +2727,9 @@
                 alert('Please select leads to assign.');
                 return;
             }
+
+            // Load managers first to ensure we have the latest list
+            await loadManagers();
 
             // Update count in modal
             document.getElementById('assignLeadCount').textContent = selectedLeads.size;
