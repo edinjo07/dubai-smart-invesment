@@ -1023,8 +1023,8 @@ def manager_login():
             token = secrets.token_urlsafe(32)
             expires_at = datetime.now() + timedelta(hours=24)
             
-            # Save session to database
-            db.save_session(token, username, expires_at)
+            # Save session to database with role
+            db.save_session(token, username, expires_at, role='manager')
             
             # Also keep in memory for compatibility
             active_sessions[token] = {
@@ -1063,15 +1063,38 @@ def get_manager_leads():
         
         logger.info(f"Manager leads request with token: {token[:20] if token else 'none'}...")
         
-        if not token or token not in active_sessions:
-            logger.warning(f"Manager unauthorized - token not in sessions")
+        if not token:
+            logger.warning(f"Manager unauthorized - no token provided")
             return jsonify({
                 'success': False,
-                'message': 'Unauthorized'
+                'message': 'Unauthorized - no token'
             }), 401
         
-        session_data = active_sessions[token]
+        # Check in-memory sessions first
+        session_data = active_sessions.get(token)
         
+        # If not in memory, check database
+        if not session_data:
+            logger.info(f"Token not in memory, checking database...")
+            db_session = db.get_session(token)
+            if db_session:
+                logger.info(f"Found session in database for user: {db_session.get('username')}")
+                # Restore to memory
+                session_data = {
+                    'username': db_session['username'],
+                    'role': 'manager',
+                    'expires': db_session['expires_at'],
+                    'created': db_session['created_at']
+                }
+                active_sessions[token] = session_data
+            else:
+                logger.warning(f"Manager unauthorized - token not found in memory or database")
+                return jsonify({
+                    'success': False,
+                    'message': 'Unauthorized - invalid or expired token. Please log in again.'
+                }), 401
+        
+        # Verify it's a manager session
         if session_data.get('role') != 'manager':
             logger.warning(f"Non-manager role attempting to access manager leads: {session_data.get('role')}")
             return jsonify({

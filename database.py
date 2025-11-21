@@ -112,12 +112,13 @@ class Database:
             logger.error(f"Error updating lead in MongoDB: {str(e)}")
             return False
     
-    def save_session(self, token, username, expires_at):
+    def save_session(self, token, username, expires_at, role='manager'):
         """Save user session"""
         try:
             self.sessions.insert_one({
                 'token': token,
                 'username': username,
+                'role': role,
                 'created_at': datetime.now(),
                 'expires_at': expires_at
             })
