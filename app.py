@@ -292,6 +292,11 @@ def serve_static(filename):
     """Serve static files (images, css, js)"""
     return send_from_directory('static', filename)
 
+@app.route('/favicon.ico')
+def favicon():
+    """Serve favicon explicitly"""
+    return send_from_directory('.', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 # Clean URL routes for legal pages (without .html extension)
 @app.route('/terms')
 def terms_clean():
