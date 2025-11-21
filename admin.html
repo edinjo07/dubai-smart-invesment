@@ -2781,6 +2781,7 @@
             // Assign each lead via API
             let assignedCount = 0;
             let failedCount = 0;
+            const errors = [];
             
             for (const leadId of selectedLeads) {
                 try {
@@ -2790,9 +2791,12 @@
                     
                     if (!lead || !lead._id) {
                         console.error('Lead not found or missing _id:', leadId);
+                        errors.push(`Lead ${email} - missing database ID`);
                         failedCount++;
                         continue;
                     }
+                    
+                    console.log(`Assigning lead ${lead._id} (${lead.email}) to ${managerUsername}`);
                     
                     const response = await fetch('/api/leads/assign', {
                         method: 'POST',
@@ -2807,25 +2811,35 @@
                     });
                     
                     const result = await response.json();
+                    console.log(`Assign response for ${lead.email}:`, result);
                     
                     if (response.ok && result.success) {
                         // Update local lead data
                         lead.assigned_to = managerUsername;
+                        lead.assigned_at = new Date().toISOString();
                         assignedCount++;
+                        console.log(`✅ Successfully assigned ${lead.email} to ${managerUsername}`);
                     } else {
                         failedCount++;
-                        console.error('Failed to assign lead:', result.message);
+                        const errorMsg = result.message || 'Unknown error';
+                        console.error('Failed to assign lead:', errorMsg);
+                        errors.push(`${lead.email} - ${errorMsg}`);
                     }
                 } catch (error) {
                     failedCount++;
                     console.error('Error assigning lead:', error);
+                    errors.push(`${leadId} - ${error.message}`);
                 }
             }
             
             if (assignedCount > 0) {
-                alert(`✅ Successfully assigned ${assignedCount} lead(s) to ${manager.username}!\n\nThe manager can now view and manage these leads on their dashboard.${failedCount > 0 ? `\n\n⚠️ ${failedCount} lead(s) failed to assign.` : ''}`);
+                let message = `✅ Successfully assigned ${assignedCount} lead(s) to ${manager.username}!\n\nThe manager can now view and manage these leads on their dashboard.`;
+                if (failedCount > 0) {
+                    message += `\n\n⚠️ ${failedCount} lead(s) failed to assign.\n\nErrors:\n${errors.slice(0, 5).join('\n')}${errors.length > 5 ? '\n...' : ''}`;
+                }
+                alert(message);
             } else {
-                alert(`❌ Failed to assign leads. Please try again.`);
+                alert(`❌ Failed to assign leads. Please try again.\n\nErrors:\n${errors.slice(0, 5).join('\n')}${errors.length > 5 ? '\n...' : ''}`);
             }
             
             closeAssignModal();

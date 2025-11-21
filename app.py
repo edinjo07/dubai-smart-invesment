@@ -950,7 +950,10 @@ def assign_lead():
         lead_id = data.get('leadId')
         manager_username = data.get('managerUsername')
         
+        logger.info(f"Assign lead request: leadId={lead_id}, manager={manager_username}")
+        
         if not lead_id:
+            logger.warning("Assign lead: No lead ID provided")
             return jsonify({
                 'success': False,
                 'message': 'Lead ID is required'
@@ -958,28 +961,41 @@ def assign_lead():
         
         # If manager_username is None/null, unassign the lead
         if manager_username is None:
+            logger.info(f"Unassigning lead {lead_id}")
             success = db.update_lead(lead_id, {'assigned_to': None, 'assigned_at': None})
             message = 'Lead unassigned successfully'
         else:
+            # Verify manager exists
+            manager = db.get_manager(manager_username)
+            if not manager:
+                logger.warning(f"Manager not found: {manager_username}")
+                return jsonify({
+                    'success': False,
+                    'message': f'Manager "{manager_username}" not found'
+                }), 404
+            
+            logger.info(f"Assigning lead {lead_id} to manager {manager_username}")
             success = db.assign_lead_to_manager(lead_id, manager_username)
             message = 'Lead assigned successfully'
         
         if success:
+            logger.info(f"Lead assignment successful: {message}")
             return jsonify({
                 'success': True,
                 'message': message
             })
         else:
+            logger.error(f"Lead assignment failed for lead {lead_id}")
             return jsonify({
                 'success': False,
-                'message': 'Failed to update lead assignment'
-            }), 500
+                'message': 'Failed to update lead assignment. Lead may not exist.'
+            }), 404
             
     except Exception as e:
-        logger.error(f"Error updating lead assignment: {str(e)}")
+        logger.error(f"Error updating lead assignment: {str(e)}", exc_info=True)
         return jsonify({
             'success': False,
-            'message': 'Error updating lead assignment'
+            'message': f'Error updating lead assignment: {str(e)}'
         }), 500
 
 @app.route('/api/manager/login', methods=['POST'])

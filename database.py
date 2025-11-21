@@ -259,6 +259,12 @@ class Database:
     def assign_lead_to_manager(self, lead_id, manager_username):
         """Assign a lead to a specific manager"""
         try:
+            # Check if lead exists first
+            lead = self.leads.find_one({'_id': ObjectId(lead_id)})
+            if not lead:
+                logger.error(f"Lead not found with ID: {lead_id}")
+                return False
+            
             result = self.leads.update_one(
                 {'_id': ObjectId(lead_id)},
                 {'$set': {
@@ -266,10 +272,14 @@ class Database:
                     'assigned_at': datetime.now()
                 }}
             )
-            return result.modified_count > 0
+            # Return True if matched (even if not modified, means already assigned)
+            success = result.matched_count > 0
+            if success:
+                logger.info(f"Lead {lead_id} assigned to {manager_username}")
+            return success
             
         except Exception as e:
-            logger.error(f"Error assigning lead: {str(e)}")
+            logger.error(f"Error assigning lead {lead_id}: {str(e)}")
             return False
     
     def get_manager_leads(self, manager_username):
