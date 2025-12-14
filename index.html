@@ -677,6 +677,89 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            z-index: 999;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(37, 211, 102, 0.6);
+        }
+
+        .whatsapp-float .icon {
+            font-size: 1.8rem;
+            animation: shake 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            }
+            50% {
+                box-shadow: 0 8px 35px rgba(37, 211, 102, 0.6);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30%, 50%, 70%, 90% { transform: rotate(-10deg); }
+            20%, 40%, 60%, 80% { transform: rotate(10deg); }
+        }
+
+        .whatsapp-float .tooltip {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background: #1a1a1a;
+            color: #d4af37;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .whatsapp-float:hover .tooltip {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                padding: 12px 20px;
+                font-size: 1rem;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .whatsapp-float .text {
+                display: none;
+            }
+            
+            .whatsapp-float .icon {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -698,13 +781,93 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="hero-content">
-            <span class="eoi-badge">🔥 EOI NOW OPEN</span>
-            <h1>Le Blanc by Imtiaz</h1>
-            <p class="hero-subtitle">Premium Fully Furnished Apartments in Dubai Land Residence Complex</p>
-            <p class="hero-location">📍 <a href="https://maps.app.goo.gl/gzd4iTJWxVH7GKBs6" target="_blank">View on Map - Dubai Land Residence Complex</a></p>
+            <div style="display: inline-block; background: rgba(212, 175, 55, 0.15); padding: 0.75rem 1.5rem; border-radius: 25px; border: 2px solid #d4af37; margin-bottom: 1.5rem;">
+                <span style="font-size: 0.95rem; color: #d4af37; font-weight: 600;">🏛️ LICENSED DUBAI REAL ESTATE BROKERAGE</span>
+            </div>
+            <h1>Licensed Dubai Real Estate Brokerage</h1>
+            <p class="hero-subtitle" style="font-size: 1.3rem; margin: 1.5rem 0; line-height: 1.6;">
+                <strong style="color: #d4af37;">X T R A REAL ESTATE L.L.C</strong><br>
+                <span style="font-size: 1rem; color: rgba(255,255,255,0.9);">License No: 1149727 | Dubai Department of Economy & Tourism</span>
+            </p>
+            <p class="hero-location" style="font-size: 1.1rem; margin: 1rem 0;">📍 Business Bay, Dubai, UAE</p>
             <div class="hero-buttons">
-                <a href="#contact" class="btn btn-primary">Book Your Unit from €12,500</a>
-                <a href="#properties" class="btn btn-secondary">Explore Properties</a>
+                <a href="#contact" class="btn btn-primary">📥 Request Property Brochure</a>
+                <a href="#properties" class="btn btn-secondary">Browse Available Properties</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Licensing & Regulatory Compliance Section -->
+    <section style="background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); padding: 4rem 0; border-top: 3px solid #d4af37; border-bottom: 3px solid #d4af37;">
+        <div class="container">
+            <div style="text-align: center; max-width: 900px; margin: 0 auto;">
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #d4af37; margin-bottom: 1.5rem;">🏛️ Licensing & Regulatory Compliance</h2>
+                
+                <div style="background: rgba(212, 175, 55, 0.1); padding: 2rem; border-radius: 12px; border: 2px solid #d4af37; margin: 2rem 0;">
+                    <p style="font-size: 1.2rem; color: #fff; line-height: 1.8; margin-bottom: 1.5rem;">
+                        <strong style="color: #d4af37; font-size: 1.3rem;">X T R A REAL ESTATE L.L.C</strong><br>
+                        <span style="font-size: 1.1rem;">Real Estate Brokerage License No: <strong style="color: #d4af37;">1149727</strong></span><br>
+                        <span style="font-size: 1rem; color: rgba(255,255,255,0.8);">Licensed by Dubai Department of Economy & Tourism</span>
+                    </p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✅</div>
+                            <div style="color: #d4af37; font-weight: 600;">DLD Registered</div>
+                            <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Dubai Land Department</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🏢</div>
+                            <div style="color: #d4af37; font-weight: 600;">RERA Compliant</div>
+                            <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Real Estate Regulatory Agency</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📍</div>
+                            <div style="color: #d4af37; font-weight: 600;">Business Bay Office</div>
+                            <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">Dubai, UAE</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="color: rgba(255,255,255,0.8); font-size: 0.95rem; line-height: 1.6; margin-top: 1.5rem;">
+                    All property consultations, viewings, and transactions are handled by licensed real estate professionals in full compliance with UAE real estate regulations.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Services Section -->
+    <section style="background: #f8f9fa; padding: 4rem 0;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Professional real estate consultation and support throughout your property journey</p>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 4px solid #d4af37;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏢</div>
+                    <h3 style="color: #1a1a1a; margin-bottom: 1rem; font-size: 1.4rem;">Property Consultation</h3>
+                    <p style="color: #555; line-height: 1.6;">Expert guidance on Dubai real estate market, property selection, and suitability assessment for your requirements.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 4px solid #d4af37;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📄</div>
+                    <h3 style="color: #1a1a1a; margin-bottom: 1rem; font-size: 1.4rem;">Official Documentation</h3>
+                    <p style="color: #555; line-height: 1.6;">Receive verified project brochures, floor plans, payment schedules, and official developer documentation.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 4px solid #d4af37;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🗓️</div>
+                    <h3 style="color: #1a1a1a; margin-bottom: 1rem; font-size: 1.4rem;">Viewing Arrangements</h3>
+                    <p style="color: #555; line-height: 1.6;">Schedule property viewings with licensed agents at your convenience, including virtual tours.</p>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-top: 4px solid #d4af37;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">💼</div>
+                    <h3 style="color: #1a1a1a; margin-bottom: 1rem; font-size: 1.4rem;">Transaction Support</h3>
+                    <p style="color: #555; line-height: 1.6;">Comprehensive support through the purchasing process, documentation, and legal procedures.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -762,13 +925,11 @@
                             <div class="price-eur">€175,000</div>
                             <div class="price-aed">(AED 700,000)</div>
                         </div>
-                        <div style="background: rgba(212, 175, 55, 0.1); padding: 0.75rem; border-radius: 5px; margin: 1rem 0; font-size: 0.8rem; line-height: 1.4; color: #555;">
-                            <strong style="color: #d4af37;">Disclaimer:</strong><br>
-                            This property is marketed in partnership with a RERA-licensed real-estate broker.
-                            DubaiSmartInvestment.com does not engage in brokerage activity. All official information — including DLD advertising permits, developer approvals, and unit availability — is provided directly by the licensed brokerage upon request.
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 0.75rem; border-radius: 5px; margin: 1rem 0; font-size: 0.85rem; line-height: 1.5; color: #555; text-align: center;">
+                            <strong style="color: #d4af37;">ℹ️ Project information provided for reference only</strong>
                         </div>
                         <div class="property-action">
-                            <a href="#contact">Book Now</a>
+                            <a href="#contact">Book a Free Property Consultation</a>
                         </div>
                     </div>
                 </div>
@@ -791,13 +952,11 @@
                             <div class="price-eur">€275,000</div>
                             <div class="price-aed">(AED 1,100,000)</div>
                         </div>
-                        <div style="background: rgba(212, 175, 55, 0.1); padding: 0.75rem; border-radius: 5px; margin: 1rem 0; font-size: 0.8rem; line-height: 1.4; color: #555;">
-                            <strong style="color: #d4af37;">Disclaimer:</strong><br>
-                            This property is marketed in partnership with a RERA-licensed real-estate broker.
-                            DubaiSmartInvestment.com does not engage in brokerage activity. All official information — including DLD advertising permits, developer approvals, and unit availability — is provided directly by the licensed brokerage upon request.
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 0.75rem; border-radius: 5px; margin: 1rem 0; font-size: 0.85rem; line-height: 1.5; color: #555; text-align: center;">
+                            <strong style="color: #d4af37;">ℹ️ Project information provided for reference only</strong>
                         </div>
                         <div class="property-action">
-                            <a href="#contact">Book Now</a>
+                            <a href="#contact">Book a Free Property Consultation</a>
                         </div>
                     </div>
                 </div>
@@ -820,13 +979,11 @@
                             <div class="price-eur">€375,000</div>
                             <div class="price-aed">(AED 1,500,000)</div>
                         </div>
-                        <div style="background: rgba(212, 175, 55, 0.1); padding: 0.75rem; border-radius: 5px; margin: 1rem 0; font-size: 0.8rem; line-height: 1.4; color: #555;">
-                            <strong style="color: #d4af37;">Disclaimer:</strong><br>
-                            This property is marketed in partnership with a RERA-licensed real-estate broker.
-                            DubaiSmartInvestment.com does not engage in brokerage activity. All official information — including DLD advertising permits, developer approvals, and unit availability — is provided directly by the licensed brokerage upon request.
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 0.75rem; border-radius: 5px; margin: 1rem 0; font-size: 0.85rem; line-height: 1.5; color: #555; text-align: center;">
+                            <strong style="color: #d4af37;">ℹ️ Project information provided for reference only</strong>
                         </div>
                         <div class="property-action">
-                            <a href="#contact">Book Now</a>
+                            <a href="#contact">Book a Free Property Consultation</a>
                         </div>
                     </div>
                 </div>
@@ -849,13 +1006,11 @@
                             <div class="price-eur">€450,000</div>
                             <div class="price-aed">(AED 1,800,000)</div>
                         </div>
-                        <div style="background: rgba(212, 175, 55, 0.1); padding: 0.75rem; border-radius: 5px; margin: 1rem 0; font-size: 0.8rem; line-height: 1.4; color: #555;">
-                            <strong style="color: #d4af37;">Disclaimer:</strong><br>
-                            This property is marketed in partnership with a RERA-licensed real-estate broker.
-                            DubaiSmartInvestment.com does not engage in brokerage activity. All official information — including DLD advertising permits, developer approvals, and unit availability — is provided directly by the licensed brokerage upon request.
+                        <div style="background: rgba(212, 175, 55, 0.1); padding: 0.75rem; border-radius: 5px; margin: 1rem 0; font-size: 0.85rem; line-height: 1.5; color: #555; text-align: center;">
+                            <strong style="color: #d4af37;">ℹ️ Project information provided for reference only</strong>
                         </div>
                         <div class="property-action">
-                            <a href="#contact">Book Now</a>
+                            <a href="#contact">Book a Free Property Consultation</a>
                         </div>
                     </div>
                 </div>
@@ -937,26 +1092,33 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
     <section class="contact" id="contact">
         <div class="container">
             <div class="section-header">
-                <h2>Express Your Interest</h2>
-                <p>Fill out the form below and our team will contact you within 24 hours</p>
+                <h2>Request Official Project Brochure</h2>
+                <p>Complete the form to receive verified property documentation and schedule a free consultation</p>
             </div>
 
             <div class="contact-grid">
                 <div class="contact-info">
-                    <h3>Why Choose Le Blanc?</h3>
-                    <p>✓ <strong>100% Fully Furnished</strong> - Move-in ready luxury apartments</p>
-                    <p>✓ <strong>Prime Location</strong> - Dubai Land Residence Complex (DLRC)</p>
-                    <p>✓ <strong>Flexible Payment</strong> - 30% post-handover over 3 years</p>
-                    <p>✓ <strong>Golden Visa</strong> - Eligible for UAE residency program</p>
-                    <p>✓ <strong>Freehold Ownership</strong> - 0% tax on your investment</p>
-                    <p>✓ <strong>Resort Amenities</strong> - Pools, gym, parks & more</p>
+                    <h3>What You'll Receive</h3>
+                    <p>✓ <strong>Official Project Brochure</strong> - Verified developer documentation</p>
+                    <p>✓ <strong>Floor Plans & Layouts</strong> - Detailed unit specifications</p>
+                    <p>✓ <strong>Payment Schedules</strong> - Flexible payment plan options</p>
+                    <p>✓ <strong>Free Consultation</strong> - Licensed real estate professional guidance</p>
+                    <p>✓ <strong>Market Insights</strong> - Dubai real estate market analysis</p>
+                    <p>✓ <strong>Viewing Arrangement</strong> - Schedule property viewings at your convenience</p>
                     
-                    <h3 style="margin-top: 2rem;">Location</h3>
-                    <p>📍 Dubai Land Residence Complex (DLRC)<br>
-                    <a href="https://maps.app.goo.gl/gzd4iTJWxVH7GKBs6" target="_blank" style="color: #d4af37;">View on Google Maps</a></p>
+                    <h3 style="margin-top: 2rem;">Office Location</h3>
+                    <p>📍 Business Bay, Dubai, UAE<br>
+                    📧 info@dubaismartinvestment.com<br>
+                    📱 WhatsApp: +971 XX XXX XXXX</p>
                 </div>
 
                 <div class="contact-form">
+                    <div style="background: rgba(212, 175, 55, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #d4af37; margin-bottom: 1.5rem;">
+                        <p style="font-size: 0.9rem; line-height: 1.5; color: #555; margin: 0;">
+                            <strong style="color: #d4af37;">📄 Official Documentation Request</strong><br>
+                            By submitting this form, you'll receive official project brochures and documentation from our licensed real estate team. This helps us provide you with accurate, verified property information tailored to your requirements.
+                        </p>
+                    </div>
                     <div id="formMessage" class="message"></div>
                     <form id="contactForm">
                         <div class="form-row">
@@ -1039,31 +1201,64 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
                         </div>
 
                         <div class="form-group">
-                            <label for="propertyType">Interested In *</label>
-                            <select id="propertyType" name="propertyType" required>
-                                <option value="">Select Property Type</option>
-                                <option value="Studio - €175K">Studio - €175K (AED 700K)</option>
-                                <option value="1 Bedroom - €275K">1 Bedroom - €275K (AED 1.1M)</option>
-                                <option value="2 Bedroom - €375K">2 Bedroom - €375K (AED 1.5M)</option>
-                                <option value="3 Bedroom - €450K">3 Bedroom - €450K (AED 1.8M)</option>
+                            <label for="contactMethod">Preferred Contact Method *</label>
+                            <select id="contactMethod" name="contactMethod" required>
+                                <option value="">How should we contact you?</option>
+                                <option value="WhatsApp">WhatsApp</option>
+                                <option value="Email">Email</option>
+                                <option value="Phone Call">Phone Call</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="paymentPlan">Preferred Payment Plan *</label>
-                            <select id="paymentPlan" name="paymentPlan" required>
-                                <option value="">Select Payment Plan</option>
-                                <option value="Normal 60/40">Normal 60/40 Plan</option>
-                                <option value="Post-Handover 70/30">Post-Handover 70/30 Plan (Recommended)</option>
+                            <label for="timeframe">When are you looking to purchase? *</label>
+                            <select id="timeframe" name="timeframe" required>
+                                <option value="">Select timeframe</option>
+                                <option value="Within 1 month">Within 1 month</option>
+                                <option value="1-3 months">1-3 months</option>
+                                <option value="3-6 months">3-6 months</option>
+                                <option value="6-12 months">6-12 months</option>
+                                <option value="Just researching">Just researching</option>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="message">Message (Optional)</label>
-                            <textarea id="message" name="message" placeholder="Tell us more about your requirements..."></textarea>
+                            <label for="budgetRange">Budget Range (AED) *</label>
+                            <select id="budgetRange" name="budgetRange" required>
+                                <option value="">Select your budget range</option>
+                                <option value="Below 500K AED">Below 500K AED (€125K)</option>
+                                <option value="500K - 1M AED">500K - 1M AED (€125K - €250K)</option>
+                                <option value="1M - 2M AED">1M - 2M AED (€250K - €500K)</option>
+                                <option value="2M - 5M AED">2M - 5M AED (€500K - €1.25M)</option>
+                                <option value="Above 5M AED">Above 5M AED (€1.25M+)</option>
+                            </select>
                         </div>
 
-                        <button type="submit" class="submit-btn" id="submitBtn">Submit EOI</button>
+                        <div class="form-group">
+                            <label for="purchasePurpose">Purchase Purpose *</label>
+                            <select id="purchasePurpose" name="purchasePurpose" required>
+                                <option value="">What is your primary purpose?</option>
+                                <option value="Personal residence">Personal residence</option>
+                                <option value="Rental income">Rental income property</option>
+                                <option value="Golden Visa">Golden Visa eligibility</option>
+                                <option value="Second home">Second home / Holiday property</option>
+                                <option value="Portfolio diversification">Portfolio diversification</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="propertyType">Property Type Interest (Optional)</label>
+                            <select id="propertyType" name="propertyType">
+                                <option value="">Select property type</option>
+                                <option value="Studio">Studio</option>
+                                <option value="1 Bedroom">1 Bedroom</option>
+                                <option value="2 Bedroom">2 Bedroom</option>
+                                <option value="3 Bedroom">3 Bedroom</option>
+                                <option value="Any">Any / Flexible</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">📥 Request Official Brochure & Consultation</button>
                     </form>
                 </div>
             </div>
@@ -1075,47 +1270,45 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Le Blanc by Imtiaz</h3>
-                    <p>Premium fully furnished apartments in the heart of Dubai Land Residence Complex.</p>
+                    <h3>Company Information</h3>
+                    <p><strong>X T R A REAL ESTATE L.L.C</strong><br>
+                    License No: 1149727<br>
+                    Dubai Department of Economy & Tourism<br>
+                    <br>
+                    📍 Business Bay, Dubai, UAE<br>
+                    📧 info@dubaismartinvestment.com<br>
+                    📱 WhatsApp: +971 XX XXX XXXX</p>
                 </div>
                 <div class="footer-section">
-                    <h3>Quick Links</h3>
+                    <h3>Legal & Compliance</h3>
                     <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#properties">Properties</a></li>
-                        <li><a href="#payment">Payment Plans</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact Info</h3>
-                    <p>📍 Dubai Land Residence Complex<br>
-                    📧 info@dubaismartinvestment.com</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Legal</h3>
-                    <ul>
-                        <li><a href="/terms.html">Terms & Conditions</a></li>
-                        <li><a href="/privacy.html">Privacy Policy</a></li>
-                        <li><a href="/disclaimer.html">Disclaimer</a></li>
-                        <li><a href="/cookies.html">Cookie Policy</a></li>
+                        <li><a href="/terms">Terms & Conditions</a></li>
+                        <li><a href="/privacy">Privacy Policy (REQUIRED)</a></li>
+                        <li><a href="/disclaimer">Legal Disclaimer</a></li>
+                        <li><a href="/cookies">Cookie Policy</a></li>
                     </ul>
                     <div style="margin-top: 1rem; padding: 0.75rem; background: rgba(212, 175, 55, 0.1); border-radius: 5px; font-size: 0.85rem; line-height: 1.5;">
-                        <strong style="color: #d4af37;">🏢 Brokerage Partnership</strong><br>
-                        <span style="color: #555;">We work exclusively with RERA-registered brokers. All regulated activities are handled by licensed partners. RERA verification available upon request.</span>
+                        <strong style="color: #d4af37;">🏛️ Licensed Real Estate Brokerage</strong><br>
+                        <span style="color: #555;">All property transactions handled by RERA-licensed professionals in full compliance with DLD regulations.</span>
                     </div>
                 </div>
             </div>
+            
+            <!-- General Disclaimer -->
+            <div style="background: #f8f9fa; padding: 1.5rem; margin: 2rem 0; border-radius: 8px; border-left: 4px solid #d4af37;">
+                <p style="line-height: 1.6; color: #555; font-size: 0.9rem; text-align: justify; margin: 0;">
+                    <strong style="color: #d4af37;">General Disclaimer:</strong> All information provided is for general informational purposes only and does not constitute financial advice or an offer to invest. Final terms are subject to developer approval and official agreements. Project information provided for reference only. Prices, availability & layouts subject to change.
+                </p>
+            </div>
+            
             <div class="footer-legal" style="background: rgba(26, 26, 26, 0.95); padding: 2rem; margin: 1rem 0; border-radius: 8px; border: 1px solid #d4af37;">
-                <h4 style="color: #d4af37; margin-bottom: 1rem; font-size: 1.1rem;">⚖️ Disclaimer</h4>
-                <p style="line-height: 1.6; color: #e0e0e0; font-size: 0.85rem; text-align: justify;">DubaiSmartInvestment.com is an independent real-estate marketing and lead-generation platform. We do not provide brokerage services, financial advice, or investment consultancy. All property information displayed on this website is for general informational purposes only and may be subject to change without notice. Prices, payment plans, offers, and unit availability are updated by developers and licensed brokers and cannot be guaranteed.</p>
-                <p style="line-height: 1.6; color: #e0e0e0; font-size: 0.85rem; text-align: justify; margin-top: 1rem;">We operate strictly as an authorized marketing partner, and all inquiries are forwarded exclusively to RERA-registered real-estate brokers/companies, who handle all regulated activities including consultations, documentation, viewings, and property transactions in compliance with Dubai Land Department (DLD) regulations.</p>
-                <p style="line-height: 1.6; color: #e0e0e0; font-size: 0.85rem; text-align: justify; margin-top: 1rem;">If you require verification of the RERA licence number, broker registration details, or advertising permit numbers, this information will be provided upon request via email.</p>
-                <p style="line-height: 1.6; color: #e0e0e0; font-size: 0.85rem; text-align: justify; margin-top: 1rem;">Images shown are for illustration purposes only and may vary from final delivered products. Real-estate investment involves risk, and past performance is not indicative of future results. Users are encouraged to seek independent legal, financial, and tax advice before making any investment decision.</p>
-                <p style="line-height: 1.6; color: #e0e0e0; font-size: 0.85rem; text-align: justify; margin-top: 1rem;">By submitting your information, you consent to being contacted by our RERA-licensed partner brokers and acknowledge that you may receive follow-up updates regarding your inquiry. All Rights Reserved.</p>
+                <h4 style="color: #d4af37; margin-bottom: 1rem; font-size: 1.1rem;">⚖️ Full Legal Disclosure</h4>
+                <p style="line-height: 1.6; color: #e0e0e0; font-size: 0.85rem; text-align: justify;">DubaiSmartInvestment.com is a real estate marketing and lead-generation platform operated by X T R A REAL ESTATE L.L.C (License No. 1149727). We do not provide brokerage services, financial advice, or investment consultancy. All property information displayed on this website is for general informational purposes only and may be subject to change without notice.</p>
+                <p style="line-height: 1.6; color: #e0e0e0; font-size: 0.85rem; text-align: justify; margin-top: 1rem;">All inquiries are forwarded exclusively to licensed real-estate professionals who handle all regulated activities including consultations, documentation, viewings, and property transactions in compliance with Dubai Land Department (DLD) regulations.</p>
+                <p style="line-height: 1.6; color: #e0e0e0; font-size: 0.85rem; text-align: justify; margin-top: 1rem;">Images shown are for illustration purposes only. Property purchase involves financial risk. Past performance is not indicative of future results. Seek independent legal, financial, and tax advice before making any decision.</p>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Le Blanc by Imtiaz. All rights reserved.</p>
+                <p>&copy; 2025 X T R A REAL ESTATE L.L.C. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1172,8 +1365,11 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
                 phone: fullPhoneNumber,
                 whatsapp: fullPhoneNumber,
                 country: countryName,
-                interest: document.getElementById('propertyType').value + ' | ' + document.getElementById('paymentPlan').value,
-                message: document.getElementById('message').value
+                contactMethod: document.getElementById('contactMethod').value,
+                timeframe: document.getElementById('timeframe').value,
+                budgetRange: document.getElementById('budgetRange').value,
+                purchasePurpose: document.getElementById('purchasePurpose').value,
+                propertyType: document.getElementById('propertyType').value || 'Not specified'
             };
             
             try {
@@ -1260,5 +1456,17 @@ This project is promoted through DubaiSmartInvestment.com on behalf of a RERA-li
       }
     };
     </script>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/971XXXXXXXXX?text=Hi%2C%20I%27m%20interested%20in%20Dubai%20properties" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       aria-label="Chat on WhatsApp">
+        <span class="tooltip">💬 Chat with our property consultant</span>
+        <span class="icon">💬</span>
+        <span class="text">WhatsApp Us</span>
+    </a>
+
 </body>
 </html>
